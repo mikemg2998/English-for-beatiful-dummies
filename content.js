@@ -3,7 +3,7 @@
    phrases: [english, spanish, tip] · words: [english, spanish, 1 if British-specific] · dialogue: [speaker, english, spanish]
    quiz: [kind, prompt, [correct, wrong, wrong, wrong], explanation]  (kind: translate | natural | complete | meaning) */
 (function(){
-const VERSION = '2026-10-18.3';
+const VERSION = '2026-10-18.4';
 const SCEN = [
   {id:'work', name:'Trabajo', en:'At work', icon:'case', desc:'El día a día en la oficina y todo para conseguir trabajo.',
    subs:[{id:'job', name:'Looking for a job', desc:'Entrevistas, tu experiencia, CV y negociar el salario.'},{id:'igaming', name:'Looking for a job: iGaming', desc:'Empresas de iGaming en Malta: Game Presenter, Shuffler, turnos del estudio y diseño.'},{id:'office', name:'En la oficina', desc:'Emails, compañeros, llamadas y horarios.'}]},
