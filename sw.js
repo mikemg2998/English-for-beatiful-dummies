@@ -1,6 +1,6 @@
 /* English For Beautiful Dummies — offline support.
    Network first (so new lessons arrive as soon as she is online), cache as fallback (so it works offline). */
-const CACHE = 'efbd-v2';
+const CACHE = 'efbd-v3';
 const CORE = ['./', './index.html', './styles.css', './app.js', './content.js', './pron.js', './manifest.webmanifest',
   './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png'];
 

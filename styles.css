@@ -132,9 +132,9 @@ textarea.field{resize:vertical;min-height:88px}
 
 /* ---------- today ---------- */
 .hello{display:flex;flex-direction:column;gap:4px;margin-bottom:18px}
-.today{display:grid;gap:16px;grid-template-columns:minmax(0,1fr);grid-template-areas:"lesson" "quick" "streak" "wotd" "words" "week"}
-@media (min-width:900px){.today{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-areas:"lesson lesson streak" "quick quick streak" "words words wotd" "week week wotd";align-items:start}}
-.a-lesson{grid-area:lesson}.a-streak{grid-area:streak}.a-quick{grid-area:quick}.a-wotd{grid-area:wotd}.a-words{grid-area:words}.a-week{grid-area:week}
+.today{display:grid;gap:16px;grid-template-columns:minmax(0,1fr);grid-template-areas:"lesson" "plan" "quick" "streak" "wotd" "words" "week"}
+@media (min-width:900px){.today{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-areas:"lesson lesson plan" "quick quick streak" "words words wotd" "week week wotd";align-items:start}}
+.a-lesson{grid-area:lesson}.a-plan{grid-area:plan}.a-streak{grid-area:streak}.a-quick{grid-area:quick}.a-wotd{grid-area:wotd}.a-words{grid-area:words}.a-week{grid-area:week}
 .hero{background:var(--grad);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:12px;color:var(--ink);position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.22)}
 .hero > *{position:relative;z-index:1}
@@ -422,3 +422,36 @@ body.immersive:not(.has-act) .sheet{bottom:calc(16px + env(safe-area-inset-botto
 .brand .bt{display:flex;flex-direction:column;line-height:1.02}
 .brand .bt small{font-family:var(--body);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange-text);margin-bottom:3px}
 .side .brand{font-size:21px}
+
+/* ---------- tooltips ---------- */
+.tip{position:fixed;z-index:90;left:0;top:0;max-width:260px;background:var(--ink);color:var(--on-ink);font-size:13px;font-weight:700;line-height:1.35;padding:8px 11px;border-radius:10px;pointer-events:none;box-shadow:0 8px 24px rgba(32,26,20,.22);animation:tipin .12s ease}
+@keyframes tipin{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+/* ---------- daily plan ---------- */
+.plan{display:flex;flex-direction:column;gap:14px}
+.plan-top{display:flex;gap:14px;align-items:center}
+.plan-ring{--p:0;width:80px;height:80px;border-radius:50%;background:conic-gradient(var(--orange) calc(var(--p) * 1%), var(--tint) 0);display:grid;place-items:center;flex:none}
+.plan-ring span{width:62px;height:62px;border-radius:50%;background:var(--bg);display:flex;align-items:baseline;justify-content:center;padding-top:19px;font-family:var(--display);font-size:14px;color:var(--ink-3)}
+.plan-ring b{font-size:22px;color:var(--ink);line-height:1}
+.plan-list{display:flex;flex-direction:column;gap:8px}
+.plan-i{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);text-align:left;width:100%;min-width:0}
+.plan-i:hover{border-color:var(--orange)}
+.plan-i .ic{color:var(--orange-text)}
+.plan-i span{display:flex;flex-direction:column;min-width:0}
+.plan-i b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plan-i small{font-size:12.5px;color:var(--ink-3)}
+/* ---------- packs and games ---------- */
+.pack-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr))}
+.qt.pack .note{margin-top:auto}
+.pack-cards{display:grid;gap:12px}
+@media (min-width:900px){.pack-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pcard{display:flex;flex-direction:column;gap:8px}
+.pcard .t-en{font-family:var(--display);font-size:22px;font-weight:700}
+.pcard .ex{font-style:italic;color:var(--ink-2)}
+.pcard .warn{color:var(--bad);font-size:14px}
+.match{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:660px}
+.mcol{display:flex;flex-direction:column;gap:8px;min-width:0}
+.mtile{padding:12px 10px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);font-weight:700;font-size:15px;min-height:56px;box-shadow:0 2px 0 var(--line);overflow-wrap:anywhere;transition:background .15s, border-color .15s}
+.mtile:hover:not(:disabled){border-color:var(--orange)}
+.mtile.sel{background:var(--sun);border-color:var(--sun)}
+.mtile.ok{background:var(--good-bg);border-color:var(--good);color:var(--good);box-shadow:none;opacity:.7}
+.mtile.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}

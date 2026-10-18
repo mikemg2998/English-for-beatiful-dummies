@@ -3,13 +3,13 @@
    phrases: [english, spanish, tip] · words: [english, spanish, 1 if British-specific] · dialogue: [speaker, english, spanish]
    quiz: [kind, prompt, [correct, wrong, wrong, wrong], explanation]  (kind: translate | natural | complete | meaning) */
 (function(){
-const VERSION = '2026-10-18.2';
+const VERSION = '2026-10-18.3';
 const SCEN = [
   {id:'work', name:'Trabajo', en:'At work', icon:'case', desc:'El día a día en la oficina y todo para conseguir trabajo.',
    subs:[{id:'job', name:'Looking for a job', desc:'Entrevistas, tu experiencia, CV y negociar el salario.'},{id:'igaming', name:'Looking for a job: iGaming', desc:'Empresas de iGaming en Malta: Game Presenter, Shuffler, turnos del estudio y diseño.'},{id:'office', name:'En la oficina', desc:'Emails, compañeros, llamadas y horarios.'}]},
   {id:'meet', name:'Reuniones', en:'Meetings', icon:'chat', desc:'Opinar, presentar tu trabajo y cerrar acuerdos.'},
   {id:'daily', name:'Día a día', en:'Out and about', icon:'bag', desc:'Tiendas, cafés, transporte, médico, piso y reservas.'},
-  {id:'social', name:'Social', en:'With friends', icon:'people', desc:'Hacer planes, charlar, hablar de ti y de tus aficiones.'}
+  {id:'social', name:'Social', en:'With friends', icon:'people', desc:'Planes, anécdotas, humor, teorías, cotilleos, lo que amas y odias.'}
 ];
 const LESSONS = [
 {id:'work-1', scen:'work', sub:'office', title:'Emails y plazos de entrega', summary:'Pedir, recordar y negociar fechas por escrito sin sonar brusco.', level:'B1', mins:12,
@@ -856,64 +856,678 @@ const LESSONS = [
   ["natural","Quieres compartir tu trabajo con el entrevistador.",["Here's a link to my online portfolio.","Look my works in internet.","I send you my portfolio of works online.","Here you have my link of portfolio."],"'Here's a link to…' es la forma más natural."],
   ["complete","I'm keen ___ learn more about responsible gaming.",["to","for","of","on"],"'Keen to' + verbo = tener muchas ganas de."],
   ["translate","«atención al cliente»",["customer support","client attention","attention to the client","customer care center service"],"También se dice 'customer service'."]
+ ]},
+
+{id:'social-5', scen:'social', title:'Contar una anécdota', summary:'Enganchar a tus amigos con una historia: empezar, crear tensión y cerrar.', level:'B1', mins:12,
+ phrases:[
+  ["You'll never guess what happened to me.","No te vas a creer lo que me pasó.","La forma clásica de empezar una anécdota."],
+  ["So, there I was, waiting for the bus…","Y ahí estaba yo, esperando el bus…","Para meter al oyente en la escena."],
+  ["And then, out of nowhere, it started pouring.","Y de repente, de la nada, empezó a diluviar.",""],
+  ["Long story short, I missed my flight.","Para no hacer el cuento largo, perdí el vuelo.","'Long story short' = resumiendo."],
+  ["The funny thing is, nobody noticed.","Lo gracioso es que nadie se dio cuenta.",""],
+  ["I couldn't stop laughing.","No podía parar de reír.",""],
+  ["Anyway, in the end it all worked out.","En fin, al final todo salió bien.",""]
+ ],
+ words:[["anecdote","anécdota"],["out of nowhere","de la nada"],["long story short","resumiendo"],["pour (with rain)","diluviar",1],["suddenly","de repente"],["guess","adivinar"],["work out","salir bien"],["happen","pasar, ocurrir"]],
+ dialogue:[
+  ["You","You'll never guess what happened to me yesterday.","No te vas a creer lo que me pasó ayer."],
+  ["Jess","Go on, tell me!","¡Venga, cuéntame!"],
+  ["You","So, there I was, waiting for the bus in Sliema, and out of nowhere it started pouring.","Ahí estaba yo, esperando el bus en Sliema, y de la nada empezó a diluviar."],
+  ["Jess","Oh no! Did you have an umbrella?","¡Ay no! ¿Tenías paraguas?"],
+  ["You","No! Long story short, I got completely soaked. The funny thing is, the sun came out five minutes later.","¡No! Resumiendo, acabé empapada. Lo gracioso es que salió el sol cinco minutos después."],
+  ["Jess","Typical Malta! I can't stop laughing.","¡Típico de Malta! No puedo parar de reír."]
+ ],
+ quiz:[
+  ["natural","Quieres empezar una anécdota con suspense.",["You'll never guess what happened to me.","You will not believe what passed me.","Guess what it happened to me.","You never believe what I passed."],"'Happen' = pasar, ocurrir. 'Pass' es pasar de un lugar a otro."],
+  ["meaning","«Long story short» significa…",["resumiendo, para no alargarlo","una historia corta","una historia muy larga","al final de la historia"],"Se usa para saltar al final de una historia."],
+  ["complete","And then, out of ___, it started raining.",["nowhere","anywhere","somewhere","no place"],"'Out of nowhere' = de la nada."],
+  ["translate","«No podía parar de reír.»",["I couldn't stop laughing.","I couldn't stop to laugh.","I can't stop of laughing.","I couldn't stop laugh."],"Después de 'stop' va -ing cuando dejas de hacer algo."],
+  ["translate","«Al final todo salió bien.»",["In the end, it all worked out.","At the end everything went out good.","Finally all went out well.","In the end, all left well."],"'Work out' = salir bien."]
+ ]},
+
+{id:'social-6', scen:'social', title:'Cosas que amas y cosas que odias', summary:'Hablar de lo que te encanta, lo que no soportas y tus manías.', level:'A2', mins:10,
+ phrases:[
+  ["I absolutely love lazy Sunday mornings.","Me encantan las mañanas tranquilas de domingo.",""],
+  ["I can't stand people who talk during films.","No soporto a la gente que habla durante las películas.","'Can't stand' = no soportar."],
+  ["It drives me mad when the bus is late.","Me saca de quicio cuando el bus llega tarde.","'Drive someone mad' = volver loco a alguien."],
+  ["I'm not a big fan of spicy food.","No soy muy fan de la comida picante.","Forma suave de decir que algo no te gusta."],
+  ["My biggest pet peeve is loud chewing.","Mi mayor manía es la gente que mastica fuerte.","'Pet peeve' = algo pequeño que te molesta mucho."],
+  ["I'm obsessed with this new café.","Estoy obsesionada con esta cafetería nueva.",""],
+  ["Honestly, it's not really my thing.","La verdad, no es lo mío.",""]
+ ],
+ words:[["can't stand","no soportar"],["pet peeve","manía, lo que más te molesta"],["drive someone mad","sacar de quicio"],["be obsessed with","estar obsesionado/a con"],["be a fan of","ser fan de"],["annoying","molesto/a"],["hate","odiar"],["adore","adorar"]],
+ dialogue:[
+  ["Tom","Okay, quick question: what's something you absolutely love?","Vale, pregunta rápida: ¿qué es algo que te encanta?"],
+  ["You","Lazy Sunday mornings with a good coffee. What about you?","Las mañanas tranquilas de domingo con un buen café. ¿Y tú?"],
+  ["Tom","Same! And what's your biggest pet peeve?","¡Igual! ¿Y cuál es tu mayor manía?"],
+  ["You","I can't stand people who talk during films. It drives me mad!","No soporto a la gente que habla durante las películas. ¡Me saca de quicio!"],
+  ["Tom","Oh, me too. And loud chewing. I hate it.","Uf, yo también. Y masticar fuerte. Lo odio."],
+  ["You","Ha! I'm not a big fan of that either.","¡Ja! A mí tampoco me gusta nada."]
+ ],
+ quiz:[
+  ["translate","«No soporto el ruido.»",["I can't stand noise.","I can't support noise.","I don't stand the noise.","I can't bear of noise."],"'Support' es apoyar. Para 'no soportar': 'can't stand'."],
+  ["meaning","«Pet peeve» es…",["algo pequeño que te molesta mucho","tu mascota favorita","un animal molesto","un capricho"],"Ej.: 'My pet peeve is people who are always late.'"],
+  ["complete","It ___ me mad when people are late.",["drives","makes go","puts","gets"],"'Drive someone mad' = sacar de quicio."],
+  ["natural","Quieres decir con suavidad que algo no te gusta.",["I'm not a big fan of it.","I hate it so much.","It's horrible, no?","I don't like nothing of it."],"'Not a big fan of' suena educado y natural."],
+  ["translate","«No es lo mío.»",["It's not really my thing.","It's not mine.","It's not of me.","It's not my stuff of me."],"Expresión muy común para rechazar algo con suavidad."]
+ ]},
+
+{id:'social-7', scen:'social', title:'Teorías y conspiraciones', summary:'Hablar de teorías, misterios y rumores: creer, dudar y preguntar.', level:'B1', mins:12,
+ phrases:[
+  ["Do you believe in aliens?","¿Crees en los extraterrestres?","'Believe in' = creer en la existencia de algo."],
+  ["There's a theory that the Moon landing was fake.","Hay una teoría de que la llegada a la Luna fue falsa.",""],
+  ["Apparently, it was all a cover-up.","Al parecer, todo fue un encubrimiento.","'Apparently' = al parecer, según dicen."],
+  ["I'm a bit sceptical about that.","Soy un poco escéptica con eso.","'Sceptical' con c es la ortografía británica."],
+  ["That sounds a bit far-fetched to me.","Eso me suena un poco rebuscado.","'Far-fetched' = poco creíble."],
+  ["Where did you hear that?","¿Dónde has oído eso?",""],
+  ["I wouldn't be surprised if it were true.","No me sorprendería que fuera verdad.",""]
+ ],
+ words:[["conspiracy theory","teoría de la conspiración"],["sceptical","escéptico/a",1],["far-fetched","poco creíble"],["apparently","al parecer"],["evidence","pruebas"],["rumour","rumor",1],["cover-up","encubrimiento"],["believe in","creer en"]],
+ dialogue:[
+  ["Dan","Okay, random question: do you believe in aliens?","Vale, pregunta random: ¿crees en los extraterrestres?"],
+  ["You","Hmm, maybe. The universe is huge. Why?","Mmm, quizás. El universo es enorme. ¿Por qué?"],
+  ["Dan","I watched a documentary. Apparently, the government knows more than they say.","Vi un documental. Al parecer, el gobierno sabe más de lo que dice."],
+  ["You","I'm a bit sceptical about that. Where's the evidence?","Soy un poco escéptica con eso. ¿Dónde están las pruebas?"],
+  ["Dan","That's the point! It's all a cover-up.","¡Esa es la cuestión! Todo es un encubrimiento."],
+  ["You","Ha! That sounds a bit far-fetched to me, but I'd love to watch it.","¡Ja! Me suena un poco rebuscado, pero me encantaría verlo."]
+ ],
+ quiz:[
+  ["complete","Do you believe ___ ghosts?",["in","on","at","to"],"'Believe in' = creer en la existencia de algo."],
+  ["meaning","«That sounds far-fetched» significa…",["eso suena poco creíble","eso suena lejano","eso suena muy bien","eso suena antiguo"],"Para algo difícil de creer."],
+  ["translate","«pruebas» (de algo)",["evidence","proofs of","tests","evidences"],"'Evidence' no lleva plural."],
+  ["natural","Un amigo te cuenta algo raro y quieres saber de dónde lo sacó.",["Where did you hear that?","Where you listened that?","Who told you this thing?","From where you know?"],"Para escuchar algo por casualidad o por otros: 'hear'."],
+  ["translate","«Al parecer, fue un error.»",["Apparently, it was a mistake.","Apparent, it was a mistake.","To the seem, it was a mistake.","Seemingly it was error."],"'Apparently' se usa muchísimo al contar lo que dicen otros."]
+ ]},
+
+{id:'social-8', scen:'social', title:'Humor, bromas y «banter»', summary:'Bromear como los británicos y entender cuándo alguien te está tomando el pelo.', level:'B1', mins:10,
+ phrases:[
+  ["I'm only joking!","¡Solo estoy bromeando!",""],
+  ["You're pulling my leg!","¡Me estás tomando el pelo!","Literalmente 'me tiras de la pierna'."],
+  ["That's hilarious!","¡Eso es divertidísimo!",""],
+  ["I nearly died laughing.","Casi me muero de la risa.",""],
+  ["Don't take it the wrong way.","No te lo tomes a mal.",""],
+  ["She's got a brilliant sense of humour.","Tiene un sentido del humor genial.","'Humour' con u es la ortografía británica."],
+  ["It's an inside joke, sorry.","Es una broma interna, perdón.",""]
+ ],
+ words:[["banter","bromas entre amigos",1],["joke","broma, chiste"],["pull someone's leg","tomar el pelo"],["hilarious","divertidísimo"],["take the mickey","burlarse",1],["sarcastic","sarcástico/a"],["crack up","partirse de risa"],["pun","juego de palabras"]],
+ dialogue:[
+  ["Ollie","I heard you're moving to the North Pole.","He oído que te mudas al Polo Norte."],
+  ["You","What? You're pulling my leg!","¿Qué? ¡Me estás tomando el pelo!"],
+  ["Ollie","Ha! I'm only joking. Don't take it the wrong way.","¡Ja! Solo estoy bromeando. No te lo tomes a mal."],
+  ["You","Don't worry. That was actually hilarious.","Tranquilo. La verdad es que fue divertidísimo."],
+  ["Ollie","British banter. You'll get used to it.","Humor británico. Te acostumbrarás."],
+  ["You","I already love it. You've got a great sense of humour.","Ya me encanta. Tienes un sentido del humor genial."]
+ ],
+ quiz:[
+  ["meaning","«You're pulling my leg!» significa…",["¡Me estás tomando el pelo!","¡Me estás tirando de la pierna!","¡Me estás ayudando!","¡Me estás empujando!"],"Expresión muy británica."],
+  ["natural","Dijiste algo en broma y quieres aclararlo.",["I'm only joking!","I'm only making a joke to you!","Is joke only!","I joke, I joke!"],"'I'm only joking' o 'I'm just kidding'."],
+  ["translate","«Casi me muero de la risa.»",["I nearly died laughing.","I almost died of the laugh.","I nearly died of laughs.","I almost dead laughing."],"Expresión fija: 'die laughing'."],
+  ["meaning","«Banter» es…",["bromas y piques amistosos entre amigos","un insulto serio","una pelea","un tipo de chiste escrito"],"En UK es parte de la amistad: bromear sin ofender."],
+  ["complete","Don't take it the ___ way.",["wrong","bad","evil","mistake"],"'Take something the wrong way' = tomárselo a mal."]
+ ]},
+
+{id:'social-9', scen:'social', title:'Momentos vergonzosos', summary:'Contar algo que te dio vergüenza y reírte de ti misma.', level:'B1', mins:10,
+ phrases:[
+  ["It was so embarrassing!","¡Fue tan vergonzoso!","Ojo: 'embarrassed' es avergonzada, no embarazada."],
+  ["I went bright red.","Me puse roja como un tomate.",""],
+  ["I wanted the ground to swallow me up.","Quería que me tragara la tierra.",""],
+  ["Everyone was staring at me.","Todo el mundo me estaba mirando.","'Stare' = mirar fijamente."],
+  ["I tripped over in front of my boss.","Me tropecé delante de mi jefe.",""],
+  ["Luckily, I just laughed it off.","Por suerte, me lo tomé con humor.","'Laugh it off' = quitarle importancia riéndote."],
+  ["Has that ever happened to you?","¿Te ha pasado alguna vez?",""]
+ ],
+ words:[["embarrassing","vergonzoso/a"],["embarrassed","avergonzado/a"],["awkward","incómodo/a"],["blush / go red","sonrojarse"],["clumsy","torpe"],["trip over","tropezar"],["spill","derramar"],["laugh it off","tomárselo con humor"]],
+ dialogue:[
+  ["Mia","What's the most embarrassing thing that's ever happened to you?","¿Qué es lo más vergonzoso que te ha pasado?"],
+  ["You","Oh no… On my first day at work, I tripped over in front of my boss.","Ay no… El primer día de trabajo me tropecé delante de mi jefe."],
+  ["Mia","No way! What did you do?","¡No me digas! ¿Y qué hiciste?"],
+  ["You","I went bright red. Everyone was staring at me. I wanted the ground to swallow me up.","Me puse roja. Todos me miraban. Quería que me tragara la tierra."],
+  ["Mia","Oh, that's so awkward!","¡Uf, qué incómodo!"],
+  ["You","Luckily, I just laughed it off. Has anything like that ever happened to you?","Por suerte, me lo tomé con humor. ¿Te ha pasado algo así alguna vez?"]
+ ],
+ quiz:[
+  ["translate","«Estaba muy avergonzada.»",["I was really embarrassed.","I was very embarrassing.","I was very embarrazed.","I was really pregnant."],"'Embarrassed' = cómo te sientes; 'embarrassing' = la situación."],
+  ["complete","Everyone was ___ at me.",["staring","looking to","seeing","watching to"],"'Stare at' = mirar fijamente."],
+  ["meaning","«I laughed it off» significa…",["me lo tomé con humor","me fui riendo","me reí de alguien","dejé de reír"],"Le quitas importancia a algo riéndote."],
+  ["natural","Quieres saber si a tu amiga le ha pasado algo parecido.",["Has that ever happened to you?","Did that ever happen you?","Has it passed to you sometime?","You have had that ever?"],"'Happen to someone' = pasarle a alguien."],
+  ["translate","«torpe» (que se cae o rompe cosas)",["clumsy","torpid","awkward person","stupid"],"'Awkward' es más bien incómodo."]
+ ]},
+
+{id:'social-10', scen:'social', title:'Opiniones polémicas entre amigos', summary:'Defender una opinión impopular, discrepar con humor y cerrar el debate.', level:'B1', mins:12,
+ phrases:[
+  ["This might be an unpopular opinion, but I love pineapple on pizza.","Puede que sea una opinión impopular, pero me encanta la piña en la pizza.",""],
+  ["Hear me out.","Escúchame hasta el final.","Para pedir que te dejen terminar de explicar."],
+  ["I couldn't disagree more!","¡No podría estar más en desacuerdo!",""],
+  ["You've got a point there.","Ahí tienes razón.",""],
+  ["I think that film is totally overrated.","Creo que esa película está sobrevalorada.",""],
+  ["No way, that's ridiculous!","¡Ni hablar, eso es ridículo!",""],
+  ["Let's agree to disagree.","Quedemos en que no estamos de acuerdo.","Para cerrar un debate sin pelear."]
+ ],
+ words:[["unpopular opinion","opinión impopular"],["hear someone out","escuchar hasta el final"],["overrated","sobrevalorado/a"],["underrated","infravalorado/a"],["debate","debate"],["ridiculous","ridículo/a"],["fair point","buen argumento"],["agree to disagree","aceptar que no se está de acuerdo"]],
+ dialogue:[
+  ["You","Okay, this might be an unpopular opinion, but pineapple on pizza is amazing.","Vale, puede que sea una opinión impopular, pero la piña en la pizza es increíble."],
+  ["Luca","No way, that's ridiculous! I'm Italian, I can't accept that.","¡Ni hablar, eso es ridículo! Soy italiano, no puedo aceptarlo."],
+  ["You","Hear me out. Sweet and salty together is delicious.","Escúchame. Lo dulce y lo salado juntos están deliciosos."],
+  ["Luca","Hmm… okay, you've got a point there. But it's still wrong.","Mmm… vale, ahí tienes razón. Pero sigue estando mal."],
+  ["You","And honestly, I think Italian coffee is a bit overrated.","Y la verdad, creo que el café italiano está un poco sobrevalorado."],
+  ["Luca","I couldn't disagree more! Let's agree to disagree.","¡No podría estar más en desacuerdo! Quedemos en que no estamos de acuerdo."]
+ ],
+ quiz:[
+  ["meaning","«Overrated» significa…",["sobrevalorado","muy valorado y con razón","demasiado caro","pasado de moda"],"Lo contrario: 'underrated' (infravalorado)."],
+  ["natural","Quieres que te dejen terminar de explicar tu idea.",["Hear me out.","Listen me until the end.","Let me to finish.","Hear me finally."],"'Hear me out' = escúchame hasta el final."],
+  ["translate","«Ahí tienes razón.»",["You've got a point there.","You have reason there.","There you have the reason.","You are right in there point."],"'Tener razón' NO es 'have reason'; es 'be right' o 'have a point'."],
+  ["complete","Let's agree to ___.",["disagree","not agree","disagreement","discuss"],"Expresión fija para cerrar un debate."],
+  ["translate","«¡No podría estar más en desacuerdo!»",["I couldn't disagree more!","I couldn't be more in disagree!","I can't disagree more of you!","I couldn't more disagree!"],"Frase hecha muy común."]
+ ]},
+
+{id:'social-11', scen:'social', title:'Series, películas y recomendaciones', summary:'Recomendar, pedir que no te hagan spoilers y opinar sobre un final.', level:'A2', mins:10,
+ phrases:[
+  ["Have you watched it yet?","¿Ya la has visto?",""],
+  ["No spoilers, please!","¡Sin spoilers, por favor!",""],
+  ["I binge-watched the whole series at the weekend.","Me vi la serie entera de un tirón el fin de semana.","'Binge-watch' = ver muchos episodios seguidos."],
+  ["It's really worth watching.","Merece mucho la pena verla.",""],
+  ["The ending was a bit disappointing.","El final fue un poco decepcionante.",""],
+  ["What's it about?","¿De qué trata?",""],
+  ["I'll add it to my list.","La añado a mi lista.",""]
+ ],
+ words:[["series","serie",1],["episode","episodio"],["season","temporada"],["binge-watch","ver de un tirón"],["spoiler","spoiler"],["plot","argumento"],["cast","reparto"],["worth watching","que merece la pena ver"]],
+ dialogue:[
+  ["Sara","Have you watched the new series everyone's talking about?","¿Has visto la serie nueva de la que habla todo el mundo?"],
+  ["You","Not yet! What's it about?","¡Todavía no! ¿De qué trata?"],
+  ["Sara","It's a mystery set in a small village. I binge-watched the whole thing at the weekend.","Es un misterio en un pueblo pequeño. Me la vi entera de un tirón el fin de semana."],
+  ["You","Is it worth watching? No spoilers, please!","¿Merece la pena? ¡Sin spoilers, por favor!"],
+  ["Sara","Definitely. The cast is brilliant, but the ending was a bit disappointing.","Totalmente. El reparto es genial, pero el final fue un poco decepcionante."],
+  ["You","Okay, I'll add it to my list.","Vale, la añado a mi lista."]
+ ],
+ quiz:[
+  ["translate","«argumento» (de una película)",["plot","argument","story line of","topic"],"'Argument' es una discusión o pelea. Falso amigo."],
+  ["meaning","«It's worth watching» significa…",["merece la pena verla","es cara de ver","se puede ver gratis","hay que verla obligatoriamente"],""],
+  ["complete","What's it ___?",["about","of","on","around"],"'What's it about?' = ¿de qué trata?"],
+  ["natural","No quieres que te cuenten el final.",["No spoilers, please!","Don't tell me the final!","Not say me the end!","Don't spoil me, the end no!"],"'Ending' = final de una historia; 'final' es una final deportiva."],
+  ["translate","«temporada» (de una serie)",["season","temporade","time","series period"],"En UK también se dice 'series' para una temporada."]
+ ]},
+
+{id:'social-12', scen:'social', title:'Hablar del tiempo (muy británico)', summary:'El tema favorito para romper el hielo en inglés: calor, viento y lluvia.', level:'A2', mins:8,
+ phrases:[
+  ["Lovely day, isn't it?","Qué día tan bonito, ¿verdad?","La frase perfecta para empezar a hablar con cualquiera."],
+  ["It's absolutely boiling today.","Hoy hace un calor tremendo.","'Boiling' = hirviendo; se usa para el calor."],
+  ["It's a bit chilly this morning.","Hace un poco de fresco esta mañana.",""],
+  ["Looks like it's going to rain.","Parece que va a llover.",""],
+  ["The humidity is unbearable.","La humedad es insoportable.","Muy útil en el verano de Malta."],
+  ["The wind is crazy today.","Hoy el viento está loco.",""],
+  ["At least it's not raining!","¡Al menos no está lloviendo!",""]
+ ],
+ words:[["boiling","muy caluroso"],["chilly","fresco, frío"],["humid","húmedo"],["muggy","bochornoso",1],["drizzle","llovizna"],["forecast","pronóstico"],["heatwave","ola de calor"],["windy","ventoso"]],
+ dialogue:[
+  ["Neighbour","Morning! Lovely day, isn't it?","¡Buenos días! Qué día tan bonito, ¿verdad?"],
+  ["You","Morning! Yes, but it's absolutely boiling already.","¡Buenos días! Sí, pero ya hace un calor tremendo."],
+  ["Neighbour","I know. And the humidity is unbearable.","Lo sé. Y la humedad es insoportable."],
+  ["You","Have you seen the forecast? They say there's a heatwave this week.","¿Has visto el pronóstico? Dicen que esta semana hay ola de calor."],
+  ["Neighbour","Oh dear. Well, at least it's not raining!","Vaya. Bueno, ¡al menos no está lloviendo!"],
+  ["You","True! Have a good day.","¡Es verdad! Que tengas buen día."]
+ ],
+ quiz:[
+  ["natural","Quieres empezar una charla con un vecino.",["Lovely day, isn't it?","Good weather, no?","It makes good weather today.","Is a beautiful day, true?"],"Las 'question tags' como 'isn't it?' son muy británicas."],
+  ["translate","«Hace mucho calor.»",["It's really hot.","It makes a lot of heat.","It does very hot.","It has much heat."],"Para el tiempo se usa 'it's', nunca 'it makes'."],
+  ["meaning","«It's a bit chilly» significa…",["hace un poco de fresco","está un poco picante","hace mucho calor","está nublado"],"No confundas con 'chilli' (guindilla)."],
+  ["complete","Looks like it's going ___ rain.",["to","for","at","of"],"'Going to' + verbo para predicciones."],
+  ["translate","«pronóstico del tiempo»",["weather forecast","weather prognostic","time prediction","weather pronostic"],"'Time' es el tiempo del reloj; el clima es 'weather'."]
+ ]},
+
+{id:'social-13', scen:'social', title:'Sueños, deseos y «¿qué harías si…?»', summary:'Hablar de sueños, planes de vida y situaciones imaginarias.', level:'B1', mins:12,
+ phrases:[
+  ["If I won the lottery, I'd travel the world.","Si me tocara la lotería, viajaría por el mundo.","Situación imaginaria: 'If + pasado, would + verbo'."],
+  ["My dream is to open my own studio.","Mi sueño es abrir mi propio estudio.",""],
+  ["Would you rather live by the sea or in the mountains?","¿Preferirías vivir junto al mar o en la montaña?","'Would you rather…?' = ¿preferirías…?"],
+  ["I've always wanted to learn to surf.","Siempre he querido aprender a hacer surf.",""],
+  ["One day, I'd love to live in London.","Algún día me encantaría vivir en Londres.",""],
+  ["It's on my bucket list.","Está en mi lista de cosas por hacer antes de morir.",""],
+  ["What would you do if you didn't have to work?","¿Qué harías si no tuvieras que trabajar?",""]
+ ],
+ words:[["dream","sueño"],["wish","deseo / desear"],["bucket list","lista de cosas por hacer en la vida"],["would rather","preferiría"],["lottery","lotería"],["goal","meta"],["someday","algún día"],["achieve","lograr"]],
+ dialogue:[
+  ["Ben","Okay, would you rather live by the sea or in the mountains?","Vale, ¿preferirías vivir junto al mar o en la montaña?"],
+  ["You","By the sea, definitely. That's why I love Malta. And you?","Junto al mar, sin duda. Por eso me encanta Malta. ¿Y tú?"],
+  ["Ben","Mountains! So, what would you do if you won the lottery?","¡Montaña! A ver, ¿qué harías si te tocara la lotería?"],
+  ["You","If I won the lottery, I'd travel the world and open my own design studio.","Si me tocara la lotería, viajaría por el mundo y abriría mi propio estudio de diseño."],
+  ["Ben","Nice. Anything else on your bucket list?","Genial. ¿Algo más en tu lista de cosas por hacer?"],
+  ["You","I've always wanted to learn to surf. One day!","Siempre he querido aprender a hacer surf. ¡Algún día!"]
+ ],
+ quiz:[
+  ["complete","If I won the lottery, I ___ travel the world.",["would","will","am going to","would to"],"Situación imaginaria: 'If + pasado, would + verbo'."],
+  ["meaning","«Would you rather…?» significa…",["¿Preferirías…?","¿Harías rápido…?","¿Podrías…?","¿Quisieras más…?"],"Ej.: 'Would you rather have tea or coffee?'"],
+  ["translate","«Siempre he querido aprender a nadar.»",["I've always wanted to learn to swim.","I always wanted learn swim.","I have always want to learn swimming.","Always I've wanted to learn to swim."],"'Have always wanted' = siempre he querido."],
+  ["meaning","«It's on my bucket list» significa…",["está en mi lista de cosas por hacer en la vida","está en mi lista de la compra","está en mi cubo","lo tengo pendiente en el trabajo"],""],
+  ["natural","Quieres preguntar qué haría tu amigo sin trabajar.",["What would you do if you didn't have to work?","What you will do if you not have work?","What do you do if you didn't work?","What would you do if you don't must work?"],"Pregunta imaginaria: 'would' + 'if' + pasado."]
+ ]},
+
+{id:'social-14', scen:'social', title:'Cotilleos y novedades', summary:'Contar y reaccionar a noticias de amigos con discreción y humor.', level:'B1', mins:10,
+ phrases:[
+  ["Have you heard the news?","¿Te has enterado de la noticia?",""],
+  ["You didn't hear it from me, but…","Yo no te he dicho nada, pero…","Para contar un secreto con humor."],
+  ["I heard that Sam is moving to Gozo.","Me han dicho que Sam se muda a Gozo.",""],
+  ["Keep it to yourself, okay?","No se lo cuentes a nadie, ¿vale?",""],
+  ["Come on, spill the tea!","¡Venga, suéltalo!","Expresión informal y moderna para pedir el cotilleo."],
+  ["Wait, are you serious?","Espera, ¿en serio?",""],
+  ["Good for them!","¡Me alegro por ellos!",""]
+ ],
+ words:[["gossip","cotilleo / cotillear"],["rumour","rumor",1],["news","noticia(s)"],["spill the tea","contar el cotilleo"],["keep a secret","guardar un secreto"],["find out","enterarse"],["juicy","jugoso, interesante"],["catch up","ponerse al día"]],
+ dialogue:[
+  ["Kate","Have you heard the news?","¿Te has enterado de la noticia?"],
+  ["You","No! Come on, spill the tea!","¡No! ¡Venga, suéltalo!"],
+  ["Kate","You didn't hear it from me, but Sam and Jo are getting married!","Yo no te he dicho nada, pero ¡Sam y Jo se casan!"],
+  ["You","Wait, are you serious? They've only been together for a year!","Espera, ¿en serio? ¡Solo llevan un año juntos!"],
+  ["Kate","I know! Keep it to yourself, okay? They're telling everyone on Friday.","¡Lo sé! No se lo cuentes a nadie, ¿vale? Lo dirán a todos el viernes."],
+  ["You","My lips are sealed. Good for them!","Soy una tumba. ¡Me alegro por ellos!"]
+ ],
+ quiz:[
+  ["meaning","«Keep it to yourself» significa…",["no se lo cuentes a nadie","quédatelo tú","guárdalo en tu casa","piénsalo tú sola"],""],
+  ["translate","«¿Te has enterado de la noticia?»",["Have you heard the news?","Did you enter the new?","Have you known the notice?","Are you informed of the new?"],"'News' siempre termina en s, aunque sea una sola noticia."],
+  ["complete","I heard ___ Sam is moving to Gozo.",["that","what","which","who"],"'I heard that…' = me han dicho que…"],
+  ["natural","Te cuentan una buena noticia de unos amigos.",["Good for them!","Good to them!","Well for them!","Happy of them!"],"'Good for you/them!' = ¡me alegro por ti/ellos!"],
+  ["meaning","«My lips are sealed» significa…",["soy una tumba, no diré nada","tengo los labios secos","no puedo comer","estoy enfadada"],""]
+ ]},
+
+{id:'social-15', scen:'social', title:'Quejarse con humor', summary:'Desahogarte de un mal día como un británico: con ironía.', level:'B1', mins:10,
+ phrases:[
+  ["I'm having one of those days.","Estoy teniendo uno de esos días.","Un día en que todo sale mal."],
+  ["Don't get me started on the traffic.","Mejor no me hagas hablar del tráfico.",""],
+  ["It's really doing my head in.","Me está volviendo loca.","Muy británico e informal."],
+  ["I've had enough of this heat.","Estoy harta de este calor.",""],
+  ["What a nightmare!","¡Qué pesadilla!",""],
+  ["The bus didn't show up. Typical!","El bus no apareció. ¡Típico!",""],
+  ["Oh well, it could be worse.","Bueno, podría ser peor.",""]
+ ],
+ words:[["moan","quejarse",1],["nightmare","pesadilla"],["fed up","harto/a"],["annoying","molesto/a"],["rant","despotricar"],["do someone's head in","volver loco a alguien",1],["typical!","¡típico!"],["vent","desahogarse"]],
+ dialogue:[
+  ["Chris","Hey, are you alright? You look a bit fed up.","Oye, ¿estás bien? Pareces un poco harta."],
+  ["You","I'm having one of those days. The bus didn't show up. Typical!","Estoy teniendo uno de esos días. El bus no apareció. ¡Típico!"],
+  ["Chris","Oh no. Don't get me started on the buses!","Ay no. ¡Mejor no me hagas hablar de los buses!"],
+  ["You","And then my laptop crashed at work. It's really doing my head in.","Y luego se me colgó el portátil en el trabajo. Me está volviendo loca."],
+  ["Chris","What a nightmare! Do you want to grab a drink and have a good moan?","¡Qué pesadilla! ¿Quieres tomar algo y desahogarte?"],
+  ["You","Yes, please! Oh well, it could be worse.","¡Sí, por favor! Bueno, podría ser peor."]
+ ],
+ quiz:[
+  ["translate","«Estoy harta de esto.»",["I've had enough of this.","I'm full of this.","I have enough to this.","I am tired with this of."],"También: 'I'm fed up with this.'"],
+  ["meaning","«It's doing my head in» significa…",["me está volviendo loca","me duele la cabeza","lo estoy pensando","me está ayudando a pensar"],"Muy británico e informal."],
+  ["complete","Don't get me ___ on the traffic.",["started","start","starting","to start"],"Expresión fija: 'Don't get me started on…'"],
+  ["natural","Algo sale mal, como siempre. Dices con ironía:",["Typical!","Is typical, no?","Very typical thing!","Always the same thing passes!"],"Una sola palabra, con tono irónico."],
+  ["meaning","«Have a good moan» significa…",["desahogarse quejándose","llorar mucho","gemir","dormir bien"],"'Moan' = quejarse (informal, UK)."]
+ ]},
+
+{id:'social-16', scen:'social', title:'Dar consejos y apoyar a un amigo', summary:'Preguntar qué le pasa a alguien, escuchar y dar un consejo con cariño.', level:'B1', mins:12,
+ phrases:[
+  ["Are you okay? You seem a bit down.","¿Estás bien? Te noto un poco decaída.","'Down' = triste, bajón."],
+  ["Do you want to talk about it?","¿Quieres hablar de ello?",""],
+  ["If I were you, I'd talk to her.","Yo que tú, hablaría con ella.","'If I were you, I'd…' = yo que tú…"],
+  ["Have you thought about asking for help?","¿Has pensado en pedir ayuda?",""],
+  ["Don't be so hard on yourself.","No seas tan dura contigo misma.",""],
+  ["I'm here if you need me.","Estoy aquí si me necesitas.",""],
+  ["It'll all work out, you'll see.","Todo saldrá bien, ya verás.",""]
+ ],
+ words:[["down","decaído/a, triste"],["advice","consejo(s)"],["cheer up","animarse / animar"],["support","apoyar"],["hard on yourself","duro/a contigo mismo/a"],["vent","desahogarse"],["reassure","tranquilizar"],["get through","superar"]],
+ dialogue:[
+  ["You","Are you okay, Laura? You seem a bit down.","¿Estás bien, Laura? Te noto un poco decaída."],
+  ["Laura","Not really. I didn't get the job I wanted.","No mucho. No me dieron el trabajo que quería."],
+  ["You","Oh, I'm sorry. Do you want to talk about it?","Ay, lo siento. ¿Quieres hablar de ello?"],
+  ["Laura","I just feel like I'm not good enough.","Siento que no soy lo bastante buena."],
+  ["You","Don't be so hard on yourself. If I were you, I'd ask them for feedback.","No seas tan dura contigo misma. Yo que tú, les pediría comentarios."],
+  ["Laura","That's a good idea. Thanks, you always cheer me up.","Buena idea. Gracias, siempre me animas."]
+ ],
+ quiz:[
+  ["complete","If I ___ you, I'd talk to her.",["were","was being","am","would be"],"Para dar consejos: 'If I were you…'"],
+  ["translate","«Te noto un poco decaída.»",["You seem a bit down.","I note you a bit decayed.","You look a little bit falling.","I notice you little down."],"'Seem' = parecer; 'down' = de bajón."],
+  ["meaning","«Don't be so hard on yourself» significa…",["no seas tan dura contigo misma","no trabajes tanto","no seas tan seria","no te pongas difícil"],""],
+  ["translate","«un consejo»",["a piece of advice","an advice","a council","one advise"],"'Advice' no se cuenta: 'some advice' o 'a piece of advice'."],
+  ["natural","Quieres que tu amiga sepa que puede contar contigo.",["I'm here if you need me.","I am here for if you need.","You can count on me for everything thing.","Here I am if necessary."],"Simple y cálido."]
+ ]},
+
+{id:'daily-7', scen:'daily', title:'Devolver algo y reclamar', summary:'Devolver un producto, pedir un cambio o el reembolso, y reclamar un pedido.', level:'B1', mins:10,
+ phrases:[
+  ["I'd like to return this, please.","Quisiera devolver esto, por favor.",""],
+  ["It doesn't work properly.","No funciona bien.",""],
+  ["Could I get a refund?","¿Me podrían devolver el dinero?","'Refund' = reembolso."],
+  ["Could I exchange it for a different size?","¿Podría cambiarlo por otra talla?",""],
+  ["I've still got the receipt.","Todavía tengo el recibo.",""],
+  ["I ordered it online, but it never arrived.","Lo pedí por internet, pero nunca llegó.",""],
+  ["Could I speak to the manager, please?","¿Podría hablar con el encargado, por favor?","Educado pero firme."]
+ ],
+ words:[["refund","reembolso"],["exchange","cambiar"],["faulty","defectuoso/a"],["receipt","recibo"],["complaint","reclamación"],["guarantee","garantía",1],["store credit","vale de la tienda"],["tracking number","número de seguimiento"]],
+ dialogue:[
+  ["You","Hi, I'd like to return these headphones, please. They don't work properly.","Hola, quisiera devolver estos auriculares, por favor. No funcionan bien."],
+  ["Assistant","I'm sorry about that. Have you got the receipt?","Lo siento. ¿Tiene el recibo?"],
+  ["You","Yes, here it is. Could I get a refund?","Sí, aquí está. ¿Me podrían devolver el dinero?"],
+  ["Assistant","We can exchange them or give you store credit.","Podemos cambiarlos o darle un vale de la tienda."],
+  ["You","I'd prefer a refund, if possible. They're faulty.","Preferiría el reembolso, si es posible. Son defectuosos."],
+  ["Assistant","That's fine. It'll go back on your card in three to five days.","De acuerdo. Se le devolverá a la tarjeta en tres a cinco días."]
+ ],
+ quiz:[
+  ["translate","«reembolso»",["refund","reimbursement of money back","return money","rembolse"],"'Refund' es lo más común en tiendas."],
+  ["meaning","«Faulty» significa…",["defectuoso","culpable","falso","sucio"],"'Faulty' = que no funciona bien de fábrica."],
+  ["natural","Quieres cambiar unos pantalones por otra talla.",["Could I exchange them for a different size?","Can I change them for other size?","I want to change for another size them.","Can you exchange me other size?"],"'Exchange for' + lo nuevo."],
+  ["complete","I'd like to ___ this, please. It doesn't work.",["return","give back to","devolve","turn back"],"'Return' = devolver un producto."],
+  ["translate","«reclamación»",["complaint","reclamation","claim of shop","protest"],"'Make a complaint' = poner una reclamación."]
+ ]},
+
+{id:'daily-8', scen:'daily', title:'En el banco y otros trámites', summary:'Abrir una cuenta, preguntar por documentos y resolver problemas con la tarjeta.', level:'B1', mins:10,
+ phrases:[
+  ["I'd like to open a bank account.","Quisiera abrir una cuenta bancaria.",""],
+  ["What documents do I need?","¿Qué documentos necesito?",""],
+  ["Could you help me fill in this form?","¿Me podría ayudar a rellenar este formulario?","'Fill in' = rellenar (UK). En US: 'fill out'."],
+  ["Do I need to make an appointment?","¿Tengo que pedir cita?",""],
+  ["My card isn't working.","Mi tarjeta no funciona.",""],
+  ["Is there a fee for that?","¿Eso tiene comisión?","'Fee' = comisión o tarifa."],
+  ["How long will it take?","¿Cuánto tiempo tardará?",""]
+ ],
+ words:[["bank account","cuenta bancaria"],["ID card","documento de identidad"],["proof of address","comprobante de domicilio"],["form","formulario"],["fee","comisión, tarifa"],["PIN","PIN, clave"],["transfer","transferencia"],["branch","sucursal"]],
+ dialogue:[
+  ["Clerk","Good morning, how can I help?","Buenos días, ¿en qué le ayudo?"],
+  ["You","Hi, I'd like to open a bank account. What documents do I need?","Hola, quisiera abrir una cuenta. ¿Qué documentos necesito?"],
+  ["Clerk","Your ID card and a proof of address, like a utility bill.","Su documento de identidad y un comprobante de domicilio, como una factura."],
+  ["You","Perfect, I've got both. Is there a monthly fee?","Perfecto, tengo los dos. ¿Hay una comisión mensual?"],
+  ["Clerk","No, this account is free. Could you fill in this form, please?","No, esta cuenta es gratuita. ¿Podría rellenar este formulario?"],
+  ["You","Sure. How long will it take to get my card?","Claro. ¿Cuánto tardará en llegarme la tarjeta?"]
+ ],
+ quiz:[
+  ["complete","Could you help me fill ___ this form?",["in","on","up","at"],"En UK se dice 'fill in'; en US, 'fill out'."],
+  ["translate","«comisión» (del banco)",["fee","commission of bank","charge money","comission"],"'Commission' existe, pero para el banco se dice 'fee' o 'charge'."],
+  ["meaning","«Proof of address» es…",["un comprobante de domicilio","una dirección de correo","la prueba de un examen","una carta del banco"],""],
+  ["natural","Tu tarjeta no pasa en la tienda. Llamas al banco y dices:",["My card isn't working.","My card doesn't go.","My card is not passing.","The card not function."],"'Work' = funcionar."],
+  ["translate","«sucursal» (del banco)",["branch","succursal","office of bank","subsidiary"],"'Branch' también significa rama de árbol."]
+ ]},
+
+{id:'daily-9', scen:'daily', title:'En la peluquería', summary:'Explicar qué corte quieres sin acabar con una sorpresa.', level:'A2', mins:8,
+ phrases:[
+  ["Just a trim, please.","Solo cortar las puntas, por favor.","'Trim' = recorte ligero."],
+  ["Not too short, please.","No muy corto, por favor.",""],
+  ["I'd like to keep the length.","Me gustaría mantener el largo.",""],
+  ["Could you take a bit more off the sides?","¿Podría cortar un poco más por los lados?",""],
+  ["I'm thinking of going a bit lighter.","Estoy pensando en aclararme un poco.","Para el color del pelo."],
+  ["How much do I owe you?","¿Cuánto le debo?",""],
+  ["It looks brilliant, thank you!","¡Ha quedado genial, gracias!",""]
+ ],
+ words:[["trim","recorte de puntas"],["fringe","flequillo",1],["layers","capas"],["highlights","mechas"],["blow-dry","secado con secador"],["roots","raíces"],["split ends","puntas abiertas"],["hairdresser's","peluquería",1]],
+ dialogue:[
+  ["Hairdresser","Hi! What are we doing today?","¡Hola! ¿Qué hacemos hoy?"],
+  ["You","Just a trim, please. I'd like to keep the length.","Solo cortar las puntas, por favor. Me gustaría mantener el largo."],
+  ["Hairdresser","No problem. Shall I tidy up your fringe as well?","Sin problema. ¿Te arreglo también el flequillo?"],
+  ["You","Yes, please, but not too short.","Sí, por favor, pero no muy corto."],
+  ["Hairdresser","Perfect. And a blow-dry at the end?","Perfecto. ¿Y secado con secador al final?"],
+  ["You","Lovely. Thank you!","Genial. ¡Gracias!"]
+ ],
+ quiz:[
+  ["translate","«flequillo» (inglés británico)",["fringe","bangs","front hair","flequy"],"'Bangs' es americano."],
+  ["meaning","«Just a trim» significa…",["solo cortar las puntas","solo un tren","un corte muy corto","solo lavar"],""],
+  ["natural","Al terminar, quieres saber cuánto pagar.",["How much do I owe you?","How much I must pay you?","What do I owe?","How much is it costing to me?"],"'Owe' = deber dinero."],
+  ["complete","Could you take a bit more ___ the sides?",["off","of","from","out"],"'Take off' = quitar, cortar."],
+  ["translate","«mechas» (en el pelo)",["highlights","wicks","mechs","stripes"],"'Wick' es la mecha de una vela."]
+ ]},
+
+{id:'daily-10', scen:'daily', title:'En el gimnasio', summary:'Apuntarte, preguntar por clases y compartir máquinas con educación.', level:'A2', mins:8,
+ phrases:[
+  ["I'd like to sign up for a membership.","Quisiera apuntarme como socia.",""],
+  ["Is anyone using this machine?","¿Alguien está usando esta máquina?",""],
+  ["How many sets have you got left?","¿Cuántas series te quedan?",""],
+  ["Could you show me how this works?","¿Me podrías enseñar cómo funciona esto?",""],
+  ["What time is the yoga class?","¿A qué hora es la clase de yoga?",""],
+  ["I'm a bit out of shape.","Estoy un poco en baja forma.",""],
+  ["Do you mind if I work in with you?","¿Te importa si me alterno contigo?","Para compartir una máquina entre series."]
+ ],
+ words:[["membership","membresía, cuota de socio"],["changing room","vestuario",1],["locker","taquilla"],["sets / reps","series / repeticiones"],["warm up","calentar"],["work out","hacer ejercicio"],["personal trainer","entrenador personal"],["out of shape","en baja forma"]],
+ dialogue:[
+  ["You","Hi, I'd like to sign up for a membership. Do you have a monthly option?","Hola, quisiera apuntarme. ¿Tienen una opción mensual?"],
+  ["Receptionist","Yes, we do. It includes all the classes.","Sí. Incluye todas las clases."],
+  ["You","Great. What time is the yoga class?","Genial. ¿A qué hora es la clase de yoga?"],
+  ["Receptionist","There's one at seven tonight. The changing rooms are on the left.","Hay una a las siete esta tarde. Los vestuarios están a la izquierda."],
+  ["You","Perfect. And could someone show me how the machines work? I'm a bit out of shape.","Perfecto. ¿Y alguien me podría enseñar cómo funcionan las máquinas? Estoy en baja forma."],
+  ["Receptionist","Of course. A trainer can give you a free induction.","Claro. Un entrenador te puede dar una introducción gratis."]
+ ],
+ quiz:[
+  ["translate","«vestuario» (del gimnasio, UK)",["changing room","dressing room of gym","locker room clothes","vestuary"],"En US se dice 'locker room'."],
+  ["natural","Quieres usar una máquina pero no sabes si está libre.",["Is anyone using this machine?","This machine is occupied?","Somebody uses this machine?","Is free this machine?"],""],
+  ["meaning","«I'm out of shape» significa…",["estoy en baja forma","estoy fuera de lugar","estoy deforme","no estoy en casa"],""],
+  ["complete","I'd like to sign ___ for a membership.",["up","in","on","to"],"'Sign up' = apuntarse, inscribirse."],
+  ["translate","«calentar» (antes de entrenar)",["warm up","heat up","make hot","calent"],"'Heat up' es calentar comida."]
+ ]},
+
+{id:'daily-11', scen:'daily', title:'Comida a domicilio y problemas con el pedido', summary:'Pedir comida y reclamar si llega tarde, fría o incompleta.', level:'A2', mins:8,
+ phrases:[
+  ["Shall we order a takeaway tonight?","¿Pedimos comida a domicilio esta noche?",""],
+  ["My order hasn't arrived yet.","Mi pedido todavía no ha llegado.",""],
+  ["It's been over an hour.","Ya ha pasado más de una hora.",""],
+  ["Something's missing from my order.","Falta algo en mi pedido.",""],
+  ["The food was cold when it arrived.","La comida llegó fría.",""],
+  ["Could you leave it at the door, please?","¿Podría dejarlo en la puerta, por favor?",""],
+  ["Could I get a refund for the missing item?","¿Me podrían devolver el dinero de lo que falta?",""]
+ ],
+ words:[["takeaway","comida para llevar / a domicilio",1],["delivery","entrega, reparto"],["order","pedido / pedir"],["driver","repartidor/a"],["missing","que falta"],["refund","reembolso"],["contactless","sin contacto"],["tip","propina"]],
+ dialogue:[
+  ["You","Hi, I'm calling about my order. It hasn't arrived yet.","Hola, llamo por mi pedido. Todavía no ha llegado."],
+  ["Restaurant","I'm sorry. Can I have your name and address?","Lo siento. ¿Me da su nombre y dirección?"],
+  ["You","It's Ana, flat 3, Tower Road. It's been over an hour.","Ana, piso 3, Tower Road. Ya ha pasado más de una hora."],
+  ["Restaurant","The driver is on his way. He'll be there in five minutes.","El repartidor está en camino. Llegará en cinco minutos."],
+  ["You","Okay, thanks. Could he leave it at the door, please?","Vale, gracias. ¿Podría dejarlo en la puerta, por favor?"],
+  ["Restaurant","Of course. And we've added a free dessert for the wait.","Claro. Y le hemos añadido un postre gratis por la espera."]
+ ],
+ quiz:[
+  ["natural","Llega tu pedido y falta una bebida.",["Something's missing from my order.","My order is not complete of a drink.","Lacks something in my order.","It misses a thing of my order."],"'Missing' = que falta."],
+  ["translate","«repartidor»",["delivery driver","repartor","distributor","sender man"],""],
+  ["complete","My order ___ arrived yet.",["hasn't","didn't","isn't","doesn't"],"Con 'yet' se usa 'hasn't' + participio."],
+  ["meaning","«Takeaway» en el Reino Unido es…",["comida para llevar o a domicilio","quitar algo","un descuento","una mesa para llevar"],""],
+  ["translate","«Ya ha pasado más de una hora.»",["It's been over an hour.","Already passed more than one hour.","It has passed more of an hour.","Is more than an hour already."],"'It's been' + tiempo = ya ha pasado."]
+ ]},
+
+{id:'daily-12', scen:'daily', title:'Emergencias y pedir ayuda', summary:'Pedir ayuda, explicar qué pasó y llamar a emergencias.', level:'A2', mins:10,
+ phrases:[
+  ["Excuse me, can you help me, please?","Disculpe, ¿me puede ayudar, por favor?",""],
+  ["I've lost my wallet.","He perdido la cartera.",""],
+  ["Someone has stolen my bag.","Alguien me ha robado el bolso.",""],
+  ["Please call an ambulance!","¡Por favor, llame a una ambulancia!","En Malta, el número de emergencias es el 112."],
+  ["Where's the nearest police station?","¿Dónde está la comisaría más cercana?",""],
+  ["I've locked myself out of my flat.","Me he quedado fuera de mi piso sin llaves.","'Lock yourself out' = cerrarte fuera."],
+  ["Is everything okay?","¿Está todo bien?",""]
+ ],
+ words:[["emergency","emergencia"],["ambulance","ambulancia"],["police station","comisaría"],["wallet / purse","cartera / monedero",1],["steal","robar"],["lose","perder"],["injured","herido/a"],["locksmith","cerrajero"]],
+ dialogue:[
+  ["You","Excuse me, can you help me, please? I've locked myself out of my flat.","Disculpe, ¿me puede ayudar? Me he quedado fuera de mi piso sin llaves."],
+  ["Neighbour","Oh no! Have you got a spare key anywhere?","¡Ay no! ¿Tienes una llave de repuesto en algún sitio?"],
+  ["You","My landlord has one, but he isn't answering his phone.","La tiene mi casero, pero no contesta el teléfono."],
+  ["Neighbour","I know a good locksmith. I'll give you his number.","Conozco un buen cerrajero. Te doy su número."],
+  ["You","Thank you so much. You're a lifesaver!","Muchísimas gracias. ¡Me has salvado!"],
+  ["Neighbour","No problem. Do you want to wait in my flat?","No hay problema. ¿Quieres esperar en mi piso?"]
+ ],
+ quiz:[
+  ["translate","«comisaría»",["police station","comisary","police office of","commissariat"],""],
+  ["complete","Someone has ___ my bag!",["stolen","robbed","stole","steal"],"Se roba un objeto: 'steal' (stolen). A una persona: 'rob'."],
+  ["natural","Te quedaste fuera de casa sin llaves.",["I've locked myself out.","I stayed outside without keys of me.","I am closed outside.","I locked out me."],"'Lock yourself out' = cerrarte fuera."],
+  ["meaning","«You're a lifesaver!» significa…",["¡Me has salvado!","eres socorrista","eres muy valiente","¡qué susto!"],"Para agradecer mucho una ayuda."],
+  ["translate","«He perdido la cartera.»",["I've lost my wallet.","I have loosed my wallet.","I lost me the wallet.","I've missed my wallet."],"'Lose' (lost) = perder; 'loose' significa suelto."]
  ]}
 ];
 const TOOLS = {
- connectors:{name:'Conectores', intro:'Unen ideas para que no hables en frases sueltas.', items:[
-  ["however","sin embargo","It's expensive. However, it's worth it."],
-  ["on the other hand","por otro lado","The flat is small. On the other hand, it's very central."],
-  ["although","aunque","Although it was raining, we went out."],
-  ["even though","aunque (más enfático)","She came to work even though she was exhausted."],
-  ["whereas","mientras que","I like tea, whereas my flatmate prefers coffee."],
-  ["therefore","por lo tanto","We're short-staffed; therefore, the meeting is postponed."],
-  ["so","así que","It was late, so I took a taxi."],
-  ["besides","además, aparte de eso","I don't fancy going. Besides, it's too far."],
-  ["as long as","siempre y cuando","You can borrow it as long as you bring it back."],
-  ["unless","a menos que","We'll go to the beach unless it rains."],
-  ["in case","por si acaso","Take a jacket in case it gets windy."],
-  ["in the end","al final","In the end, we stayed at home."],
-  ["meanwhile","mientras tanto","Meanwhile, I'll prepare the slides."],
-  ["anyway","en fin, de todas formas","Anyway, let's get back to work."]
+ connectors:{name:'Conectores', intro:'Unen ideas para que no hables en frases sueltas.', fields:'en, es, example, group', items:[
+  ["however","sin embargo","It's expensive. However, it's worth it.","Contrastar"],
+  ["although","aunque","Although it was raining, we went out.","Contrastar"],
+  ["even though","aunque (más enfático)","She came to work even though she was exhausted.","Contrastar"],
+  ["whereas","mientras que","I like tea, whereas my flatmate prefers coffee.","Contrastar"],
+  ["on the other hand","por otro lado","The flat is small. On the other hand, it's very central.","Contrastar"],
+  ["despite","a pesar de","Despite the rain, the beach was full.","Contrastar"],
+  ["in spite of","a pesar de","In spite of the traffic, we arrived on time.","Contrastar"],
+  ["nevertheless","no obstante","The task was difficult. Nevertheless, she finished it.","Contrastar"],
+  ["while","mientras que","While I understand your point, I don't agree.","Contrastar"],
+  ["still","aun así","It was cold. Still, we went for a swim.","Contrastar"],
+  ["though","aunque (al final de la frase)","The food was nice. A bit expensive, though.","Contrastar"],
+  ["yet","pero, sin embargo","It's a simple idea, yet very effective.","Contrastar"],
+  ["because","porque","I'm tired because I worked late.","Causa y consecuencia"],
+  ["because of","por, a causa de","The ferry was cancelled because of the wind.","Causa y consecuencia"],
+  ["since","ya que","Since you're here, can you help me?","Causa y consecuencia"],
+  ["as","como, ya que","As it was late, we took a taxi.","Causa y consecuencia"],
+  ["so","así que","It was late, so I took a taxi.","Causa y consecuencia"],
+  ["therefore","por lo tanto","We're short-staffed; therefore, the meeting is postponed.","Causa y consecuencia"],
+  ["as a result","como resultado","He missed the bus. As a result, he was late.","Causa y consecuencia"],
+  ["that's why","por eso","I love the sea. That's why I moved to Malta.","Causa y consecuencia"],
+  ["due to","debido a","The flight was delayed due to bad weather.","Causa y consecuencia"],
+  ["thanks to","gracias a","Thanks to your help, I passed the interview.","Causa y consecuencia"],
+  ["also","también","I speak Spanish and I also speak a bit of Italian.","Añadir ideas"],
+  ["as well","también (al final)","Can I have a coffee as well?","Añadir ideas"],
+  ["too","también (al final)","I love pastizzi. My flatmate does too.","Añadir ideas"],
+  ["besides","además, aparte de eso","I don't fancy going. Besides, it's too far.","Añadir ideas"],
+  ["moreover","además (formal)","The flat is cheap. Moreover, it's near the sea.","Añadir ideas"],
+  ["furthermore","además (formal)","Furthermore, I have experience with clients.","Añadir ideas"],
+  ["in addition","además","In addition to Spanish, I speak English.","Añadir ideas"],
+  ["what's more","y lo que es más","The hotel was lovely. What's more, breakfast was free.","Añadir ideas"],
+  ["not only… but also","no solo… sino también","She's not only creative but also very organised.","Añadir ideas"],
+  ["if","si","If it rains, we'll stay at home.","Condiciones"],
+  ["unless","a menos que","We'll go to the beach unless it rains.","Condiciones"],
+  ["as long as","siempre y cuando","You can borrow it as long as you bring it back.","Condiciones"],
+  ["in case","por si acaso","Take a jacket in case it gets windy.","Condiciones"],
+  ["provided that","siempre que (formal)","You can work from home provided that you finish your tasks.","Condiciones"],
+  ["otherwise","si no, de lo contrario","Hurry up, otherwise we'll miss the bus.","Condiciones"],
+  ["whether","si (entre opciones)","I'm not sure whether to stay or go.","Condiciones"],
+  ["first of all","antes que nada","First of all, thank you for coming.","Tiempo y orden"],
+  ["then","luego, después","We had dinner and then went for a walk.","Tiempo y orden"],
+  ["after that","después de eso","After that, we went home.","Tiempo y orden"],
+  ["meanwhile","mientras tanto","Meanwhile, I'll prepare the slides.","Tiempo y orden"],
+  ["in the end","al final","In the end, we stayed at home.","Tiempo y orden"],
+  ["eventually","al final, con el tiempo","After an hour, the bus eventually arrived.","Tiempo y orden"],
+  ["as soon as","en cuanto","Call me as soon as you arrive.","Tiempo y orden"],
+  ["until","hasta (que)","Wait here until I come back.","Tiempo y orden"],
+  ["by the time","para cuando","By the time we arrived, the shop was closed.","Tiempo y orden"],
+  ["finally","por último, por fin","Finally, I'd like to thank the team.","Tiempo y orden"],
+  ["anyway","en fin, de todas formas","Anyway, let's get back to work.","Para conversar"],
+  ["actually","en realidad","Actually, I've never been to Gozo.","Para conversar"],
+  ["to be honest","la verdad, siendo sincera","To be honest, I didn't like the film.","Para conversar"],
+  ["by the way","por cierto","By the way, did you see the email?","Para conversar"],
+  ["in my opinion","en mi opinión","In my opinion, it's too expensive.","Para conversar"],
+  ["for example","por ejemplo","I love Maltese food, for example pastizzi.","Para conversar"],
+  ["in other words","en otras palabras","In other words, we need more time.","Para conversar"],
+  ["after all","después de todo","Don't worry. After all, it's your first day.","Para conversar"],
+  ["at least","al menos","It's raining, but at least it's warm.","Para conversar"],
+  ["basically","básicamente","Basically, the plan didn't work.","Para conversar"],
+  ["I mean","o sea, quiero decir","It was okay. I mean, it wasn't amazing.","Para conversar"],
+  ["as far as I know","que yo sepa","As far as I know, the shop opens at nine.","Para conversar"]
  ]},
- phrasal:{name:'Phrasal verbs', intro:'Los que de verdad se usan cada día.', items:[
-  ["get up","levantarse","I usually get up at seven."],
-  ["find out","averiguar, enterarse","I found out yesterday."],
-  ["look for","buscar","I'm looking for a flat in Gżira."],
-  ["look after","cuidar","Could you look after my dog this weekend?"],
-  ["give up","dejar de, rendirse","Don't give up now!"],
-  ["put off","aplazar","Stop putting it off."],
-  ["run out of","quedarse sin","We've run out of milk."],
-  ["turn down","rechazar; bajar (volumen)","She turned down the offer."],
-  ["carry on","seguir, continuar","Carry on, I'm listening."],
-  ["work out","resolver; hacer ejercicio","I can't work out the answer."],
-  ["pick up","recoger","I'll pick you up at six."],
-  ["set up","montar, configurar","We set up the new office last week."],
-  ["come across","encontrar por casualidad","I came across an old photo."],
-  ["get on with","llevarse bien con","I get on well with my flatmates."],
-  ["fill in","rellenar (un formulario)","Could you fill in this form, please?"],
-  ["sort out","solucionar, organizar","I need to sort out my bank account."]
+ phrasal:{name:'Phrasal verbs', intro:'Verbo + partícula: los que de verdad se usan cada día.', fields:'en, es, example, group', items:[
+  ["get up","levantarse","I usually get up at seven.","Día a día"],
+  ["wake up","despertarse","I wake up before my alarm.","Día a día"],
+  ["find out","averiguar, enterarse","Let me find out what time it opens.","Día a día"],
+  ["look for","buscar","I'm looking for a flat in Gżira.","Día a día"],
+  ["look after","cuidar","Could you look after my plants?","Día a día"],
+  ["look forward to","tener ganas de","I look forward to the weekend.","Día a día"],
+  ["put on","ponerse (ropa)","Put on a jacket, it's cold.","Día a día"],
+  ["take off","quitarse (ropa); despegar","Please take off your shoes.","Día a día"],
+  ["turn on","encender","Can you turn on the air conditioning?","Día a día"],
+  ["turn off","apagar","Don't forget to turn off the lights.","Día a día"],
+  ["throw away","tirar (a la basura)","Don't throw away that box.","Día a día"],
+  ["go out","salir","Do you want to go out tonight?","Día a día"],
+  ["set up","montar, configurar","We need to set up the new printer.","Trabajo"],
+  ["carry on","seguir, continuar","Carry on, I'm listening.","Trabajo"],
+  ["put off","aplazar","Don't put off the meeting again.","Trabajo"],
+  ["sort out","solucionar, organizar","I'll sort out the problem today.","Trabajo"],
+  ["fill in","rellenar (un formulario)","Could you fill in this form, please?","Trabajo"],
+  ["hand in","entregar","I need to hand in the report by Friday.","Trabajo"],
+  ["take on","asumir (una tarea); contratar","She doesn't want to take on more work.","Trabajo"],
+  ["deal with","encargarse de","I'll deal with the client.","Trabajo"],
+  ["come up with","idear, proponer","We need to come up with a new idea.","Trabajo"],
+  ["run out of","quedarse sin","We've run out of paper.","Trabajo"],
+  ["get on with","llevarse bien con","I get on well with my colleagues.","Personas"],
+  ["catch up","ponerse al día","Let's meet up and catch up soon.","Personas"],
+  ["hang out","pasar el rato","We usually hang out at the beach.","Personas"],
+  ["meet up","quedar","Shall we meet up on Saturday?","Personas"],
+  ["fall out","pelearse, enfadarse","They fell out over money.","Personas"],
+  ["make up","reconciliarse; inventar","They argued, but then they made up.","Personas"],
+  ["break up","romper (una relación)","My cousin broke up with her boyfriend.","Personas"],
+  ["let down","decepcionar, fallar","Don't let me down.","Personas"],
+  ["look up to","admirar","I've always looked up to my mother.","Personas"],
+  ["turn up","aparecer, llegar","He turned up an hour late.","Personas"],
+  ["break down","averiarse","The car broke down on the motorway.","Problemas"],
+  ["give up","rendirse, dejar de","Don't give up now!","Problemas"],
+  ["turn down","rechazar; bajar (volumen)","She turned down the job offer.","Problemas"],
+  ["put up with","aguantar, soportar","I can't put up with this noise.","Problemas"],
+  ["figure out","descifrar, entender","I can't figure out this bus timetable.","Problemas"],
+  ["work out","resolver; hacer ejercicio","Don't worry, it'll work out.","Problemas"],
+  ["calm down","calmarse","Calm down, it's not a big deal.","Problemas"],
+  ["cheer up","animarse","Cheer up! It's Friday.","Problemas"],
+  ["come across","encontrar por casualidad","I came across an old photo.","Problemas"],
+  ["back up","respaldar; hacer copia de seguridad","Always back up your files.","Problemas"],
+  ["get on / get off","subir / bajar (bus, tren)","Get off at the next stop.","Moverse y viajar"],
+  ["get in / get out","subir / bajar (coche, taxi)","Get in, I'll give you a lift.","Moverse y viajar"],
+  ["check in","registrarse (hotel, vuelo)","We can check in after two.","Moverse y viajar"],
+  ["check out","dejar el hotel; echar un vistazo","We have to check out by eleven.","Moverse y viajar"],
+  ["set off","salir (de viaje)","We set off early to avoid the traffic.","Moverse y viajar"],
+  ["drop off","dejar (a alguien o algo)","Can you drop me off at the station?","Moverse y viajar"],
+  ["pick up","recoger","I'll pick you up at six.","Moverse y viajar"],
+  ["get back","volver","What time did you get back last night?","Moverse y viajar"],
+  ["pay back","devolver (dinero)","I'll pay you back tomorrow.","Dinero y compras"],
+  ["try on","probarse (ropa)","Can I try on this dress?","Dinero y compras"],
+  ["sell out","agotarse","The tickets sold out in an hour.","Dinero y compras"],
+  ["save up","ahorrar (para algo)","I'm saving up for a new laptop.","Dinero y compras"],
+  ["splash out","darse un capricho caro","Let's splash out on a nice dinner.","Dinero y compras"],
+  ["shop around","comparar precios","It's worth shopping around for flights.","Dinero y compras"]
  ]},
- false:{name:'Falsos amigos', intro:'Parecen español, pero significan otra cosa.', items:[
-  ["actually","en realidad","No es 'actualmente' (eso es 'currently')."],
-  ["eventually","al final, con el tiempo","No es 'eventualmente' (eso es 'possibly')."],
-  ["embarrassed","avergonzado","No es 'embarazada' (eso es 'pregnant')."],
-  ["sensible","sensato","No es 'sensible' (eso es 'sensitive')."],
-  ["library","biblioteca","No es 'librería' (eso es 'bookshop')."],
-  ["realise","darse cuenta","No es 'realizar' (eso es 'carry out')."],
-  ["assist","ayudar","No es 'asistir' (eso es 'attend')."],
-  ["carpet","alfombra","No es 'carpeta' (eso es 'folder')."],
-  ["exit","salida","No es 'éxito' (eso es 'success')."],
-  ["constipated","estreñido","No es 'constipado' (eso es 'have a cold')."],
-  ["lecture","clase, conferencia","No es 'lectura' (eso es 'reading')."],
-  ["argument","discusión, pelea","El argumento de una película es 'the plot'."],
-  ["sympathetic","comprensivo","No es 'simpático' (eso es 'friendly' o 'nice')."],
-  ["large","grande","No es 'largo' (eso es 'long')."]
+ false:{name:'Falsos amigos', intro:'Parecen español, pero significan otra cosa. Las trampas más típicas.', fields:'en, real meaning, trap (Spanish), trap (English)', items:[
+  ["actually","en realidad","actualmente","currently"],
+  ["eventually","al final, con el tiempo","eventualmente","possibly"],
+  ["embarrassed","avergonzado/a","embarazada","pregnant"],
+  ["sensible","sensato/a","sensible","sensitive"],
+  ["library","biblioteca","librería","bookshop"],
+  ["realise","darse cuenta","realizar","carry out"],
+  ["assist","ayudar","asistir","attend"],
+  ["attend","asistir","atender","serve / look after"],
+  ["carpet","alfombra","carpeta","folder"],
+  ["exit","salida","éxito","success"],
+  ["success","éxito","suceso","event"],
+  ["constipated","estreñido/a","constipado","have a cold"],
+  ["lecture","clase, conferencia","lectura","reading"],
+  ["argument","discusión, pelea","argumento (de una película)","plot"],
+  ["sympathetic","comprensivo/a","simpático","friendly / nice"],
+  ["large","grande","largo","long"],
+  ["discuss","hablar de, comentar","discutir (pelear)","argue"],
+  ["fabric","tela","fábrica","factory"],
+  ["casualty","víctima, herido","casualidad","coincidence"],
+  ["compromise","llegar a un acuerdo","compromiso","commitment"],
+  ["contest","concurso","contestar","answer"],
+  ["disgust","asco","disgusto","upset"],
+  ["intoxicated","borracho/a","intoxicado","poisoned"],
+  ["parents","padres","parientes","relatives"],
+  ["pretend","fingir","pretender","intend"],
+  ["record","grabar; registro","recordar","remember"],
+  ["rope","cuerda","ropa","clothes"],
+  ["support","apoyar","soportar","put up with"],
+  ["terrific","genial","terrorífico","terrifying"],
+  ["billion","mil millones","billón","trillion"],
+  ["career","carrera profesional","carrera (universitaria)","degree"],
+  ["college","centro de estudios superiores","colegio","school"],
+  ["deception","engaño","decepción","disappointment"],
+  ["diversion","desvío","diversión","fun"],
+  ["facility","instalación","facilidad","ease"],
+  ["injury","lesión","injuria","insult"],
+  ["introduce","presentar (a alguien)","introducir","put in"],
+  ["notice","darse cuenta; aviso","noticia","news"],
+  ["quit","dejar (un trabajo)","quitar","remove"],
+  ["recipient","destinatario","recipiente","container"],
+  ["resume","reanudar","resumir","summarise"],
+  ["assume","suponer","asumir (una tarea)","take on"],
+  ["actual","real, verdadero","actual","current"],
+  ["agenda","orden del día","agenda (libreta)","diary / planner"],
+  ["apology","disculpa","apología","defence"],
+  ["preservative","conservante","preservativo","condom"]
  ]},
- ukus:{name:'UK vs US', intro:'En Malta se usa sobre todo la versión británica.', items:[
+ ukus:{name:'UK vs US', intro:'En Malta se usa sobre todo la versión británica.', fields:'uk, us, es', items:[
   ["flat","apartment","piso, apartamento"],["lift","elevator","ascensor"],["queue","line","fila"],["holiday","vacation","vacaciones"],
   ["mobile","cell phone","celular, móvil"],["bin","trash can","papelera"],["chips","fries","papas fritas"],["crisps","chips","papas de paquete"],
   ["biscuit","cookie","galleta"],["rubbish","garbage","basura"],["ground floor","first floor","planta baja"],["first floor","second floor","primer piso"],
-  ["autumn","fall","otoño"],["film","movie","película"],["petrol","gas","gasolina"],["trainers","sneakers","tenis, zapatillas"],["the bill","the check","la cuenta"],["maths","math","matemáticas"]
+  ["autumn","fall","otoño"],["film","movie","película"],["cinema","movie theater","cine"],["petrol","gas","gasolina"],
+  ["trainers","sneakers","zapatillas deportivas"],["the bill","the check","la cuenta"],["maths","math","matemáticas"],["post","mail","correo"],
+  ["postcode","zip code","código postal"],["motorway","highway","autopista"],["pavement","sidewalk","acera"],["car park","parking lot","aparcamiento"],
+  ["roundabout","traffic circle","rotonda"],["underground","subway","metro"],["return ticket","round-trip ticket","billete de ida y vuelta"],["single ticket","one-way ticket","billete de ida"],
+  ["timetable","schedule","horario"],["trousers","pants","pantalones"],["jumper","sweater","jersey, suéter"],["waistcoat","vest","chaleco"],
+  ["nappy","diaper","pañal"],["dummy","pacifier","chupete"],["torch","flashlight","linterna"],["tap","faucet","grifo"],
+  ["cooker","stove","cocina (el aparato)"],["aubergine","eggplant","berenjena"],["courgette","zucchini","calabacín"],["coriander","cilantro","cilantro"],
+  ["sweets","candy","dulces, caramelos"],["takeaway","takeout","comida para llevar"],["CV","résumé","currículum"],["fortnight","two weeks","quince días"],
+  ["full stop","period","punto final"],["rubber","eraser","goma de borrar"],["lorry","truck","camión"],["boot","trunk","maletero"],
+  ["bonnet","hood","capó"],["windscreen","windshield","parabrisas"],["garden","yard","jardín"],["shop","store","tienda"],
+  ["chemist's","drugstore","farmacia"],["at the weekend","on the weekend","el fin de semana"],["have you got…?","do you have…?","¿tienes…?"],["mum","mom","mamá"]
  ]}
 };
 window.CHEERS_CONTENT = {version: VERSION, scen: SCEN, lessons: LESSONS, tools: TOOLS};
