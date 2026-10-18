@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>English For Beautiful Dummies</title>
+<meta name="description" content="Inglés británico para el día a día en Malta: lecciones por situaciones, pronunciación y práctica sin fin.">
+<meta name="theme-color" content="#ffc61a">
+<meta name="color-scheme" content="light">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Dummies">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="side" aria-label="Navegación">
+    <button class="brand" data-nav="today" aria-label="English For Beautiful Dummies, inicio"><span class="sunmark"></span><span class="bt"><small>English for</small>Beautiful Dummies</span></button>
+    <nav class="nav" id="side-nav"></nav>
+    <div class="side-foot"><div id="side-status"></div><div class="level-card" id="level-card"></div></div>
+  </aside>
+  <div class="content">
+    <header class="mtop">
+      <button class="brand" data-nav="today" aria-label="English For Beautiful Dummies, inicio"><span class="sunmark"></span><span class="bt"><small>English for</small>Beautiful Dummies</span></button>
+      <div class="chips-top" id="top-chips"></div>
+    </header>
+    <main class="main" id="main"><noscript>English For Beautiful Dummies necesita JavaScript activado.</noscript></main>
+    <div class="actbar" id="actbar" hidden></div>
+  </div>
+  <nav class="tabbar" id="tabbar" aria-label="Navegación"></nav>
+</div>
+<div id="sheet-root"></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="content.js"></script>
+<script src="pron.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
