@@ -1,11 +1,11 @@
 /* English For Beautiful Dummies — grammar content (verb tenses).
    Explanations in Spanish, examples in British English.
-   Exercise formats:
-   ['g', sentence with ___ (verb), answer, [3 wrong options], why]   -> choose the right form
-   ['t', sentence with ___ (verb), [accepted answers], Spanish, why] -> type the verb form
-   ['o', English sentence, Spanish]                                   -> put the words in order
-   ['s', situation in Spanish, right sentence, [2 wrong], why]        -> what would you say?
-   ['f', right sentence, [2 wrong], why]                              -> which one is correct? */
+   Exercise formats (each wrong option is [option, why it is wrong]):
+   ['g', sentence with ___ (verb), answer, [[wrong, why] x3], why right]  -> choose the right form
+   ['t', sentence with ___ (verb), [accepted answers], Spanish, why]       -> type the verb form
+   ['o', English sentence, Spanish]                                         -> put the words in order
+   ['s', situation in Spanish, right sentence, [[wrong, why] x2], why]      -> what would you say?
+   ['f', right sentence, [[wrong, why] x2], why]                            -> which one is correct? */
 window.CHEERS_GRAMMAR = {
   aspects: [
     ["simple", "Simple", "El verbo solo (o con do / did / will).", "Hechos, rutinas y acciones completas."],
@@ -53,18 +53,18 @@ window.CHEERS_GRAMMAR = {
       "Irregular: have → has."
     ],
     ex: [
-      ["g", "My sister ___ (live) in Gozo.", "lives", ["live", "is live", "living"], "My sister = she → verbo + s."],
-      ["g", "___ you like working at the gallery?", "Do", ["Does", "Are", "Is"], "Pregunta con you: Do + sujeto + verbo."],
-      ["g", "He ___ (not / speak) Maltese.", "doesn't speak", ["don't speak", "doesn't speaks", "not speaks"], "He → doesn't + verbo sin -s."],
-      ["g", "The museum ___ (open) at ten on Sundays.", "opens", ["open", "is opening", "opening"], "Horario fijo → present simple. The museum = it → opens."],
-      ["g", "I ___ (usually / take) the bus to work.", "usually take", ["take usually", "am usually take", "usually takes"], "El adverbio de frecuencia va antes del verbo. Con I, sin -s."],
+      ["g", "My sister ___ (live) in Gozo.", "lives", [["live", "My sister = she: con he / she / it el verbo lleva -s."], ["is live", "No se mezcla be con el verbo: «lives», sin «is»."], ["living", "Falta el verbo be y no es algo temporal: lo estable va en present simple."]], "My sister = she → verbo + s."],
+      ["g", "___ you like working at the gallery?", "Do", [["Does", "«Does» es para he / she / it. Con you: «Do»."], ["Are", "«Are» va con -ing o adjetivos (Are you tired?); con un verbo normal: «Do you like…?»."], ["Is", "«Is» es para he / she / it y no va con «like»: «Do you like…?»."]], "Pregunta con you: Do + sujeto + verbo."],
+      ["g", "He ___ (not / speak) Maltese.", "doesn't speak", [["don't speak", "«Don't» es para I / you / we / they. Con he: «doesn't»."], ["doesn't speaks", "Con doesn't, la -s ya la lleva el auxiliar: «doesn't speak»."], ["not speaks", "Falta el auxiliar: la negativa es «doesn't speak»."]], "He → doesn't + verbo sin -s."],
+      ["g", "The museum ___ (open) at ten on Sundays.", "opens", [["open", "The museum = it: lleva -s, «opens»."], ["is opening", "Un horario fijo va en present simple, no en continuous."], ["opening", "Falta el verbo conjugado; un horario fijo es «opens»."]], "Horario fijo → present simple. The museum = it → opens."],
+      ["g", "I ___ (usually / take) the bus to work.", "usually take", [["take usually", "Los adverbios de frecuencia van ANTES del verbo: «usually take»."], ["am usually take", "Sobra «am»: con un verbo normal no se pone be."], ["usually takes", "Con I el verbo va sin -s."]], "El adverbio de frecuencia va antes del verbo. Con I, sin -s."],
       ["t", "She ___ (study) English every evening.", ["studies"], "Ella estudia inglés todas las tardes.", "Consonante + y → -ies: study → studies."],
       ["t", "My boss ___ (have) two dogs.", ["has", "has got"], "Mi jefe tiene dos perros.", "Have con he / she / it es has."],
       ["t", "We ___ (not / work) on Sundays.", ["don't work", "do not work"], "No trabajamos los domingos.", "Con we: don't + verbo."],
       ["o", "How often do you go to the beach?", "¿Cada cuánto vas a la playa?"],
       ["o", "She doesn't eat meat.", "Ella no come carne."],
-      ["s", "Le cuentas a alguien a qué te dedicas.", "I design exhibitions for a gallery.", ["I am designing exhibitions for a gallery.", "I designed exhibitions for a gallery."], "Tu trabajo es algo estable → present simple."],
-      ["f", "Does your brother work in Valletta?", ["Does your brother works in Valletta?", "Do your brother work in Valletta?"], "Your brother = he → Does + verbo sin -s."]
+      ["s", "Le cuentas a alguien a qué te dedicas.", "I design exhibitions for a gallery.", [["I am designing exhibitions for a gallery.", "El continuous sugiere algo temporal; tu trabajo estable va en present simple."], ["I designed exhibitions for a gallery.", "Es pasado: sonaría a que ya no trabajas allí."]], "Tu trabajo es algo estable → present simple."],
+      ["f", "Does your brother work in Valletta?", [["Does your brother works in Valletta?", "Con does, el verbo va sin -s: «work»."], ["Do your brother work in Valletta?", "Your brother = he: la pregunta va con «Does»."]], "Your brother = he → Does + verbo sin -s."]
     ]
   },
   {
@@ -101,18 +101,18 @@ window.CHEERS_GRAMMAR = {
       "Terminados en -ie: → -ying → lie → lying."
     ],
     ex: [
-      ["g", "Be quiet! The baby ___ (sleep).", "is sleeping", ["sleeps", "sleeping", "are sleeping"], "«Be quiet!» → está pasando ahora. The baby = it → is sleeping."],
-      ["g", "I ___ (look) for a job in design at the moment.", "am looking", ["look", "looking", "is looking"], "At the moment = estos días → am + -ing."],
-      ["g", "We ___ (not / go) out tonight, we're too tired.", "aren't going", ["don't go", "not going", "isn't going"], "Plan para esta noche → present continuous en negativa."],
-      ["g", "I ___ (want) a coffee.", "want", ["am wanting", "wanting", "wants"], "«Want» es un verbo de estado: no se usa con -ing."],
+      ["g", "Be quiet! The baby ___ (sleep).", "is sleeping", [["sleeps", "«Be quiet!» indica que está pasando ahora: continuous (is sleeping)."], ["sleeping", "Falta el verbo be: «is sleeping»."], ["are sleeping", "The baby = it: con it va «is», no «are»."]], "«Be quiet!» → está pasando ahora. The baby = it → is sleeping."],
+      ["g", "I ___ (look) for a job in design at the moment.", "am looking", [["look", "«At the moment» pide continuous: «am looking»."], ["looking", "Falta el verbo be: «I am looking»."], ["is looking", "Con I el verbo be es «am», no «is»."]], "At the moment = estos días → am + -ing."],
+      ["g", "We ___ (not / go) out tonight, we're too tired.", "aren't going", [["don't go", "Para un plan de esta noche se usa present continuous: «aren't going»."], ["not going", "Falta el verbo be: «aren't going»."], ["isn't going", "Con we va «aren't», no «isn't»."]], "Plan para esta noche → present continuous en negativa."],
+      ["g", "I ___ (want) a coffee.", "want", [["am wanting", "«Want» es un verbo de estado: no se usa con -ing."], ["wanting", "Falta el verbo conjugado, y «want» no va en -ing."], ["wants", "Con I el verbo va sin -s."]], "«Want» es un verbo de estado: no se usa con -ing."],
       ["t", "Look! It ___ (rain) again.", ["is raining", "'s raining"], "¡Mira! Está lloviendo otra vez.", "Look! → ahora mismo → is + -ing."],
       ["t", "They ___ (build) a new hotel in Sliema.", ["are building", "'re building"], "Están construyendo un hotel nuevo en Sliema.", "Algo en progreso estos meses → are + -ing."],
       ["t", "She ___ (write) her CV right now.", ["is writing", "'s writing"], "Está escribiendo su CV ahora mismo.", "Write termina en -e: quita la e → writing."],
       ["o", "What are you doing this weekend?", "¿Qué vas a hacer este fin de semana?"],
       ["o", "I'm working from home today.", "Hoy trabajo desde casa."],
-      ["s", "Tu amiga te llama y estás cocinando. Se lo dices.", "I'm cooking dinner.", ["I cook dinner.", "I cooked dinner."], "Está pasando en este momento → present continuous."],
-      ["s", "Ya quedaste con Ana para cenar el viernes.", "I'm having dinner with Ana on Friday.", ["I have dinner with Ana on Friday.", "I had dinner with Ana on Friday."], "Plan ya organizado → present continuous con valor de futuro."],
-      ["f", "I need a break.", ["I'm needing a break.", "I needing a break."], "«Need» es un verbo de estado: present simple."]
+      ["s", "Tu amiga te llama y estás cocinando. Se lo dices.", "I'm cooking dinner.", [["I cook dinner.", "«I cook dinner» es una costumbre (yo cocino la cena normalmente), no lo que haces ahora."], ["I cooked dinner.", "Eso es pasado: ya terminaste."]], "Está pasando en este momento → present continuous."],
+      ["s", "Ya quedaste con Ana para cenar el viernes.", "I'm having dinner with Ana on Friday.", [["I have dinner with Ana on Friday.", "Suena a costumbre o a horario; un plan quedado se dice en continuous."], ["I had dinner with Ana on Friday.", "Eso es pasado: ya cenaste."]], "Plan ya organizado → present continuous con valor de futuro."],
+      ["f", "I need a break.", [["I'm needing a break.", "«Need» es un verbo de estado: no va en -ing."], ["I needing a break.", "Falta el verbo be y, además, «need» no va en -ing."]], "«Need» es un verbo de estado: present simple."]
     ]
   },
   {
@@ -149,18 +149,18 @@ window.CHEERS_GRAMMAR = {
       "Irregulares: hay que aprenderlos → go → gone, see → seen, write → written. Los tienes en la pestaña «Irregulares»."
     ],
     ex: [
-      ["g", "Have you ever ___ (be) to Comino?", "been", ["was", "went", "be"], "Have + participio. El participio de be es been."],
-      ["g", "I ___ (live) in Malta since 2023.", "have lived", ["live", "am living", "lived"], "Since + empezó antes y sigue → have + participio."],
-      ["g", "She ___ (not / finish) the project yet.", "hasn't finished", ["didn't finish", "haven't finished", "hasn't finish"], "Yet en negativa → present perfect. She → hasn't."],
-      ["g", "I ___ (see) that exhibition last week.", "saw", ["have seen", "has seen", "seen"], "«Last week» es un momento terminado → past simple."],
-      ["g", "We've known each other ___ ten years.", "for", ["since", "from", "during"], "Ten years es una duración → for."],
+      ["g", "Have you ever ___ (be) to Comino?", "been", [["was", "Después de «have» va el participio, no el pasado: «been»."], ["went", "«Went» es pasado; con «have» va participio. Para experiencias de viaje: «been»."], ["be", "Después de «have» va el participio: «been», no la forma base."]], "Have + participio. El participio de be es been."],
+      ["g", "I ___ (live) in Malta since 2023.", "have lived", [["live", "Con «since» y algo que sigue, el español usa presente pero el inglés usa «have lived»."], ["am living", "«I'm living» es temporal y no va con since; algo que empezó y sigue: «have lived»."], ["lived", "«Lived» sonaría a que ya no vives aquí."]], "Since + empezó antes y sigue → have + participio."],
+      ["g", "She ___ (not / finish) the project yet.", "hasn't finished", [["didn't finish", "Con «yet» el inglés británico usa present perfect: «hasn't finished»."], ["haven't finished", "She va con «has»: «hasn't»."], ["hasn't finish", "Después de «has» va el participio: «finished»."]], "Yet en negativa → present perfect. She → hasn't."],
+      ["g", "I ___ (see) that exhibition last week.", "saw", [["have seen", "«Last week» es un momento terminado: past simple, «saw»."], ["has seen", "Con I no va «has»; y con «last week» va past simple."], ["seen", "«Seen» es el participio: solo va detrás de have / has."]], "«Last week» es un momento terminado → past simple."],
+      ["g", "We've known each other ___ ten years.", "for", [["since", "«Since» va con un punto de inicio (since 2015); diez años es duración: «for»."], ["from", "«From» necesita un final (from 2015 to 2020)."], ["during", "«During» es durante un evento (during the meeting); para duración: «for»."]], "Ten years es una duración → for."],
       ["t", "I ___ (just / send) you the file.", ["have just sent", "'ve just sent"], "Te acabo de enviar el archivo.", "«Acabo de» = have just + participio. Send → sent."],
       ["t", "She ___ (work) here since January.", ["has worked", "'s worked", "has been working", "'s been working"], "Trabaja aquí desde enero.", "Desde enero hasta hoy → has + participio."],
       ["t", "Have you ___ (write) your cover letter yet?", ["written"], "¿Ya escribiste tu carta de presentación?", "Participio irregular: write → wrote → written."],
       ["o", "I've never been to London.", "Nunca he estado en Londres."],
       ["o", "How long have you lived in Malta?", "¿Cuánto tiempo llevas viviendo en Malta?"],
-      ["s", "En una entrevista dices que usas AutoCAD desde hace muchos años (y lo sigues usando).", "I've used AutoCAD for many years.", ["I use AutoCAD for many years.", "I used AutoCAD since many years."], "Empezó antes y sigue hasta hoy, con for → present perfect."],
-      ["f", "I've already had lunch.", ["I've had lunch an hour ago.", "I've already have lunch."], "Have + participio (had). Con «ago» se usaría past simple."]
+      ["s", "En una entrevista dices que usas AutoCAD desde hace muchos años (y lo sigues usando).", "I've used AutoCAD for many years.", [["I use AutoCAD for many years.", "El presente no sirve para «desde hace X años»: se dice «I've used»."], ["I used AutoCAD since many years.", "«Used» sonaría a que ya no lo usas, y con una duración va «for», no «since»."]], "Empezó antes y sigue hasta hoy, con for → present perfect."],
+      ["f", "I've already had lunch.", [["I've had lunch an hour ago.", "Con «ago» (momento terminado) va past simple: «I had lunch an hour ago»."], ["I've already have lunch.", "Después de «have» va el participio: «had»."]], "Have + participio (had). Con «ago» se usaría past simple."]
     ]
   },
   {
@@ -190,18 +190,18 @@ window.CHEERS_GRAMMAR = {
       ["How long are you waiting?", "How long have you been waiting?", "¿Cuánto tiempo llevas…? → How long have you been…?"]
     ],
     ex: [
-      ["g", "I ___ (wait) for the bus for forty minutes!", "have been waiting", ["am waiting", "waited", "have waiting"], "Llevo 40 minutos esperando → have been + -ing."],
-      ["g", "How long ___ you been living in Malta?", "have", ["are", "do", "did"], "How long + have + sujeto + been + -ing?"],
-      ["g", "She ___ (paint) the gallery walls all morning.", "has been painting", ["have been painting", "has painting", "was painted"], "All morning y sigue (o acaba de parar) → has been + -ing."],
-      ["g", "I ___ (know) Tom for years.", "have known", ["have been knowing", "know", "am knowing"], "«Know» es de estado: present perfect simple, sin -ing."],
+      ["g", "I ___ (wait) for the bus for forty minutes!", "have been waiting", [["am waiting", "«Llevo 40 minutos esperando» no es presente: «have been waiting»."], ["waited", "«Waited» sonaría a que ya terminó la espera."], ["have waiting", "Falta «been»: «have been waiting»."]], "Llevo 40 minutos esperando → have been + -ing."],
+      ["g", "How long ___ you been living in Malta?", "have", [["are", "«How long are you living» es un calco; se dice «How long have you been living…?»."], ["do", "«Do» no va con «been»; es «have you been»."], ["did", "«Did» no va con «been»; es «have you been»."]], "How long + have + sujeto + been + -ing?"],
+      ["g", "She ___ (paint) the gallery walls all morning.", "has been painting", [["have been painting", "She va con «has»: «has been painting»."], ["has painting", "Falta «been»: «has been painting»."], ["was painted", "Eso es pasiva en pasado (fue pintada), no lo que ella lleva haciendo."]], "All morning y sigue (o acaba de parar) → has been + -ing."],
+      ["g", "I ___ (know) Tom for years.", "have known", [["have been knowing", "«Know» es un verbo de estado: no va en -ing."], ["know", "Con «for years» y algo que sigue: «have known»."], ["am knowing", "«Know» no va en -ing, y para «desde hace años» se usa have + participio."]], "«Know» es de estado: present perfect simple, sin -ing."],
       ["t", "It ___ (rain) all day.", ["has been raining", "'s been raining"], "Lleva todo el día lloviendo.", "Todo el día hasta ahora → has been + -ing."],
       ["t", "We ___ (work) on this design since Monday.", ["have been working", "'ve been working"], "Llevamos desde el lunes trabajando en este diseño.", "Since + llevar haciendo → have been + -ing."],
       ["t", "Your eyes are red. ___ you been crying?", ["Have"], "Tienes los ojos rojos. ¿Has estado llorando?", "Pregunta: Have + you + been + -ing."],
       ["o", "How long have you been learning English?", "¿Cuánto tiempo llevas aprendiendo inglés?"],
       ["o", "I've been looking for a job since June.", "Llevo buscando trabajo desde junio."],
-      ["s", "Le dices a un amigo que llevas dos horas esperando al técnico.", "I've been waiting for the technician for two hours.", ["I'm waiting for the technician for two hours.", "I waited for the technician for two hours."], "Llevo X tiempo haciendo algo → have been + -ing."],
-      ["s", "Quieres decir cuántos emails has enviado hoy (el resultado).", "I've sent twenty emails today.", ["I've been sending twenty emails today.", "I'm sending twenty emails today."], "Cuando cuentas cuántos (resultado), se usa present perfect simple."],
-      ["f", "She's been teaching yoga since 2019.", ["She's teaching yoga since 2019.", "She has been teach yoga since 2019."], "Desde 2019 hasta hoy → has been + verbo-ing."]
+      ["s", "Le dices a un amigo que llevas dos horas esperando al técnico.", "I've been waiting for the technician for two hours.", [["I'm waiting for the technician for two hours.", "El presente no sirve para «llevo X tiempo»: «I've been waiting»."], ["I waited for the technician for two hours.", "Pasado: sonaría a que la espera ya terminó."]], "Llevo X tiempo haciendo algo → have been + -ing."],
+      ["s", "Quieres decir cuántos emails has enviado hoy (el resultado).", "I've sent twenty emails today.", [["I've been sending twenty emails today.", "Si cuentas cuántos (el resultado), se usa el simple: «I've sent»."], ["I'm sending twenty emails today.", "Suena a que los estás enviando ahora; el resultado de hoy es «I've sent»."]], "Cuando cuentas cuántos (resultado), se usa present perfect simple."],
+      ["f", "She's been teaching yoga since 2019.", [["She's teaching yoga since 2019.", "Con «since» y algo que sigue no va el presente: «has been teaching»."], ["She has been teach yoga since 2019.", "Después de «been» va -ing: «teaching»."]], "Desde 2019 hasta hoy → has been + verbo-ing."]
     ]
   },
 
@@ -243,18 +243,18 @@ window.CHEERS_GRAMMAR = {
       "Los irregulares hay que aprenderlos: go → went, buy → bought. Los tienes en la pestaña «Irregulares»."
     ],
     ex: [
-      ["g", "I ___ (start) my new job last Monday.", "started", ["start", "have started", "was start"], "Last Monday → past simple."],
-      ["g", "We ___ (go) to Mdina on Sunday.", "went", ["goed", "gone", "have gone"], "Go es irregular: go → went → gone."],
-      ["g", "She ___ (not / come) to the meeting yesterday.", "didn't come", ["didn't came", "not came", "doesn't come"], "Negativa en pasado: didn't + forma base."],
-      ["g", "___ you enjoy the exhibition last night?", "Did", ["Do", "Were", "Have"], "Pregunta en pasado: Did + sujeto + verbo."],
-      ["g", "I ___ (be) really tired yesterday.", "was", ["were", "did be", "am"], "Be en pasado: I was, you were."],
+      ["g", "I ___ (start) my new job last Monday.", "started", [["start", "«Last Monday» es pasado: «started»."], ["have started", "Con «last Monday» (momento terminado) no va present perfect."], ["was start", "No se mezcla «was» con el verbo base: «started»."]], "Last Monday → past simple."],
+      ["g", "We ___ (go) to Mdina on Sunday.", "went", [["goed", "«Go» es irregular: el pasado es «went»."], ["gone", "«Gone» es el participio; solo va con have / has."], ["have gone", "Con «on Sunday» (momento terminado) va past simple: «went»."]], "Go es irregular: go → went → gone."],
+      ["g", "She ___ (not / come) to the meeting yesterday.", "didn't come", [["didn't came", "Después de «didn't», forma base: «come»."], ["not came", "Falta el auxiliar: «didn't come»."], ["doesn't come", "Es presente; «yesterday» pide pasado: «didn't come»."]], "Negativa en pasado: didn't + forma base."],
+      ["g", "___ you enjoy the exhibition last night?", "Did", [["Do", "«Last night» es pasado: «Did»."], ["Were", "«Were» va con -ing o adjetivos; con el verbo «enjoy»: «Did you enjoy…?»."], ["Have", "Con «last night» (momento terminado) no va present perfect."]], "Pregunta en pasado: Did + sujeto + verbo."],
+      ["g", "I ___ (be) really tired yesterday.", "was", [["were", "Con I el pasado de be es «was»."], ["did be", "Be no usa «did»: el pasado es «was / were»."], ["am", "Es presente; «yesterday» pide pasado."]], "Be en pasado: I was, you were."],
       ["t", "I ___ (buy) a new laptop last week.", ["bought"], "La semana pasada compré un portátil nuevo.", "Irregular: buy → bought."],
       ["t", "They ___ (move) to Malta three years ago.", ["moved"], "Se mudaron a Malta hace tres años.", "Regular terminado en -e: move → moved."],
       ["t", "He ___ (study) architecture in Barcelona.", ["studied"], "Estudió arquitectura en Barcelona.", "Consonante + y → -ied: studied."],
       ["o", "Where did you work before?", "¿Dónde trabajabas antes?"],
       ["o", "I moved to Malta two years ago.", "Me mudé a Malta hace dos años."],
-      ["s", "En una entrevista explicas cuándo terminaste la carrera.", "I finished my degree in 2015.", ["I've finished my degree in 2015.", "I finish my degree in 2015."], "Año concreto y terminado → past simple."],
-      ["f", "Did you see the email?", ["Did you saw the email?", "Saw you the email?"], "Pregunta: Did + sujeto + forma base."]
+      ["s", "En una entrevista explicas cuándo terminaste la carrera.", "I finished my degree in 2015.", [["I've finished my degree in 2015.", "Con un año concreto (in 2015) no va present perfect: «I finished»."], ["I finish my degree in 2015.", "Es presente; habla del pasado: «finished»."]], "Año concreto y terminado → past simple."],
+      ["f", "Did you see the email?", [["Did you saw the email?", "Después de «did», forma base: «see»."], ["Saw you the email?", "En inglés la pregunta necesita «did» delante: «Did you see…?»."]], "Pregunta: Did + sujeto + forma base."]
     ]
   },
   {
@@ -285,18 +285,18 @@ window.CHEERS_GRAMMAR = {
       ["While I cooked, the phone was ringing.", "While I was cooking, the phone rang.", "La acción larga en continuous; la corta, en simple."]
     ],
     ex: [
-      ["g", "I ___ (have) a shower when you called.", "was having", ["had", "were having", "am having"], "Acción larga interrumpida → was + -ing."],
-      ["g", "What ___ you doing at eight last night?", "were", ["was", "did", "are"], "Con you: were + -ing."],
-      ["g", "While we ___ (walk) to Valletta, it started to rain.", "were walking", ["walked", "was walking", "are walking"], "While + acción larga → were + -ing (we)."],
-      ["g", "She was working when her boss ___ (arrive).", "arrived", ["was arriving", "arrives", "arriving"], "La acción corta que interrumpe → past simple."],
-      ["g", "Sorry, I didn't hear you. I ___ (not / pay) attention.", "wasn't paying", ["didn't paying", "wasn't pay", "weren't paying"], "En progreso en ese momento → wasn't + -ing."],
+      ["g", "I ___ (have) a shower when you called.", "was having", [["had", "«I had a shower when you called» sería que te duchaste después de la llamada. Si estaba en progreso: «was having»."], ["were having", "Con I va «was», no «were»."], ["am having", "Es presente; la llamada fue en pasado."]], "Acción larga interrumpida → was + -ing."],
+      ["g", "What ___ you doing at eight last night?", "were", [["was", "Con you va «were»."], ["did", "«Did» no va con -ing: «What were you doing?»."], ["are", "Es presente; «last night» pide pasado: «were»."]], "Con you: were + -ing."],
+      ["g", "While we ___ (walk) to Valletta, it started to rain.", "were walking", [["walked", "Con «while» y una acción larga interrumpida, va continuous: «were walking»."], ["was walking", "Con we va «were»."], ["are walking", "Es presente; la historia es pasada."]], "While + acción larga → were + -ing (we)."],
+      ["g", "She was working when her boss ___ (arrive).", "arrived", [["was arriving", "La acción corta que interrumpe va en past simple: «arrived»."], ["arrives", "Es presente; la historia es pasada."], ["arriving", "Falta un verbo conjugado; la interrupción es «arrived»."]], "La acción corta que interrumpe → past simple."],
+      ["g", "Sorry, I didn't hear you. I ___ (not / pay) attention.", "wasn't paying", [["didn't paying", "«Didn't» va con forma base, no con -ing; aquí es «wasn't paying»."], ["wasn't pay", "Después de «wasn't» va -ing: «paying»."], ["weren't paying", "Con I va «wasn't», no «weren't»."]], "En progreso en ese momento → wasn't + -ing."],
       ["t", "At ten o'clock last night I ___ (sleep).", ["was sleeping"], "Anoche a las diez estaba durmiendo.", "Momento concreto del pasado → was + -ing."],
       ["t", "They ___ (not / listen) to the presentation.", ["weren't listening", "were not listening"], "No estaban escuchando la presentación.", "They → weren't + -ing."],
       ["t", "I ___ (drive) home when I saw the accident.", ["was driving"], "Iba conduciendo a casa cuando vi el accidente.", "Acción larga → was + -ing; drive pierde la e: driving."],
       ["o", "I was cooking when the phone rang.", "Estaba cocinando cuando sonó el teléfono."],
       ["o", "What were you doing at nine?", "¿Qué estabas haciendo a las nueve?"],
-      ["s", "Cuentas que tu jefe entró justo en medio de tu llamada personal.", "I was talking on the phone when my boss came in.", ["I talked on the phone when my boss was coming in.", "I am talking on the phone when my boss came in."], "La llamada (larga) en continuous; la entrada del jefe (corta) en simple."],
-      ["f", "We were waiting for the ferry when it started to rain.", ["We was waiting for the ferry when it started to rain.", "We were wait for the ferry when it started to rain."], "We → were + verbo-ing."]
+      ["s", "Cuentas que tu jefe entró justo en medio de tu llamada personal.", "I was talking on the phone when my boss came in.", [["I talked on the phone when my boss was coming in.", "Está al revés: la llamada (larga) va en continuous y la entrada (corta) en simple."], ["I am talking on the phone when my boss came in.", "Mezcla presente y pasado; toda la historia va en pasado."]], "La llamada (larga) en continuous; la entrada del jefe (corta) en simple."],
+      ["f", "We were waiting for the ferry when it started to rain.", [["We was waiting for the ferry when it started to rain.", "Con we va «were», no «was»."], ["We were wait for the ferry when it started to rain.", "Después de «were» va -ing: «waiting»."]], "We → were + verbo-ing."]
     ]
   },
   {
@@ -326,17 +326,17 @@ window.CHEERS_GRAMMAR = {
       ["When I arrived, she already left.", "When I arrived, she had already left.", "Se fue antes de que llegaras → had + participio."]
     ],
     ex: [
-      ["g", "When we got to the cinema, the film ___ (already / start).", "had already started", ["has already started", "was already start", "already starts"], "Empezó antes de que llegáramos → had + participio."],
-      ["g", "I couldn't pay because I ___ (forget) my wallet.", "had forgotten", ["have forgotten", "had forgot", "was forgetting"], "Lo olvidé antes del momento de pagar → had + participio (forgotten)."],
-      ["g", "She ___ (never / fly) before her trip to Malta.", "had never flown", ["has never flown", "had never flew", "was never flying"], "Experiencia antes de un momento pasado → had + participio (flown)."],
-      ["g", "By the time the client arrived, we ___ (prepare) everything.", "had prepared", ["have prepared", "prepare", "were prepare"], "By the time + pasado → la acción anterior va en had + participio."],
+      ["g", "When we got to the cinema, the film ___ (already / start).", "had already started", [["has already started", "La historia es pasada (got): el pasado del pasado es «had started»."], ["was already start", "No se mezcla «was» con el verbo base; es «had already started»."], ["already starts", "Es presente; necesitas «had started» (había empezado)."]], "Empezó antes de que llegáramos → had + participio."],
+      ["g", "I couldn't pay because I ___ (forget) my wallet.", "had forgotten", [["have forgotten", "La historia es pasada (couldn't): «had forgotten»."], ["had forgot", "Después de «had» va el participio: «forgotten»."], ["was forgetting", "Olvidar no es una acción en progreso aquí: «had forgotten»."]], "Lo olvidé antes del momento de pagar → had + participio (forgotten)."],
+      ["g", "She ___ (never / fly) before her trip to Malta.", "had never flown", [["has never flown", "Hablas de antes de un viaje pasado: «had never flown»."], ["had never flew", "Después de «had» va el participio: «flown»."], ["was never flying", "No es una acción en progreso; experiencia anterior: «had never flown»."]], "Experiencia antes de un momento pasado → had + participio (flown)."],
+      ["g", "By the time the client arrived, we ___ (prepare) everything.", "had prepared", [["have prepared", "La historia es pasada (arrived): «had prepared»."], ["prepare", "Es presente; lo preparasteis antes: «had prepared»."], ["were prepare", "No se mezcla «were» con el verbo base."]], "By the time + pasado → la acción anterior va en had + participio."],
       ["t", "He was tired because he ___ (not / sleep) well.", ["hadn't slept", "had not slept"], "Estaba cansado porque no había dormido bien.", "La causa ocurrió antes → hadn't + participio (slept)."],
       ["t", "Until I visited Mdina, I ___ (never / see) such an old city.", ["had never seen", "'d never seen"], "Hasta que visité Mdina, nunca había visto una ciudad tan antigua.", "Experiencia hasta un momento pasado → had never + participio."],
       ["t", "The meeting ___ (finish) when I arrived.", ["had finished", "'d finished", "had already finished"], "La reunión ya había terminado cuando llegué.", "Terminó antes de que llegaras → had + participio."],
       ["o", "When I arrived, the train had already left.", "Cuando llegué, el tren ya se había ido."],
       ["o", "I hadn't seen the email before the meeting.", "No había visto el email antes de la reunión."],
-      ["s", "Llegaste a la fiesta y tus amigos ya no estaban: se habían ido antes.", "When I arrived, my friends had left.", ["When I arrived, my friends left.", "When I arrived, my friends have left."], "Se fueron ANTES de que llegaras → had + participio. «My friends left» significaría que se fueron justo al llegar tú."],
-      ["f", "She had already eaten when we arrived.", ["She had already ate when we arrived.", "She has already eaten when we arrived."], "Had + participio (eaten)."]
+      ["s", "Llegaste a la fiesta y tus amigos ya no estaban: se habían ido antes.", "When I arrived, my friends had left.", [["When I arrived, my friends left.", "Significa que se fueron justo cuando llegaste (después). Si se fueron antes: «had left»."], ["When I arrived, my friends have left.", "No se mezcla «arrived» (pasado) con «have left»: es «had left»."]], "Se fueron ANTES de que llegaras → had + participio. «My friends left» significaría que se fueron justo al llegar tú."],
+      ["f", "She had already eaten when we arrived.", [["She had already ate when we arrived.", "Después de «had» va el participio: «eaten»."], ["She has already eaten when we arrived.", "Con «arrived» (pasado) va «had eaten», no «has»."]], "Had + participio (eaten)."]
     ]
   },
   {
@@ -364,17 +364,17 @@ window.CHEERS_GRAMMAR = {
       ["She had been knowing him for years.", "She had known him for years.", "«Know» no va en -ing; su participio es known."]
     ],
     ex: [
-      ["g", "I ___ (wait) for an hour when the bus finally came.", "had been waiting", ["have been waiting", "was waited", "had waiting"], "Llevaba una hora esperando → had been + -ing."],
-      ["g", "Her eyes were red because she ___ (cry).", "had been crying", ["has been crying", "had cried been", "was cry"], "Causa visible de algo pasado → had been + -ing."],
-      ["g", "How long ___ you been working there before you left?", "had", ["have", "were", "did"], "Duración antes de un momento pasado → How long had you been…?"],
-      ["g", "We ___ (drive) for six hours, so we were exhausted.", "had been driving", ["have been driving", "had been drive", "are driving"], "Llevábamos seis horas → had been + -ing."],
+      ["g", "I ___ (wait) for an hour when the bus finally came.", "had been waiting", [["have been waiting", "La historia es pasada (came): «had been waiting» (llevaba esperando)."], ["was waited", "Eso es pasiva (fue esperado); tú esperabas: «had been waiting»."], ["had waiting", "Falta «been»: «had been waiting»."]], "Llevaba una hora esperando → had been + -ing."],
+      ["g", "Her eyes were red because she ___ (cry).", "had been crying", [["has been crying", "La historia es pasada (were red): «had been crying»."], ["had cried been", "El orden es «had been crying»."], ["was cry", "Falta -ing y el «had been»: «had been crying»."]], "Causa visible de algo pasado → had been + -ing."],
+      ["g", "How long ___ you been working there before you left?", "had", [["have", "Es antes de que te fueras (left, pasado): «had you been»."], ["were", "«Were» no va con «been»."], ["did", "«Did» no va con «been»."]], "Duración antes de un momento pasado → How long had you been…?"],
+      ["g", "We ___ (drive) for six hours, so we were exhausted.", "had been driving", [["have been driving", "Estabais agotados en el pasado (were): «had been driving»."], ["had been drive", "Después de «been» va -ing: «driving»."], ["are driving", "Es presente; la historia es pasada."]], "Llevábamos seis horas → had been + -ing."],
       ["t", "They ___ (talk) for hours when the waiter asked them to leave.", ["had been talking", "'d been talking"], "Llevaban horas hablando cuando el camarero les pidió que se fueran.", "Llevaban + tiempo → had been + -ing."],
       ["t", "The ground was wet because it ___ (rain).", ["had been raining", "'d been raining"], "El suelo estaba mojado porque había estado lloviendo.", "Causa visible en el pasado → had been + -ing."],
       ["t", "She ___ (work) at the gallery for two years when she got promoted.", ["had been working", "'d been working"], "Llevaba dos años trabajando en la galería cuando la ascendieron.", "Duración antes de otro momento pasado → had been + -ing."],
       ["o", "I had been waiting for an hour.", "Llevaba una hora esperando."],
       ["o", "How long had you been working there?", "¿Cuánto tiempo llevabas trabajando allí?"],
-      ["s", "Cuentas que cuando por fin te llamó la empresa, llevabas tres meses buscando trabajo.", "I had been looking for a job for three months when they called me.", ["I have been looking for a job for three months when they called me.", "I looked for a job since three months when they called me."], "Llevaba + tiempo antes de otro momento pasado → had been + -ing."],
-      ["f", "We had been walking all day, so we were tired.", ["We had been walk all day, so we were tired.", "We have been walking all day, so we were tired."], "Had been + verbo-ing (walking)."]
+      ["s", "Cuentas que cuando por fin te llamó la empresa, llevabas tres meses buscando trabajo.", "I had been looking for a job for three months when they called me.", [["I have been looking for a job for three months when they called me.", "Con «called» (pasado) va «had been looking», no «have»."], ["I looked for a job since three months when they called me.", "Con una duración va «for», no «since», y hace falta «had been looking»."]], "Llevaba + tiempo antes de otro momento pasado → had been + -ing."],
+      ["f", "We had been walking all day, so we were tired.", [["We had been walk all day, so we were tired.", "Después de «been» va -ing: «walking»."], ["We have been walking all day, so we were tired.", "Con «were tired» (pasado) va «had been walking»."]], "Had been + verbo-ing (walking)."]
     ]
   },
 
@@ -408,18 +408,18 @@ window.CHEERS_GRAMMAR = {
       ["I go to call him.", "I'm going to call him.", "«Voy a» no es «I go to»: es «I'm going to» (o «I'll call him» si lo decides ahora)."]
     ],
     ex: [
-      ["g", "It's cold in here. I ___ (close) the window.", "will close", ["close", "am closing", "closed"], "Decisión en el momento → will."],
-      ["g", "I think it ___ (rain) later.", "will rain", ["rains", "is raining", "rained"], "Predicción con I think → will."],
-      ["g", "Don't worry, I ___ (not / tell) anyone.", "won't tell", ["don't tell", "will not to tell", "won't to tell"], "Promesa → won't + verbo sin to."],
-      ["g", "I'll call you when I ___ (arrive).", "arrive", ["will arrive", "arriving", "arrived"], "Después de when, presente (no will)."],
-      ["g", "___ I help you with those bags?", "Shall", ["Will", "Do", "Am"], "Para ofrecerte: Shall I…? (muy británico)."],
+      ["g", "It's cold in here. I ___ (close) the window.", "will close", [["close", "El presente no expresa una decisión ahora; se dice «I'll close»."], ["am close", "No se mezcla «am» con el verbo base; la decisión del momento es «will close»."], ["closed", "Es pasado; lo vas a hacer ahora: «will close»."]], "Decisión en el momento → will."],
+      ["g", "I think it ___ (rain) later.", "will rain", [["rains", "Una predicción con «I think» va con will: «will rain»."], ["is raining", "Eso es ahora mismo; «later» pide futuro: «will rain»."], ["rained", "Es pasado; hablas de luego."]], "Predicción con I think → will."],
+      ["g", "Don't worry, I ___ (not / tell) anyone.", "won't tell", [["don't tell", "Una promesa de futuro va con will: «won't tell»."], ["will not to tell", "Después de will no va «to»: «will not tell»."], ["won't to tell", "Después de won't no va «to»: «won't tell»."]], "Promesa → won't + verbo sin to."],
+      ["g", "I'll call you when I ___ (arrive).", "arrive", [["will arrive", "Después de «when» (futuro) va presente, no will: «when I arrive»."], ["arriving", "Falta el verbo conjugado: «when I arrive»."], ["arrived", "Es pasado; hablas del futuro y después de «when» va presente."]], "Después de when, presente (no will)."],
+      ["g", "___ I help you with those bags?", "Shall", [["Will", "«Will I help you?» pregunta por el futuro; para ofrecerte se dice «Shall I…?»."], ["Do", "«Do I help you?» pregunta por una costumbre; para ofrecer: «Shall I…?»."], ["Am", "«Am» no va con el verbo base: «Shall I help you?»."]], "Para ofrecerte: Shall I…? (muy británico)."],
       ["t", "Maybe she ___ (be) late.", ["will be", "'ll be"], "Quizás llegue tarde.", "Predicción con maybe → will be."],
       ["t", "I promise I ___ (send) it tomorrow.", ["will send", "'ll send"], "Te prometo que lo envío mañana.", "Promesa → will + verbo."],
       ["t", "I ___ (not / forget) your birthday.", ["won't forget", "will not forget"], "No me olvidaré de tu cumpleaños.", "Negativa: won't + verbo."],
       ["o", "I'll call you later.", "Te llamo luego."],
       ["o", "I think you will get the job.", "Creo que conseguirás el trabajo."],
-      ["s", "Tu compañero dice que no tiene bolígrafo. Le ofreces el tuyo en el momento.", "I'll lend you mine.", ["I lend you mine.", "I'm going to lend you mine."], "Decisión espontánea, en el momento → will."],
-      ["f", "I'll tell you when I know.", ["I'll tell you when I will know.", "I tell you when I will know."], "Después de when, presente; en la parte principal, will."]
+      ["s", "Tu compañero dice que no tiene bolígrafo. Le ofreces el tuyo en el momento.", "I'll lend you mine.", [["I lend you mine.", "El presente no sirve para ofrecer algo en el momento: «I'll lend you mine»."], ["I'm going to lend you mine.", "Going to suena a plan pensado antes; lo decides ahora: will."]], "Decisión espontánea, en el momento → will."],
+      ["f", "I'll tell you when I know.", [["I'll tell you when I will know.", "Después de «when» no va will: «when I know»."], ["I tell you when I will know.", "Al revés: la parte principal lleva will y la de «when» va en presente."]], "Después de when, presente; en la parte principal, will."]
     ]
   },
   {
@@ -449,18 +449,18 @@ window.CHEERS_GRAMMAR = {
       ["I go to study tonight.", "I'm going to study tonight.", "«Voy a» = am going to, no «go to»."]
     ],
     ex: [
-      ["g", "Look at the sky! It ___ (rain).", "is going to rain", ["will rain", "rains", "going to rain"], "Predicción con pruebas que ves → going to."],
-      ["g", "I ___ (apply) for the job at the museum. I decided last night.", "am going to apply", ["will apply", "apply", "going to apply"], "Plan decidido antes de hablar → going to."],
-      ["g", "What ___ you going to do this weekend?", "are", ["do", "will", "is"], "Pregunta: are + you + going to + verbo."],
-      ["g", "She ___ (not / take) the job. The salary is too low.", "isn't going to take", ["won't to take", "not going to take", "doesn't going to take"], "Decisión ya tomada → isn't going to + verbo."],
+      ["g", "Look at the sky! It ___ (rain).", "is going to rain", [["will rain", "«Will» es una opinión; si lo estás viendo venir (Look at the sky!), «going to»."], ["rains", "El presente no expresa predicción: «is going to rain»."], ["going to rain", "Falta el verbo be: «is going to rain»."]], "Predicción con pruebas que ves → going to."],
+      ["g", "I ___ (apply) for the job at the museum. I decided last night.", "am going to apply", [["will apply", "Will es para decisiones del momento; lo decidiste anoche: «am going to apply»."], ["apply", "El presente no expresa una intención futura."], ["going to apply", "Falta el verbo be: «am going to apply»."]], "Plan decidido antes de hablar → going to."],
+      ["g", "What ___ you going to do this weekend?", "are", [["do", "Con going to, el auxiliar es be: «What are you going to do?»."], ["will", "No se mezcla will con going to."], ["is", "Con you va «are»."]], "Pregunta: are + you + going to + verbo."],
+      ["g", "She ___ (not / take) the job. The salary is too low.", "isn't going to take", [["won't to take", "Después de won't no va «to»; y ya lo decidió: «isn't going to take»."], ["not going to take", "Falta el verbo be: «isn't going to take»."], ["doesn't going to take", "Going to va con be, no con do: «isn't going to take»."]], "Decisión ya tomada → isn't going to + verbo."],
       ["t", "We ___ (visit) Gozo next month.", ["are going to visit", "'re going to visit", "are visiting", "'re visiting"], "Vamos a visitar Gozo el mes que viene.", "Plan decidido → are going to + verbo."],
       ["t", "Be careful! You ___ (drop) the plates!", ["are going to drop", "'re going to drop"], "¡Cuidado! ¡Se te van a caer los platos!", "Algo a punto de pasar, lo estás viendo → going to."],
       ["t", "I ___ (not / give) up.", ["'m not going to give", "am not going to give"], "No me voy a rendir.", "Intención firme → am not going to + verbo."],
       ["o", "I'm going to start a course in September.", "Voy a empezar un curso en septiembre."],
       ["o", "Are you going to call him?", "¿Lo vas a llamar?"],
-      ["s", "Tu amiga te pregunta por tus planes de verano. Ya lo tienes decidido: vas a hacer un curso intensivo de inglés.", "I'm going to do an intensive English course.", ["I'll do an intensive English course.", "I do an intensive English course."], "Plan ya decidido → going to. «I'll» sonaría a que lo decides en ese momento."],
-      ["s", "Ves nubes negrísimas en el cielo.", "It's going to rain.", ["It rains.", "It's raining tomorrow."], "Predicción con pruebas → going to."],
-      ["f", "I'm going to call her tonight.", ["I going to call her tonight.", "I'm going to calling her tonight."], "Am + going to + forma base."]
+      ["s", "Tu amiga te pregunta por tus planes de verano. Ya lo tienes decidido: vas a hacer un curso intensivo de inglés.", "I'm going to do an intensive English course.", [["I'll do an intensive English course.", "Will suena a que lo decides en ese momento; si ya lo tenías decidido: going to."], ["I do an intensive English course.", "El presente no expresa un plan futuro."]], "Plan ya decidido → going to. «I'll» sonaría a que lo decides en ese momento."],
+      ["s", "Ves nubes negrísimas en el cielo.", "It's going to rain.", [["It rains.", "El presente simple es para hechos generales, no para una predicción."], ["It's raining tomorrow.", "El continuous de futuro es para planes organizados por personas, no para el tiempo."]], "Predicción con pruebas → going to."],
+      ["f", "I'm going to call her tonight.", [["I going to call her tonight.", "Falta el verbo be: «I'm going to»."], ["I'm going to calling her tonight.", "Después de going to va la forma base: «call»."]], "Am + going to + forma base."]
     ]
   },
   {
@@ -488,16 +488,16 @@ window.CHEERS_GRAMMAR = {
       ["I will being working.", "I will be working.", "Después de will va be (no being)."]
     ],
     ex: [
-      ["g", "This time tomorrow I ___ (fly) to London.", "will be flying", ["will fly", "will flying", "flew"], "En progreso en un momento futuro → will be + -ing."],
-      ["g", "Don't call at eight. We ___ (have) dinner.", "will be having", ["will have", "have", "had"], "A las ocho estaremos en plena cena → will be + -ing."],
-      ["g", "___ you be using the car tonight?", "Will", ["Are", "Do", "Shall"], "Pregunta educada: Will + you + be + -ing?"],
+      ["g", "This time tomorrow I ___ (fly) to London.", "will be flying", [["will fly", "Para algo en progreso en un momento futuro (this time tomorrow): «will be flying»."], ["will flying", "Falta «be»: «will be flying»."], ["flew", "Es pasado; hablas de mañana."]], "En progreso en un momento futuro → will be + -ing."],
+      ["g", "Don't call at eight. We ___ (have) dinner.", "will be having", [["will have", "«We'll have dinner» es empezar a cenar; a las ocho estaréis en plena cena: «will be having»."], ["have", "El presente no habla de ese momento futuro."], ["had", "Es pasado."]], "A las ocho estaremos en plena cena → will be + -ing."],
+      ["g", "___ you be using the car tonight?", "Will", [["Are", "«Are you be» no existe; es «Will you be…?»."], ["Do", "«Do» no va con «be using»."], ["Shall", "«Shall» es para ofrecer o proponer con I / we; aquí es «Will you be…?»."]], "Pregunta educada: Will + you + be + -ing?"],
       ["t", "At three I ___ (work), so call me later.", ["will be working", "'ll be working"], "A las tres estaré trabajando, así que llámame luego.", "Momento concreto del futuro → will be + -ing."],
       ["t", "I ___ (not / use) the printer this afternoon.", ["won't be using", "will not be using"], "No voy a usar la impresora esta tarde.", "Negativa: won't be + -ing."],
       ["t", "This time next week we ___ (lie) on a beach in Gozo.", ["will be lying", "'ll be lying"], "La semana que viene a esta hora estaremos tumbados en una playa de Gozo.", "Will be + -ing. Lie → lying (ie → y)."],
       ["o", "I'll be working late tonight.", "Esta noche estaré trabajando hasta tarde."],
       ["o", "Will you be coming to the meeting?", "¿Vendrás a la reunión?"],
-      ["s", "Quieres preguntarle a tu jefe, con mucha educación, si va a usar la sala esta tarde.", "Will you be using the room this afternoon?", ["Do you use the room this afternoon?", "Are you use the room this afternoon?"], "Will you be …ing? es la forma más educada de preguntar planes."],
-      ["f", "I'll be waiting for you at the station.", ["I'll be wait for you at the station.", "I'll waiting for you at the station."], "Will be + verbo-ing."]
+      ["s", "Quieres preguntarle a tu jefe, con mucha educación, si va a usar la sala esta tarde.", "Will you be using the room this afternoon?", [["Do you use the room this afternoon?", "Pregunta por una costumbre, no por esta tarde; lo educado es «Will you be using…?»."], ["Are you use the room this afternoon?", "No se mezcla «are» con el verbo base."]], "Will you be …ing? es la forma más educada de preguntar planes."],
+      ["f", "I'll be waiting for you at the station.", [["I'll be wait for you at the station.", "Después de «be» va -ing: «waiting»."], ["I'll waiting for you at the station.", "Falta «be»: «I'll be waiting»."]], "Will be + verbo-ing."]
     ]
   },
   {
@@ -526,16 +526,16 @@ window.CHEERS_GRAMMAR = {
       ["I'll finish it until Friday.", "I'll have finished it by Friday.", "Para un plazo se usa by, no until."]
     ],
     ex: [
-      ["g", "By Friday, I ___ (finish) the report.", "will have finished", ["have finished", "will have finish", "am finishing"], "Terminado antes de un momento futuro (by) → will have + participio."],
-      ["g", "By the time you arrive, we ___ (eat).", "will have eaten", ["will have ate", "have eaten", "will eaten"], "Will have + participio (eaten)."],
-      ["g", "Next year I ___ (work) here for ten years.", "will have worked", ["will work", "have worked", "am working"], "Aniversario en el futuro → will have + participio."],
+      ["g", "By Friday, I ___ (finish) the report.", "will have finished", [["have finished", "«By Friday» es futuro: «will have finished»."], ["will have finish", "Después de «have» va el participio: «finished»."], ["am finishing", "Eso es lo que haces ahora; para un plazo futuro: «will have finished»."]], "Terminado antes de un momento futuro (by) → will have + participio."],
+      ["g", "By the time you arrive, we ___ (eat).", "will have eaten", [["will have ate", "Después de «have» va el participio: «eaten»."], ["have eaten", "Hablas del futuro (you arrive): «will have eaten»."], ["will eaten", "Falta «have»: «will have eaten»."]], "Will have + participio (eaten)."],
+      ["g", "Next year I ___ (work) here for ten years.", "will have worked", [["will work", "«Will work here for ten years» sería trabajar diez años a partir de ahora; el aniversario es «will have worked»."], ["have worked", "«Next year» pide futuro: «will have worked»."], ["am working", "Es presente; hablas del año que viene."]], "Aniversario en el futuro → will have + participio."],
       ["t", "By the end of the month, she ___ (move) to her new flat.", ["will have moved", "'ll have moved"], "Para final de mes, se habrá mudado a su piso nuevo.", "Will have + participio (moved)."],
       ["t", "By tomorrow they ___ (not / fix) the printer.", ["won't have fixed", "will not have fixed"], "Para mañana no habrán arreglado la impresora.", "Negativa: won't have + participio."],
       ["t", "Will you ___ (finish) by six?", ["have finished"], "¿Habrás terminado para las seis?", "Pregunta: Will + you + have + participio?"],
       ["o", "I'll have finished by Friday.", "Habré terminado para el viernes."],
       ["o", "Will you have finished the designs by Monday?", "¿Habrás terminado los diseños para el lunes?"],
-      ["s", "Le dices a un cliente que los planos estarán terminados, como muy tarde, el lunes.", "We'll have finished the plans by Monday.", ["We finish the plans until Monday.", "We have finished the plans by Monday."], "Plazo futuro con by → will have + participio."],
-      ["f", "She will have left by then.", ["She will has left by then.", "She will have leave by then."], "Will + have (siempre) + participio (left)."]
+      ["s", "Le dices a un cliente que los planos estarán terminados, como muy tarde, el lunes.", "We'll have finished the plans by Monday.", [["We finish the plans until Monday.", "Para un plazo se usa «by», no «until», y hace falta «will have finished»."], ["We have finished the plans by Monday.", "Es un plazo futuro: «will have finished»."]], "Plazo futuro con by → will have + participio."],
+      ["f", "She will have left by then.", [["She will has left by then.", "Después de will siempre «have», nunca «has»."], ["She will have leave by then.", "Después de «have» va el participio: «left»."]], "Will + have (siempre) + participio (left)."]
     ]
   },
   {
@@ -562,14 +562,14 @@ window.CHEERS_GRAMMAR = {
       ["I will have be working.", "I will have been working.", "Es have been (participio de be)."]
     ],
     ex: [
-      ["g", "By December, I ___ (live) in Malta for three years.", "will have been living", ["will be living", "have been living", "will have living"], "Llevaré tres años → will have been + -ing."],
-      ["g", "When she retires, she ___ (teach) for forty years.", "will have been teaching", ["will teach", "has been teaching", "will have been teach"], "Duración hasta un momento futuro → will have been + -ing."],
-      ["g", "How long ___ you have been working here by next summer?", "will", ["do", "have", "are"], "How long + will + sujeto + have been + -ing?"],
+      ["g", "By December, I ___ (live) in Malta for three years.", "will have been living", [["will be living", "Para la duración hasta diciembre: «will have been living»."], ["have been living", "«By December» es futuro: «will have been living»."], ["will have living", "Falta «been»: «will have been living»."]], "Llevaré tres años → will have been + -ing."],
+      ["g", "When she retires, she ___ (teach) for forty years.", "will have been teaching", [["will teach", "Sería enseñar 40 años a partir de ahora; la duración acumulada es «will have been teaching»."], ["has been teaching", "Hablas del momento en que se jubile (futuro): «will have been teaching»."], ["will have been teach", "Después de «been» va -ing: «teaching»."]], "Duración hasta un momento futuro → will have been + -ing."],
+      ["g", "How long ___ you have been working here by next summer?", "will", [["do", "No se mezcla «do» con «have been»."], ["have", "Ya hay «have» después; falta «will» delante."], ["are", "No se mezcla «are» con «have been»."]], "How long + will + sujeto + have been + -ing?"],
       ["t", "By six, I ___ (work) for ten hours.", ["will have been working", "'ll have been working"], "A las seis llevaré diez horas trabajando.", "Llevaré + tiempo → will have been + -ing."],
       ["t", "Next month we ___ (go) out for a year.", ["will have been going", "'ll have been going"], "El mes que viene llevaremos un año saliendo juntos.", "Will have been + -ing (go out = salir con alguien)."],
       ["o", "By June I will have been learning English for two years.", "En junio llevaré dos años aprendiendo inglés."],
-      ["s", "Quieres decir que en septiembre llevarás un año trabajando en la galería.", "In September I'll have been working at the gallery for a year.", ["In September I'm working at the gallery for a year.", "In September I've been working at the gallery for a year."], "Duración hasta un momento futuro → will have been + -ing."],
-      ["f", "By then we'll have been waiting for hours.", ["By then we'll have been wait for hours.", "By then we'll be waited for hours."], "Will have been + verbo-ing."]
+      ["s", "Quieres decir que en septiembre llevarás un año trabajando en la galería.", "In September I'll have been working at the gallery for a year.", [["In September I'm working at the gallery for a year.", "El presente no sirve para «llevaré X tiempo»: «will have been working»."], ["In September I've been working at the gallery for a year.", "Es un momento futuro (in September): «will have been working»."]], "Duración hasta un momento futuro → will have been + -ing."],
+      ["f", "By then we'll have been waiting for hours.", [["By then we'll have been wait for hours.", "Después de «been» va -ing: «waiting»."], ["By then we'll be waited for hours.", "Eso sería pasiva (seremos esperados); es «will have been waiting»."]], "Will have been + verbo-ing."]
     ]
   }
   ],
@@ -594,12 +594,12 @@ window.CHEERS_GRAMMAR = {
       ],
       trick: "«What do you do?» pregunta por tu trabajo. «What are you doing?» pregunta qué haces ahora mismo. ¡Es la confusión más típica!",
       ex: [
-        ["g", "She usually walks to work, but today she ___ (take) the bus.", "is taking", ["takes", "take", "taking"], "Usually → rutina; today → algo distinto, temporal → is + -ing."],
-        ["g", "Water ___ (boil) at 100 degrees.", "boils", ["is boiling", "boil", "boiling"], "Hecho científico → present simple."],
-        ["g", "I ___ (not / understand) this word.", "don't understand", ["am not understanding", "not understand", "doesn't understand"], "«Understand» es un verbo de estado: present simple."],
-        ["s", "Quieres preguntarle a alguien a qué se dedica.", "What do you do?", ["What are you doing?", "What do you doing?"], "Trabajo = algo estable → present simple."],
-        ["s", "Estás de vacaciones en Gozo y le escribes a una amiga.", "I'm having a great time in Gozo!", ["I have a great time in Gozo!", "I having a great time in Gozo!"], "Algo que está pasando estos días → continuous."],
-        ["f", "I usually drink tea, but today I'm drinking coffee.", ["I'm usually drinking tea, but today I drink coffee.", "I usually drink tea, but today I drink coffee."], "Rutina → simple; hoy, algo temporal → continuous."]
+        ["g", "She usually walks to work, but today she ___ (take) the bus.", "is taking", [["takes", "«Takes» es una costumbre; hoy es algo distinto y temporal: «is taking»."], ["take", "Con she va -s, y además hoy es temporal: «is taking»."], ["taking", "Falta el verbo be: «is taking»."]], "Usually → rutina; today → algo distinto, temporal → is + -ing."],
+        ["g", "Water ___ (boil) at 100 degrees.", "boils", [["is boiling", "Un hecho científico va en simple; «is boiling» es que ahora mismo hierve."], ["boil", "Water = it: lleva -s, «boils»."], ["boiling", "Falta un verbo conjugado: «boils»."]], "Hecho científico → present simple."],
+        ["g", "I ___ (not / understand) this word.", "don't understand", [["am not understanding", "«Understand» es un verbo de estado: no va en -ing."], ["not understand", "Falta el auxiliar: «don't understand»."], ["doesn't understand", "Con I va «don't»."]], "«Understand» es un verbo de estado: present simple."],
+        ["s", "Quieres preguntarle a alguien a qué se dedica.", "What do you do?", [["What are you doing?", "Eso pregunta qué haces ahora mismo, no a qué te dedicas."], ["What do you doing?", "Mezcla los dos tiempos: o «What do you do?» o «What are you doing?»."]], "Trabajo = algo estable → present simple."],
+        ["s", "Estás de vacaciones en Gozo y le escribes a una amiga.", "I'm having a great time in Gozo!", [["I have a great time in Gozo!", "Suena a costumbre (siempre lo paso bien); lo de estos días va en continuous."], ["I having a great time in Gozo!", "Falta el verbo be: «I'm having»."]], "Algo que está pasando estos días → continuous."],
+        ["f", "I usually drink tea, but today I'm drinking coffee.", [["I'm usually drinking tea, but today I drink coffee.", "Está al revés: la costumbre va en simple y lo de hoy en continuous."], ["I usually drink tea, but today I drink coffee.", "Lo de hoy es temporal: «today I'm drinking»."]], "Rutina → simple; hoy, algo temporal → continuous."]
       ]
     },
     {
@@ -620,12 +620,12 @@ window.CHEERS_GRAMMAR = {
       ],
       trick: "Así es una conversación típica: empiezas con present perfect («Have you ever been to Sicily?» «Yes, I have.») y, cuando das detalles, pasas a past simple («I went last summer. It was amazing.»).",
       ex: [
-        ["g", "I ___ (meet) the director yesterday.", "met", ["have met", "meet", "have meet"], "Yesterday → past simple."],
-        ["g", "I ___ (never / try) rabbit stew.", "have never tried", ["am never trying", "have never try", "never try"], "Experiencia de tu vida → have + participio."],
-        ["g", "She ___ (work) here since 2021.", "has worked", ["worked", "works", "is working"], "Since + sigue hasta hoy → present perfect."],
-        ["g", "When ___ you arrive in Malta?", "did", ["have", "do", "are"], "When pregunta un momento concreto → past simple."],
-        ["s", "En una entrevista cuentas que trabajaste cinco años en un estudio de arquitectura (ya no trabajas allí).", "I worked at an architecture studio for five years.", ["I've worked at an architecture studio for five years.", "I work at an architecture studio for five years."], "Ya no trabajas allí → past simple. «I've worked» significaría que sigues allí."],
-        ["f", "I've already sent it.", ["I've sent it yesterday.", "I already have send it."], "Already → present perfect (have + participio). Con yesterday sería past simple."]
+        ["g", "I ___ (meet) the director yesterday.", "met", [["have met", "«Yesterday» es un momento terminado: «met»."], ["meet", "Es presente; «yesterday» pide pasado."], ["have meet", "Después de have va el participio, y con yesterday no va present perfect."]], "Yesterday → past simple."],
+        ["g", "I ___ (never / try) rabbit stew.", "have never tried", [["am never trying", "Una experiencia de tu vida se dice «have never tried»."], ["have never try", "Después de «have» va el participio: «tried»."], ["never try", "«I never try» = nunca lo intento (costumbre); la experiencia es «have never tried»."]], "Experiencia de tu vida → have + participio."],
+        ["g", "She ___ (work) here since 2021.", "has worked", [["worked", "«Worked» sonaría a que ya no trabaja aquí; con since y sigue: «has worked»."], ["works", "El presente no va con «since»: «has worked»."], ["is working", "Con «since» no va el presente continuo: «has worked» o «has been working»."]], "Since + sigue hasta hoy → present perfect."],
+        ["g", "When ___ you arrive in Malta?", "did", [["have", "«When» pregunta por un momento concreto y terminado: past simple, «did»."], ["do", "Es presente; llegaste en el pasado."], ["are", "«Are» no va con «arrive» en esta pregunta; es «When did you arrive?»."]], "When pregunta un momento concreto → past simple."],
+        ["s", "En una entrevista cuentas que trabajaste cinco años en un estudio de arquitectura (ya no trabajas allí).", "I worked at an architecture studio for five years.", [["I've worked at an architecture studio for five years.", "Significaría que sigues trabajando allí."], ["I work at an architecture studio for five years.", "El presente no va con «for five years» y además ya no trabajas allí."]], "Ya no trabajas allí → past simple. «I've worked» significaría que sigues allí."],
+        ["f", "I've already sent it.", [["I've sent it yesterday.", "Con «yesterday» va past simple: «I sent it yesterday»."], ["I already have send it.", "El orden es «have already» y va el participio: «sent»."]], "Already → present perfect (have + participio). Con yesterday sería past simple."]
       ]
     },
     {
@@ -644,11 +644,11 @@ window.CHEERS_GRAMMAR = {
       ],
       trick: "Imagina una película: el continuous es la escena de fondo (llovía, la gente caminaba) y el simple es lo que pasa de repente (entonces alguien gritó).",
       ex: [
-        ["g", "I ___ (walk) home when I saw Tom.", "was walking", ["walked", "am walking", "were walking"], "Acción larga interrumpida → was + -ing."],
-        ["g", "She was giving her presentation when the lights suddenly ___ (go) out.", "went", ["were going", "go", "gone"], "Suddenly → acción corta que interrumpe → past simple."],
-        ["g", "What ___ you doing when I called?", "were", ["did", "was", "are"], "Acción en progreso → were + -ing."],
-        ["s", "Cuentas una anécdota: estabais tumbados en la playa y de repente empezó a llover.", "We were lying on the beach when it started to rain.", ["We lay on the beach when it was starting to rain.", "We were lying on the beach when it was start to rain."], "Lo largo (tumbados) en continuous; lo repentino (empezó) en simple."],
-        ["f", "I was having dinner when you called.", ["I was have dinner when you called.", "I having dinner when you called."], "Was + verbo-ing para la acción larga."]
+        ["g", "I ___ (walk) home when I saw Tom.", "was walking", [["walked", "Si caminabas cuando lo viste (acción en progreso), va continuous: «was walking»."], ["am walking", "Es presente; la historia es pasada."], ["were walking", "Con I va «was»."]], "Acción larga interrumpida → was + -ing."],
+        ["g", "She was giving her presentation when the lights suddenly ___ (go) out.", "went", [["were going", "Suddenly = algo corto que pasa de golpe: past simple, «went»."], ["go", "Es presente; la historia es pasada."], ["gone", "«Gone» es participio: solo va con have / has / had."]], "Suddenly → acción corta que interrumpe → past simple."],
+        ["g", "What ___ you doing when I called?", "were", [["did", "«Did» no va con -ing: «What were you doing?»."], ["was", "Con you va «were»."], ["are", "Es presente; «called» es pasado."]], "Acción en progreso → were + -ing."],
+        ["s", "Cuentas una anécdota: estabais tumbados en la playa y de repente empezó a llover.", "We were lying on the beach when it started to rain.", [["We lay on the beach when it was starting to rain.", "Está al revés: lo largo (tumbados) en continuous y lo repentino (empezó) en simple."], ["We were lying on the beach when it was start to rain.", "No se mezcla «was» con el verbo base: «it started»."]], "Lo largo (tumbados) en continuous; lo repentino (empezó) en simple."],
+        ["f", "I was having dinner when you called.", [["I was have dinner when you called.", "Después de «was» va -ing: «having»."], ["I having dinner when you called.", "Falta «was»: «I was having»."]], "Was + verbo-ing para la acción larga."]
       ]
     },
     {
@@ -667,11 +667,11 @@ window.CHEERS_GRAMMAR = {
       ],
       trick: "Si puedes contar el resultado (tres emails, dos cuadros), usa el simple. Si hablas de cuánto tiempo llevas, usa el continuous.",
       ex: [
-        ["g", "I ___ (read) three books this month.", "have read", ["have been reading", "am reading", "has read"], "Cuentas cuántos (resultado) → present perfect simple."],
-        ["g", "I ___ (read) this book for weeks and I still haven't finished.", "have been reading", ["have read", "am reading", "read"], "Cuánto tiempo y aún no terminas → have been + -ing."],
-        ["g", "We ___ (know) each other since school.", "have known", ["have been knowing", "know", "are knowing"], "«Know» es de estado → present perfect simple."],
-        ["s", "Tu amiga ve que tienes las manos llenas de pintura.", "I've been painting.", ["I've painted.", "I paint."], "Actividad reciente que se nota → have been + -ing."],
-        ["f", "She's sent ten applications this week.", ["She's been sending ten applications this week.", "She sends ten applications this week."], "Cuántas (resultado) → present perfect simple."]
+        ["g", "I ___ (read) three books this month.", "have read", [["have been reading", "Cuando cuentas cuántos (tres libros), va el simple: «have read»."], ["am reading", "Es lo que lees ahora; el resultado del mes es «have read»."], ["has read", "Con I va «have»."]], "Cuentas cuántos (resultado) → present perfect simple."],
+        ["g", "I ___ (read) this book for weeks and I still haven't finished.", "have been reading", [["have read", "«Have read» significa que lo terminaste; aún no: «have been reading»."], ["am reading", "Con «for weeks» no va el presente: «have been reading»."], ["read", "En pasado sonaría terminado, y aún sigues."]], "Cuánto tiempo y aún no terminas → have been + -ing."],
+        ["g", "We ___ (know) each other since school.", "have known", [["have been knowing", "«Know» es un verbo de estado: no va en -ing."], ["know", "Con «since» no va el presente: «have known»."], ["are knowing", "«Know» no va en -ing y con since va «have known»."]], "«Know» es de estado → present perfect simple."],
+        ["s", "Tu amiga ve que tienes las manos llenas de pintura.", "I've been painting.", [["I've painted.", "Se fija en el resultado (está pintado); las manos manchadas muestran la actividad: «I've been painting»."], ["I paint.", "Eso dice que pintas en general, no lo que estuviste haciendo."]], "Actividad reciente que se nota → have been + -ing."],
+        ["f", "She's sent ten applications this week.", [["She's been sending ten applications this week.", "Con un número (diez) se usa el simple: «She's sent»."], ["She sends ten applications this week.", "El presente no expresa el resultado de esta semana."]], "Cuántas (resultado) → present perfect simple."]
       ]
     },
     {
@@ -689,12 +689,12 @@ window.CHEERS_GRAMMAR = {
       ],
       trick: "Pregúntate: ¿lo acabo de decidir? → will. ¿Ya lo tenía pensado? → going to. ¿Está en mi agenda con hora? → present continuous.",
       ex: [
-        ["s", "Suena el timbre y dices que abres tú.", "I'll get it!", ["I'm going to get it!", "I get it!"], "Decisión en el momento → will."],
-        ["s", "Le cuentas a una amiga tu intención (aún sin fecha) de hacer un máster.", "I'm going to do a master's.", ["I do a master's.", "I'm doing a master's at nine tomorrow."], "Intención ya decidida → going to."],
-        ["s", "Ya quedaste con Sarah para comer mañana.", "I'm having lunch with Sarah tomorrow.", ["I have lunch with Sarah tomorrow.", "I'll have lunch with Sarah tomorrow."], "Plan organizado con otra persona → present continuous."],
-        ["g", "Look at that car! It ___ (crash)!", "is going to crash", ["will crash", "crashes", "is crash"], "Lo estás viendo venir → going to."],
-        ["g", "I'm hungry. — Wait, I ___ (make) you a sandwich.", "will make", ["make", "am going to making", "made"], "Decisión en el momento → will."],
-        ["f", "What are you doing tonight?", ["What do you do tonight?", "What will you doing tonight?"], "Preguntar planes → present continuous."]
+        ["s", "Suena el timbre y dices que abres tú.", "I'll get it!", [["I'm going to get it!", "Going to suena a plan pensado antes; abrir la puerta lo decides ahora: will."], ["I get it!", "«I get it» significa «lo entiendo»."]], "Decisión en el momento → will."],
+        ["s", "Le cuentas a una amiga tu intención (aún sin fecha) de hacer un máster.", "I'm going to do a master's.", [["I do a master's.", "El presente no expresa una intención futura."], ["I'm doing a master's at nine tomorrow.", "Present continuous es para algo ya organizado con fecha; aquí es una intención sin fecha: going to."]], "Intención ya decidida → going to."],
+        ["s", "Ya quedaste con Sarah para comer mañana.", "I'm having lunch with Sarah tomorrow.", [["I have lunch with Sarah tomorrow.", "El present simple de futuro es para horarios fijos (trenes, clases), no para planes con amigos."], ["I'll have lunch with Sarah tomorrow.", "Will suena a decisión del momento; si ya quedasteis: «I'm having»."]], "Plan organizado con otra persona → present continuous."],
+        ["g", "Look at that car! It ___ (crash)!", "is going to crash", [["will crash", "Will es una opinión; si lo estás viendo venir: «is going to crash»."], ["crashes", "El presente no expresa lo que está a punto de pasar."], ["is crash", "No se mezcla «is» con el verbo base."]], "Lo estás viendo venir → going to."],
+        ["g", "I'm hungry. — Wait, I ___ (make) you a sandwich.", "will make", [["make", "El presente no expresa una oferta en el momento: «I'll make»."], ["am going to making", "Después de going to va la forma base, y lo decides ahora: will."], ["made", "Es pasado."]], "Decisión en el momento → will."],
+        ["f", "What are you doing tonight?", [["What do you do tonight?", "Para preguntar planes se usa present continuous: «What are you doing tonight?»."], ["What will you doing tonight?", "Mezcla will con -ing sin «be»."]], "Preguntar planes → present continuous."]
       ]
     },
     {
@@ -712,11 +712,11 @@ window.CHEERS_GRAMMAR = {
       ],
       trick: "Si cuentas las cosas en el orden en que pasaron, no necesitas past perfect: «I finished work and went home». Úsalo cuando cuentas algo «hacia atrás».",
       ex: [
-        ["g", "When we got to the party, Tom ___ (already / go) home.", "had already gone", ["has already gone", "had already went", "was already go"], "Se fue ANTES de que llegáramos → had + participio."],
-        ["g", "I ___ (finish) work and then went to the gym.", "finished", ["had finish", "have finished", "finish"], "Contado en orden → past simple."],
-        ["g", "She didn't come to dinner because she ___ (already / eat).", "had already eaten", ["has already eaten", "had already ate", "was already eat"], "Comió antes de la cena → had + participio."],
-        ["s", "Cuentas que llegaste a la estación y el último bus ya se había ido.", "When I got to the station, the last bus had left.", ["When I got to the station, the last bus left.", "When I got to the station, the last bus has left."], "Se fue antes de que llegaras → had + participio."],
-        ["f", "He had never seen snow until he moved to London.", ["He has never seen snow until he moved to London.", "He had never saw snow until he moved to London."], "Experiencia hasta un momento pasado → had + participio (seen)."]
+        ["g", "When we got to the party, Tom ___ (already / go) home.", "had already gone", [["has already gone", "La historia es pasada (got): «had already gone»."], ["had already went", "Después de «had» va el participio: «gone»."], ["was already go", "No se mezcla «was» con el verbo base."]], "Se fue ANTES de que llegáramos → had + participio."],
+        ["g", "I ___ (finish) work and then went to the gym.", "finished", [["had finish", "Después de «had» va participio, y contado en orden basta el past simple: «finished»."], ["have finished", "No se mezcla present perfect con «went» (pasado)."], ["finish", "Es presente; la historia es pasada."]], "Contado en orden → past simple."],
+        ["g", "She didn't come to dinner because she ___ (already / eat).", "had already eaten", [["has already eaten", "La historia es pasada (didn't come): «had already eaten»."], ["had already ate", "Después de «had» va el participio: «eaten»."], ["was already eat", "No se mezcla «was» con el verbo base."]], "Comió antes de la cena → had + participio."],
+        ["s", "Cuentas que llegaste a la estación y el último bus ya se había ido.", "When I got to the station, the last bus had left.", [["When I got to the station, the last bus left.", "Significa que salió justo al llegar tú; si ya se había ido: «had left»."], ["When I got to the station, the last bus has left.", "No se mezcla «got» (pasado) con «has left»."]], "Se fue antes de que llegaras → had + participio."],
+        ["f", "He had never seen snow until he moved to London.", [["He has never seen snow until he moved to London.", "Con «moved» (pasado) va «had never seen»."], ["He had never saw snow until he moved to London.", "Después de «had» va el participio: «seen»."]], "Experiencia hasta un momento pasado → had + participio (seen)."]
       ]
     },
     {
@@ -739,12 +739,12 @@ window.CHEERS_GRAMMAR = {
       ],
       trick: "«Hace» en español tiene dos traducciones: si la acción terminó, ago (I arrived two years ago); si sigue, for (I've been here for two years).",
       ex: [
-        ["g", "I've worked here ___ March.", "since", ["for", "ago", "from"], "March es un punto de inicio → since."],
-        ["g", "I started this job three months ___.", "ago", ["for", "since", "yet"], "Hace tres meses (terminado) → ago, con past simple."],
-        ["g", "I haven't had lunch ___.", "yet", ["already", "just", "ago"], "Todavía no, al final de una negativa → yet."],
-        ["g", "She's ___ left. You missed her by a minute!", "just", ["yet", "ago", "since"], "Acaba de irse → just."],
-        ["g", "I've been waiting ___ twenty minutes.", "for", ["since", "ago", "during"], "Una cantidad de tiempo → for."],
-        ["g", "I've ___ sent it. Check your inbox.", "already", ["yet", "since", "ago"], "Ya (afirmativa) → already."]
+        ["g", "I've worked here ___ March.", "since", [["for", "«For» va con duración (for three months); March es un punto de inicio: «since»."], ["ago", "«Ago» va detrás del tiempo y con past simple (three months ago)."], ["from", "«From» necesita un final (from March to May)."]], "March es un punto de inicio → since."],
+        ["g", "I started this job three months ___.", "ago", [["for", "«For three months» sería durante tres meses; hace tres meses (y empecé) es «ago»."], ["since", "«Since» va con un punto de inicio y present perfect, no con «three months»."], ["yet", "«Yet» va en preguntas y negativas con present perfect."]], "Hace tres meses (terminado) → ago, con past simple."],
+        ["g", "I haven't had lunch ___.", "yet", [["already", "«Already» va en afirmativas; en negativa, todavía no es «yet»."], ["just", "«Just» es acabar de; no encaja en negativa al final."], ["ago", "«Ago» necesita un tiempo delante (two hours ago) y va con past simple."]], "Todavía no, al final de una negativa → yet."],
+        ["g", "She's ___ left. You missed her by a minute!", "just", [["yet", "«Yet» va en preguntas y negativas, al final de la frase."], ["ago", "«Ago» necesita un tiempo delante (a minute ago) y va con past simple."], ["since", "«Since» necesita un punto de inicio detrás."]], "Acaba de irse → just."],
+        ["g", "I've been waiting ___ twenty minutes.", "for", [["since", "Veinte minutos es duración: «for». «Since» es para el punto de inicio (since ten o'clock)."], ["ago", "«Ago» va con past simple y detrás del tiempo."], ["during", "«During» es durante un evento; para duración: «for»."]], "Una cantidad de tiempo → for."],
+        ["g", "I've ___ sent it. Check your inbox.", "already", [["yet", "«Yet» va en preguntas y negativas, al final; en afirmativa es «already»."], ["since", "«Since» necesita un punto de inicio detrás."], ["ago", "«Ago» necesita un tiempo delante y va con past simple."]], "Ya (afirmativa) → already."]
       ]
     }
   ],

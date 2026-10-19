@@ -1,7 +1,7 @@
 /* English For Beautiful Dummies — offline support.
    Network first (so new lessons arrive as soon as she is online), cache as fallback (so it works offline). */
-const CACHE = 'efbd-v4';
-const CORE = ['./', './index.html', './styles.css', './app.js', './content.js', './pron.js', './grammar.js', './manifest.webmanifest',
+const CACHE = 'efbd-v5';
+const CORE = ['./', './index.html', './styles.css', './app.js', './content.js', './pron.js', './grammar.js', './tricky.js', './visual.js', './manifest.webmanifest',
   './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

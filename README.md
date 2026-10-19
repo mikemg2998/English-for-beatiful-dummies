@@ -12,6 +12,8 @@ Everyday British English for a Spanish speaker living in Malta (A2–B1). A stat
 | `content.js` | **All lessons.** Edit this to add content |
 | `pron.js` | Pronunciation guide for tricky words (respelled for Spanish speakers) |
 | `grammar.js` | **Grammar section:** the 12 tenses plus *be going to*, tense comparisons, "which tense is it?" sentences and irregular verbs |
+| `tricky.js` | Data for "almost the same" options: sound-alike words, typical mistakes of Spanish speakers, curated gap sentences for connectors and phrasal verbs |
+| `visual.js` | Visual units drawn in SVG: prepositions of place, British time, in/on/at, comparatives with buildings, quantities, tense timelines |
 | `sw.js` | Offline support (network first, cache fallback) |
 | `manifest.webmanifest`, `icons/` | Install as an app on phone and desktop |
 
@@ -25,7 +27,7 @@ The service worker fetches files from the network first and only falls back to t
    - `phrases`: `[english, spanish, tip]` (7 per lesson)
    - `words`: `[english, spanish, 1 if British-specific]` (8)
    - `dialogue`: `[speaker, english, spanish]` (6 lines, two speakers; use `"You"` for her role)
-   - `quiz`: `[kind, prompt, [correct, wrong, wrong, wrong], explanation]` (5; kind is `translate`, `natural`, `complete` or `meaning`)
+   - `quiz`: `[kind, prompt, [correct, wrong, wrong, wrong], why the right one is right, [why wrong 1, why wrong 2, why wrong 3]]` (5; kind is `translate`, `natural`, `complete` or `meaning`). Wrong options should be near misses (a typical mistake, a false friend, a literal translation), not obviously absurd answers
    - `scen`: `work`, `meet`, `daily` or `social`; work lessons also need `sub`: `job`, `igaming` or `office`
    - Optional `req`: the exact text of one of her lesson requests, so the app marks that request as ready
 2. Bump `VERSION` at the top of `content.js`.
@@ -47,8 +49,17 @@ Everything lives in `grammar.js`; explanations are in Spanish, examples in Briti
 
 Bump `VERSION` in `content.js` after editing so the update notice appears.
 
+## How wrong options are built
+
+Every multiple-choice question explains the chosen wrong option, the right one, and the others.
+
+- Hand-written questions (lessons, grammar, connector and phrasal verb gaps) carry their own explanation per option.
+- Generated questions (listening, translation, vocabulary) take the right sentence and change one small thing: a sound-alike word (soup / soap), a typical Spanish-speaker mistake (say me, I'm agree, in Monday), a missing -s, a tense, a negation, word order, a missing word. Each change comes with its own explanation. The rules live in `mutations()` in `app.js`; the word lists in `tricky.js`.
+- Listening questions only use changes you can hear; reading questions also use spelling and homophones.
+
 ## Features
 
+- Visual units: learn with pictures, play (choose the picture, place the sweet, read the clock, type the time) and describe the pictures aloud
 - Grammar: the 12 tenses plus *going to*, each with idea + timeline, structure, uses, signal words, tricks, typical mistakes, exercises and speaking; 7 comparisons of tenses that get confused; 74 irregular verbs grouped by pattern; games (which tense is it?, mixed tenses, 60-second rounds)
 - Lessons in five steps: learn phrases, listen to a dialogue, words, exercises, speaking (phrases + role-play of the dialogue)
 - Every English word is tappable: hear it, slow playback, pronunciation hint

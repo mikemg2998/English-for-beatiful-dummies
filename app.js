@@ -60,7 +60,7 @@ const areaName = L => (L.sub && SUB_LABEL[L.sub]) || scenOf(L).name;
 const GROUPS = ['work/job','work/igaming','daily','social','work/office','meet'];
 const ORDER = (() => { const g = GROUPS.map(k => LESSONS.filter(l => groupKey(l) === k)); const out = []; for (let i=0; g.some(x => x[i]); i++) g.forEach(x => { if (x[i]) out.push(x[i].id); }); LESSONS.forEach(l => { if (!out.includes(l.id)) out.push(l.id); }); return out; })();
 const VOCAB = (() => { const m = {}; LESSONS.forEach(l => l.words.forEach(w => { const k = w[0].toLowerCase(); if (!m[k]) m[k] = w[1]; })); return m; })();
-const KIND = {translate:'Traduce al inglés', natural:'Elige la respuesta natural', complete:'Completa la frase', meaning:'¿Qué significa?', order:'Ordena la frase en inglés', listen:'Escucha y elige lo que oíste', type:'Escríbelo en inglés', gap:'Completa la frase', trap:'¿Qué significa de verdad?', ukus:'Británico o americano', sound:'¿Cómo suena?', gform:'Elige la forma correcta', gsit:'¿Qué dirías?', gfix:'Detecta el error', gwhich:'¿Qué tiempo es?', form:'Escribe la forma del verbo', irr:'Verbos irregulares'};
+const KIND = {translate:'Traduce al inglés', natural:'Elige la respuesta natural', complete:'Completa la frase', meaning:'¿Qué significa?', order:'Ordena la frase en inglés', listen:'Escucha y elige lo que oíste', type:'Escríbelo en inglés', gap:'Completa la frase', trap:'¿Qué significa de verdad?', ukus:'Británico o americano', sound:'¿Cómo suena?', gform:'Elige la forma correcta', gsit:'¿Qué dirías?', gfix:'Detecta el error', gwhich:'¿Qué tiempo es?', form:'Escribe la forma del verbo', irr:'Verbos irregulares', vprep:'Mira el dibujo', vpick:'Elige el dibujo', vclock:'Mira el reloj', viot:'¿In, on o at?', vcomp:'Mira los edificios', vtrue:'Mira el dibujo', vqty:'Mira el dibujo', vtl:'Elige la línea de tiempo', vtl2:'Mira la línea de tiempo', place:'Coloca el caramelo'};
 const DAYS = ['L','M','X','J','V','S','D'];
 const STEPS = [
   {name:'Aprende',  how:'Escucha cada frase y repítela en voz alta. Toca cualquier palabra para oírla sola.'},
@@ -72,7 +72,7 @@ const STEPS = [
 
 /* ---------- saved progress (this device) ---------- */
 const KEY = 'cheers-english';
-const fresh = () => ({v:3, name:'', done:{}, days:{}, saved:[], srs:{}, mistakes:[], requests:[], known:null, rate:1, q:0, c:0, lastVersion:'', updatedAt:0, installHidden:false, packs:{}, best:{}, goal:10, gram:{}, cmp:{}});
+const fresh = () => ({v:3, name:'', done:{}, days:{}, saved:[], srs:{}, mistakes:[], requests:[], known:null, rate:1, q:0, c:0, lastVersion:'', updatedAt:0, installHidden:false, packs:{}, best:{}, goal:10, gram:{}, cmp:{}, vis:{}});
 let S = fresh();
 try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(), JSON.parse(raw)); } catch(e) {}
 function save(){ S.updatedAt = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
@@ -110,15 +110,17 @@ function exFromId(id, hint){
     if (n <= 9) kinds.push('type');
     const k = hint && kinds.includes(hint) ? hint : pick1(kinds);
     if (k === 'order') return {k:'order', en, es, id};
-    if (k === 'listen') return {k:'listen', en, es, opts:[en, ...distract(ALL_PHRASES, en, 3)], id};
+    if (k === 'listen') { const nr = nearOptions(en, 'listen'); return {k:'listen', en, es, opts:[en, ...nr.map(x => x.t)], whys:['', ...nr.map(x => x.why)], id}; }
     if (k === 'type') return {k:'type', en, es, id};
-    return {k:'mc', kind:'translate', prompt:`«${es}»`, opts:[en, ...distract(ALL_PHRASES, en, 3)], explain: tip || '', id};
+    const nr = nearOptions(en, 'read');
+    return {k:'mc', kind:'translate', prompt:`«${es}»`, opts:[en, ...nr.map(x => x.t)], whys:['', ...nr.map(x => x.why)], explain: tip || '', id};
   }
-  const [en, es] = r.item; const roll = Math.random();
-  if (hint === 'listen' && TTS) return {k:'listen', en, es, opts:[en, ...distract(ALL_WORDS, en, 3)], id};
-  if (roll < .45) return {k:'mc', kind:'meaning', prompt:en, opts:[es, ...distract(ALL_WORDS_ES, es, 3)], explain:'', id};
-  if (roll < .85 || !TTS) return {k:'mc', kind:'translate', prompt:`«${es}»`, opts:[en, ...distract(ALL_WORDS, en, 3)], explain:'', id};
-  return {k:'listen', en, es, opts:[en, ...distract(ALL_WORDS, en, 3)], id};
+  const [en, es] = r.item; const roll = Math.random(); const nw = nearWords(en);
+  const wy = x => x.why || (x.es ? `«${x.w}» significa «${x.es}».` : `«${x.w}» es otra palabra.`);
+  if ((hint === 'listen' || roll >= .85) && TTS) return {k:'listen', en, es, opts:[en, ...nw.map(x => x.w)], whys:['', ...nw.map(x => `Esa es «${x.w}»${x.es ? ` (${x.es})` : ''}; en el audio suena «${en}».`)], id};
+  if (roll < .45) { const ne = nw.filter(x => x.es && x.es !== es); const fill = distract(ALL_WORDS_ES, es, 6).filter(e => !ne.some(x => x.es === e)); const opts = [...ne.map(x => ({t:x.es, why:`Eso es «${x.w}».`})), ...fill.map(e => ({t:e, why:''}))].slice(0,3);
+    return {k:'mc', kind:'meaning', prompt:en, opts:[es, ...opts.map(o => o.t)], whys:['', ...opts.map(o => o.why)], explain:`«${en}» = ${es}.`, id}; }
+  return {k:'mc', kind:'translate', prompt:`«${es}»`, opts:[en, ...nw.map(x => x.w)], whys:['', ...nw.map(wy)], explain:`«${en}» = ${es}.`, id};
 }
 
 /* ---------- voice (British English, works offline with device voices) ---------- */
@@ -211,7 +213,7 @@ function coachHTML(res, target){
 }
 
 /* ---------- UI state ---------- */
-const st = {view:'today', lessonId:null, step:0, card:0, revealed:{}, showTr:false, quiz:null, speak:null, dlg:null, practice:null, res:{tool:'connectors', mode:'packs'}, gram:{tab:'tenses'}, tense:null, cmp:null, pack:null, match:null, backTo:null, find:{q:'', results:null}, word:null, confirmReset:false, importOpen:false, importErr:'', toast:''};
+const st = {view:'today', lessonId:null, step:0, card:0, revealed:{}, showTr:false, quiz:null, speak:null, dlg:null, practice:null, res:{tool:'connectors', mode:'packs'}, gram:{tab:'tenses'}, tense:null, cmp:null, vis:null, pack:null, match:null, backTo:null, find:{q:'', results:null}, word:null, confirmReset:false, importOpen:false, importErr:'', toast:''};
 const mq = window.matchMedia('(max-width: 899px)');
 const isM = () => mq.matches;
 try { mq.addEventListener('change', () => rr()); } catch(e) {}
@@ -221,7 +223,7 @@ const standalone = () => window.matchMedia('(display-mode: standalone)').matches
 const IOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
 
 /* ---------- exercises ---------- */
-const toRaw = q => ({k:'mc', kind:q[0], prompt:q[1], opts:q[2], explain:q[3]});
+const toRaw = q => ({k:'mc', kind:q[0], prompt:q[1], opts:q[2], explain:q[3], whys:['', ...(q[4] || [])]});
 const rawId = r => r.uid || r.id || (r.k === 'mc' ? 'mc:' + r.prompt : r.k === 'form' ? 'form:' + r.s : r.k + ':' + r.en);
 function mkItem(raw){
   if (raw.k === 'order') {
@@ -231,10 +233,11 @@ function mkItem(raw){
     while (sh.length > 1 && sh.every((t,i) => t.id === i) && guard++ < 6) sh = shuffle(tiles.slice());
     return {kind:'order', raw, en:raw.en, es:raw.es, words, tiles:sh, built:[], checked:false, ok:null};
   }
-  if (raw.k === 'listen') return {kind:'listen', raw, say:raw.en, es:raw.es, opts: shuffle(raw.opts.map((t,i) => ({t, ok:i===0}))), explain: raw.es ? 'Significa: ' + raw.es : ''};
+  if (raw.k === 'listen') return {kind:'listen', raw, say:raw.en, es:raw.es, opts: shuffle(raw.opts.map((t,i) => ({t, ok:i===0, why:(raw.whys || [])[i] || ''}))), explain: raw.es ? 'Significa: ' + raw.es : ''};
   if (raw.k === 'type') return {kind:'type', raw, en:raw.en, es:raw.es, typed:'', res:null, checked:false, ok:null};
   if (raw.k === 'form') return {kind:'form', raw, typed:'', checked:false, ok:null, close:false};
-  return {kind:raw.kind, raw, prompt:raw.prompt, explain:raw.explain, opts: shuffle(raw.opts.map((t,i) => ({t, ok:i===0})))};
+  if (raw.k === 'place') return {kind:'place', raw, chosen:null, checked:false, ok:null};
+  return {kind:raw.kind, raw, prompt:raw.prompt, explain:raw.explain, opts: shuffle(raw.opts.map((t,i) => ({...(t && typeof t === 'object' ? {t: t.label || '', pic: t} : {t}), ok:i===0, why:(raw.whys || [])[i] || ''})))};
 }
 function newQuiz(key, raws, title){ return {key, title, items: raws.filter(Boolean).map(mkItem), i:0, picked:null, correct:0, finished:false}; }
 function lessonRaws(L){
@@ -242,12 +245,225 @@ function lessonRaws(L){
   const cand = shuffle(L.phrases.map((p,i) => ({p, i})).filter(x => wc(x.p[0]) >= 3 && wc(x.p[0]) <= 10));
   const ord = cand.slice(0,2).map(x => ({k:'order', en:x.p[0], es:x.p[1], id:`p:${L.id}:${x.i}`}));
   let listen = null;
-  if (TTS && L.phrases.length >= 4) { const i = Math.floor(Math.random()*L.phrases.length); const p = L.phrases[i]; listen = {k:'listen', en:p[0], es:p[1], opts:[p[0], ...shuffle(L.phrases.filter((_,x) => x !== i)).slice(0,3).map(o => o[0])], id:`p:${L.id}:${i}`}; }
+  if (TTS && L.phrases.length >= 4) { const cs = L.phrases.map((p,i) => i).filter(i => wc(L.phrases[i][0]) <= 14); const i = pick1(cs.length ? cs : [0]); const p = L.phrases[i]; const nr = nearOptions(p[0], 'listen'); listen = {k:'listen', en:p[0], es:p[1], opts:[p[0], ...nr.map(x => x.t)], whys:['', ...nr.map(x => x.why)], id:`p:${L.id}:${i}`}; }
   return [mc[0], ord[0], mc[1], listen, mc[2], ord[1], mc[3], mc[4], ...mc.slice(5)].filter(Boolean);
 }
 function newSpeak(key, items){ return {key, items, i:0, said:'', res:null, listening:false, err:'', done:false, typeMode:!SR}; }
 function speakPickLesson(L, n=3){ return shuffle(L.phrases.filter(p => wc(p[0]) <= 12).slice()).slice(0,n).map(p => ({en:p[0], es:p[1]})); }
 function newDlg(L){ return {lid:L.id, role:null, i:0, res:{}, said:'', listening:false, err:'', showEn:false, typeMode:!SR, done:false}; }
+
+/* ---------- near-miss options: wrong answers that differ in one small thing ---------- */
+const TK = window.CHEERS_TRICKY || {pairs:[], swaps:[], verbs:[], adjs:[], gaps:{connectors:[], phrasal:[]}};
+const VERBS = new Set(TK.verbs), ADJS = new Set(TK.adjs);
+const IRRV = (window.CHEERS_GRAMMAR && window.CHEERS_GRAMMAR.irregular) || [];
+const IRR_BY_BASE = Object.fromEntries(IRRV.map(v => [v[0], v]));
+const IRR_BY_PAST = {}; IRRV.forEach(v => v[1].split(' / ').forEach(p => { if (p !== v[0] && !IRR_BY_PAST[p]) IRR_BY_PAST[p] = v; }));
+const IRR_BY_PART = {}; IRRV.forEach(v => { if (v[2] !== v[1] && v[0] !== 'be') IRR_BY_PART[v[2]] = v; });
+const PAIRS = []; TK.pairs.forEach(([a, ae, b, be, h]) => { PAIRS.push([a, ae, b, be, !!h]); PAIRS.push([b, be, a, ae, !!h]); });
+const PHRASE_ES = (() => { const m = {}; LESSONS.forEach(l => l.phrases.forEach(p => { m[p[0]] = p[1]; })); return m; })();
+const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const capLike = (src, rep) => /^[A-Z]/.test(src) && rep ? rep[0].toUpperCase() + rep.slice(1) : rep;
+const cap1 = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+const nkey = s => String(s).toLowerCase().replace(/[’]/g, "'").replace(/[^a-z0-9' ]/g, ' ').replace(/\s+/g, ' ').trim();
+/* replace the first whole-word match of `from` (any capitals) with `to`, keeping a leading capital */
+function swapWord(s, from, to){
+  const re = new RegExp(`(^|[^A-Za-z'’])(${reEsc(from)})(?![A-Za-z'’])`, 'i'); const m = s.match(re); if (!m) return null;
+  return s.slice(0, m.index) + m[1] + capLike(m[2], to) + s.slice(m.index + m[0].length);
+}
+const third = v => v === 'have' ? 'has' : v === 'do' ? 'does' : v === 'go' ? 'goes' : /(s|sh|ch|x|o)$/.test(v) ? v + 'es' : /[^aeiou]y$/.test(v) ? v.slice(0,-1) + 'ies' : v + 's';
+const unthird = w => { if (w === 'has') return 'have'; if (/ies$/.test(w)) return w.slice(0,-3) + 'y'; if (/(s|sh|ch|x|o)es$/.test(w) && VERBS.has(w.slice(0,-2))) return w.slice(0,-2); if (/s$/.test(w)) return w.slice(0,-1); return null; };
+const pastOf = v => IRR_BY_BASE[v] ? IRR_BY_BASE[v][1].split(' / ')[0] : regularEd(v);
+const regularPastBase = w => { if (!/ed$/.test(w)) return null; const c = [w.slice(0,-2), w.slice(0,-1), w.slice(0,-3) + 'y', w.slice(0,-3)]; return c.find(x => VERBS.has(x) && regularEd(x) === w) || null; };
+const DAYS_RE = 'Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday';
+const MONTHS_RE = 'January|February|March|April|May|June|July|August|September|October|November|December';
+const NUMW = 'a|an|one|two|three|four|five|six|seven|eight|nine|ten|twenty|\\d+|many|several|a few';
+const UNIT = '(?:minute|hour|day|week|month|year)s?';
+const COMP = {bigger:'big', cheaper:'cheap', smaller:'small', older:'old', newer:'new', faster:'fast', longer:'long', shorter:'short', taller:'tall', warmer:'warm', colder:'cold', hotter:'hot', nicer:'nice', easier:'easy', busier:'busy', earlier:'early', quicker:'quick', cleaner:'clean', closer:'close', cooler:'cool'};
+const NOUN_STOP = new Set('and or but to for with at in on of as than enough that this the a an is are was were be been very really so too also just not it its my your'.split(' '));
+const PAST_SKIP = new Set(['was','were','did','had','left','lost','broke','won','saw','found','felt','read']);
+const SUBJ_ES = {he:'él', she:'ella', him:'a él', his:'de él', her:'de ella'};
+
+function mutations(en){
+  const out = []; const base = nkey(en);
+  const add = (t, why, k, L = true, R = true) => { if (t && nkey(t) !== base) out.push({t, why, k, L, R}); };
+  let m;
+  /* typical Spanish-speaker mistakes */
+  TK.swaps.forEach(([right, wrong, why]) => { const t = swapWord(en, right, wrong); if (t) add(t, why, 'swap', !/escribe|lleva doble|lleva una sola|termina en/.test(why), true); });
+  /* words that sound almost the same */
+  PAIRS.forEach(([a, ae, b, be, h]) => { const t = swapWord(en, a, b); if (t) add(t, `Esta dice «${b}» (${be}); la frase correcta lleva «${a}» (${ae}).${h ? ' Suenan igual, pero se escriben distinto.' : ''}`, 'pair', !h, true); });
+  /* yes / no flips */
+  [['can',"can't"],['could',"couldn't"],['is',"isn't"],['are',"aren't"],['was',"wasn't"],['were',"weren't"],['will',"won't"],['do',"don't"],['does',"doesn't"],['did',"didn't"],['have',"haven't"],['has',"hasn't"],['should',"shouldn't"],['would',"wouldn't"]].forEach(([p, n]) => {
+    let t = swapWord(en, n, p); if (t) add(t, `Esta es afirmativa («${p}»); la frase correcta es negativa: «${n}».${p === 'can' ? ' En británico «can\'t» suena «kaant», larga.' : ''}`, 'neg');
+    t = swapWord(en, p, n); if (t) add(t, `Esta es negativa («${n}»); la frase correcta es afirmativa: «${p}».`, 'neg');
+  });
+  /* he / she (only for listening: in Spanish «su» can be both) */
+  [['he','she'],['she','he'],['him','her'],['his','her']].forEach(([a, b]) => { const t = swapWord(en, a, b); if (t) add(t, `Esta dice «${b}» (${SUBJ_ES[b]}); la frase dice «${a}» (${SUBJ_ES[a]}).`, 'pron', true, false); });
+  /* missing subject: «Es…» → «Is…» */
+  if (/^It's /.test(en)) add(en.replace(/^It's /, 'Is '), 'En inglés el sujeto es obligatorio: «It\'s…». En español decimos «Es…», pero en inglés no puede faltar el «it».', 'subj');
+  if (/^It was /.test(en)) add(en.replace(/^It was /, 'Was '), 'En inglés el sujeto es obligatorio: «It was…». No puede faltar el «it».', 'subj');
+  if (/^There(?:'s| is) /.test(en)) add(en.replace(/^There(?:'s| is) /, 'Is '), '«Hay» = «there is»: no se puede empezar solo con «Is».', 'subj');
+  if (/^There are /.test(en)) add(en.replace(/^There are /, 'Are '), '«Hay» (plural) = «there are».', 'subj');
+  /* questions */
+  if ((m = en.match(/^(Do|Does|Did) (you|we|they|I|he|she|it)\b(.*)$/))) add(cap1(m[2]) + m[3], `En inglés las preguntas necesitan «${m[1]}» delante: «${m[1]} ${m[2]}…?».`, 'aux');
+  if ((m = en.match(/^(Can|Could|Will|Would|Shall|Should|Are|Is|Was|Were|Have|Has|Am) (you|we|they|I|he|she|it|there)\b(.*\?)$/))) add(cap1(m[2]) + ' ' + m[1].toLowerCase() + m[3], `En las preguntas el auxiliar va antes del sujeto: «${m[1]} ${m[2]}…?».`, 'aux');
+  if ((m = en.match(/^(What time|How long|How much|How many|How often|What|Where|When|Why|How|Who|Which) (do|does|did) (you|we|they|I|he|she|it)\b(.*\?)$/))) add(`${m[1]} ${m[3]}${m[4]}`, `Falta el auxiliar: «${m[1]} ${m[2]} ${m[3]}…?».`, 'aux');
+  if ((m = en.match(/^(What time|How long|What|Where|When|Why|How|Who|Which) (are|is|was|were|can|could|will|would|have|has) (you|we|they|I|he|she|it)\b(.*\?)$/))) add(`${m[1]} ${m[3]} ${m[2]}${m[4]}`, `En las preguntas el auxiliar va antes del sujeto: «${m[1]} ${m[2]} ${m[3]}…?».`, 'aux');
+  /* -s with he / she / it */
+  for (const x of en.matchAll(/\b(he|she|it)\s+([a-z]+)\b/gi)) {
+    const w = x[2], b = unthird(w);
+    if (b && VERBS.has(b) && !['is','was','does'].includes(w)) add(en.slice(0, x.index) + x[1] + ' ' + b + en.slice(x.index + x[0].length), w === 'has' ? 'Con he / she / it, «have» es «has».' : `Con he / she / it el verbo lleva -s: «${w}».`, 'sfx');
+  }
+  for (const x of en.matchAll(/\b(I|you|we|they)\s+([a-z]+)\b/gi)) {
+    const w = x[2]; if (!VERBS.has(w) || w === 'do') continue;
+    const before = en.slice(0, x.index).trim().split(/\s+/).pop().toLowerCase().replace(/[^a-z']/g, '');
+    const modal = ['can','could','will','would','should','shall','must','do','did',"don't","didn't","can't","won't","let's"].includes(before);
+    add(en.slice(0, x.index) + x[1] + ' ' + third(w) + en.slice(x.index + x[0].length), modal ? `Después de «${before}» el verbo va en forma base, sin -s.` : `Con ${x[1].toLowerCase() === 'i' ? 'I' : x[1].toLowerCase()} el verbo va sin -s: «${w}».`, 'sfx');
+  }
+  if ((m = en.match(/\b(doesn't|does not)\s+([a-z]+)\b/i)) && VERBS.has(m[2])) add(en.replace(m[0], `${m[1]} ${third(m[2])}`), `Con «doesn't» la -s ya la lleva el auxiliar: «doesn't ${m[2]}».`, 'sfx');
+  if ((m = en.match(/\b(Does (?:he|she|it|your \w+|the \w+))\s+([a-z]+)\b/)) && VERBS.has(m[2])) add(en.replace(m[0], `${m[1]} ${third(m[2])}`), `Con «does» el verbo va sin -s: «${m[2]}».`, 'sfx');
+  /* past forms */
+  if ((m = en.match(/\b(didn't|did not|Did (?:you|he|she|it|we|they|I))\s+([a-z]+)\b/)) && (VERBS.has(m[2]) || IRR_BY_BASE[m[2]])) add(en.replace(m[0], `${m[1]} ${pastOf(m[2])}`), `Después de «did / didn't» va la forma base: «${m[2]}», no el pasado.`, 'past');
+  for (const x of en.matchAll(/\b([a-z]+)\b/gi)) { const w = x[1].toLowerCase(), v = IRR_BY_PAST[w]; if (v && !PAST_SKIP.has(w) && regularEd(v[0]) !== w) { add(en.slice(0, x.index) + capLike(x[1], regularEd(v[0])) + en.slice(x.index + x[1].length), `«${v[0]}» es irregular: el pasado es «${w}», no «${regularEd(v[0])}».`, 'past'); break; } }
+  for (const x of en.matchAll(/\b(have|has|had|haven't|hasn't|hadn't|\w+'ve|\w+'s|\w+'d)((?: just| already| never| ever| always| not)?) ([a-z]+)\b/gi)) {
+    const v = IRR_BY_PART[x[3]]; if (!v) continue; const p = v[1].split(' / ')[0];
+    add(en.slice(0, x.index) + x[1] + x[2] + ' ' + p + en.slice(x.index + x[0].length), `Después de «have» va el participio («${x[3]}»), no el pasado («${p}»).`, 'past');
+  }
+  if (/\b(yesterday|last (?:week|year|month|night|summer|time)|ago|in (?:19|20)\d\d)\b/i.test(en)) {
+    for (const x of en.matchAll(/\b([a-z]+)\b/g)) { const w = x[1]; const v = IRR_BY_PAST[w]; const b = v ? v[0] : regularPastBase(w); if (b && b !== 'be') { add(en.slice(0, x.index) + b + en.slice(x.index + w.length), `Habla del pasado (yesterday, last…, ago): el verbo va en pasado, «${w}».`, 'past'); break; } }
+  }
+  /* modals + to */
+  if ((m = en.match(/\b(will|won't|'ll|can|can't|must|should|could)\s+([a-z]+)\b/i)) && (VERBS.has(m[2]) || IRR_BY_BASE[m[2]] || m[2] === 'be')) add(en.replace(m[0], `${m[1]} to ${m[2]}`), `Después de «${m[1].replace(/^'/, 'wi')}» el verbo va sin «to».`, 'will');
+  if ((m = en.match(/\b(I'm|I am|you're|we're|they're|he's|she's|it's)\s+going to\b/i))) {
+    const s0 = m[1].split(/'| /)[0]; const g = /^(he|she|it)$/i.test(s0) ? 'goes to' : 'go to';
+    add(en.replace(m[0], `${s0} ${g}`), '«Voy a…» se dice «I\'m going to…», no «I go to…».', 'going');
+  }
+  if ((m = en.match(/\b(I'm|you're|we're|they're|he's|she's)\s+([a-z]+ing)\b/i)) && !/^going$/.test(m[2])) add(en.replace(m[0], `${m[1].split("'")[0]} ${m[2]}`), `Falta el verbo be: «${m[1]} ${m[2]}».`, 'be');
+  /* word order */
+  if ((m = en.match(/\b(I|you|we|they|he|she)\s+(always|usually|often|sometimes|never|rarely)\s+([a-z]+)\b/i))) add(en.replace(m[0], `${m[1]} ${m[3]} ${m[2]}`), `«${m[2]}» va antes del verbo: «${m[1]} ${m[2]} ${m[3]}».`, 'order');
+  for (const x of en.matchAll(/\b(a|an|the|my|your|his|her|our|their|this|that|some)\s+([a-z]+)\s+([a-z]+)\b/gi)) {
+    const adj = x[2].toLowerCase(), noun = x[3]; if (!ADJS.has(adj) || NOUN_STOP.has(noun.toLowerCase()) || ADJS.has(noun.toLowerCase()) || /ly$/.test(noun)) continue;
+    let det = x[1]; if (/^an?$/i.test(det)) det = capLike(det, /^[aeiou]/i.test(noun) ? 'an' : 'a');
+    add(en.slice(0, x.index) + `${det} ${noun} ${x[2]}` + en.slice(x.index + x[0].length), `En inglés el adjetivo va antes del nombre: «${x[2]} ${noun}», no «${noun} ${x[2]}».`, 'adjorder'); break;
+  }
+  if ((m = en.match(/\b(like|love|enjoy|miss|thank)( [a-z]+)( very much| so much| a lot)\b/i))) add(en.replace(m[0], `${m[1]}${m[3]}${m[2]}`), `«${m[3].trim()}» va al final: «${m[1]}${m[2]}${m[3]}».`, 'order');
+  /* prepositions of time */
+  if ((m = en.match(new RegExp(`\\bon (${DAYS_RE})`)))) add(en.replace(m[0], `in ${m[1]}`), 'Con los días se usa «on»: «on Monday».', 'time');
+  if ((m = en.match(new RegExp(`\\bin (${MONTHS_RE}|summer|winter|spring|autumn|(?:19|20)\\d\\d)\\b`)))) add(en.replace(m[0], `on ${m[1]}`), 'Con meses, años y estaciones se usa «in».', 'time');
+  if ((m = en.match(/\bat (\d{1,2}(?::\d\d)?|noon|midnight|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\b/))) add(en.replace(m[0], `in ${m[1]}`), 'Con las horas se usa «at»: «at seven».', 'time');
+  if ((m = en.match(/\bin the (morning|afternoon|evening)\b/))) add(en.replace(m[0], `at the ${m[1]}`), `Partes del día: «in the ${m[1]}» (pero «at night»).`, 'time');
+  if ((m = en.match(new RegExp(`\\bfor ((?:${NUMW}) ${UNIT})\\b`)))) {
+    add(en.replace(m[0], `since ${m[1]}`), 'Con una duración se usa «for»; «since» es para el punto de inicio (since 2023).', 'dur');
+    add(en.replace(m[0], `during ${m[1]}`), 'Para una duración se usa «for»; «during» es durante un evento (during the meeting).', 'dur');
+  }
+  if ((m = en.match(new RegExp(`\\bsince ((?:19|20)\\d\\d|${MONTHS_RE}|${DAYS_RE}|yesterday|last \\w+)\\b`)))) {
+    add(en.replace(m[0], `for ${m[1]}`), 'Con un punto de inicio (2023, Monday) se usa «since»; «for» es para duraciones.', 'dur');
+    add(en.replace(m[0], `from ${m[1]}`), '«From» necesita un final (from… to…). Desde entonces hasta ahora es «since».', 'dur');
+  }
+  if ((m = en.match(new RegExp(`\\b((?:${NUMW}) ${UNIT}) ago\\b`)))) add(en.replace(m[0], `ago ${m[1]}`), '«Ago» va después del tiempo: «two years ago».', 'ago');
+  /* countable / uncountable, comparatives, double negatives */
+  if ((m = en.match(/\bmuch (money|time|water|work|information|coffee|milk|traffic|noise|space|food|luck|fun|experience)\b/))) add(en.replace(m[0], `many ${m[1]}`), `«${m[1]}» es incontable: «much», no «many».`, 'many');
+  if ((m = en.match(/\bmany (people|things|times|days|years|hours|friends|emails|ideas|questions|places|clients|photos|books)\b/))) add(en.replace(m[0], `much ${m[1]}`), `«${m[1]}» es contable (plural): «many», no «much».`, 'many');
+  for (const x of en.matchAll(/\b([a-z]+er)\b/g)) { const b = COMP[x[1]]; if (b) { add(en.slice(0, x.index) + `more ${b}` + en.slice(x.index + x[1].length), `Con adjetivos cortos se añade -er: «${x[1]}», no «more ${b}».`, 'comp'); break; } }
+  if ((m = en.match(/\bbetter\b/))) add(en.replace(m[0], 'more good'), '«Good» es irregular: «better», nunca «more good».', 'comp');
+  if ((m = en.match(/\bthe best\b/i))) add(en.replace(m[0], capLike(m[0], 'the most good')), '«Good» es irregular: «the best», nunca «the most good».', 'comp');
+  if ((m = en.match(/n't ((?:\w+ )?)(anything|anyone|anybody|anywhere)\b/))) add(en.replace(m[0], `n't ${m[1]}${({anything:'nothing', anyone:'nobody', anybody:'nobody', anywhere:'nowhere'})[m[2]]}`), `En inglés no hay doble negación: con «n't» va «${m[2]}».`, 'dneg');
+  /* professions need a / an */
+  if ((m = en.match(/\b(I'm|I am|she's|he's|You're) (a|an) (architect|designer|teacher|engineer|student|nurse|doctor|presenter|artist|manager|developer|waiter|waitress)\b/i))) add(en.replace(m[0], `${m[1]} ${m[3]}`), `Con profesiones se usa «${m[2]}»: «${m[1]} ${m[2]} ${m[3]}».`, 'art');
+  /* listening only: a word missing or added */
+  const words = en.split(/\s+/);
+  const di = words.findIndex((w, i) => i > 0 && /^(really|very|just|also|so|quite|too|always|still|already|actually|maybe|all|much|now|again|here|there|today|later|soon)$/i.test(w.replace(/[.,!?]/g, '')));
+  if (di > 0) { const w0 = words[di].replace(/[.,!?]/g, ''); const ws = words.slice(); const tail = words[di].slice(w0.length); ws.splice(di, 1); if (tail) ws[di-1] += tail; add(ws.join(' '), `Falta «${w0}»: en el audio sí se oye.`, 'drop', true, false); }
+  if ((m = en.match(/\b(I|you|we|they) (like|love|need|want|enjoy|hope|miss)\b/i))) add(en.replace(m[0], `${m[1]} really ${m[2]}`), 'Sobra «really»: en el audio no lo dice.', 'insert', true, false);
+  /* present ↔ past of be */
+  const BE = [["I'm", "I was", 'presente', 'pasado'], ["I was", "I am", 'pasado', 'presente'], ["am", "was"], ["is", "was"], ["are", "were"], ["was", "is", 'pasado', 'presente'], ["were", "are", 'pasado', 'presente'], ["it's", "it was"], ["that's", "that was"], ["you're", "you were"], ["we're", "we were"], ["they're", "they were"]];
+  for (const [a, b, t1 = 'presente', t2 = 'pasado'] of BE) { const t = swapWord(en, a, b); if (t) { add(t, `Esta está en ${t2} («${b}»); la frase correcta está en ${t1} («${a}»).`, 'tense'); break; } }
+  /* present ↔ past of other verbs */
+  for (const x of en.matchAll(/\b(I|you|we|they|he|she|it)\s+([a-z]+)\b/gi)) {
+    const w = x[2]; const b3 = VERBS.has(w) ? w : (unthird(w) && VERBS.has(unthird(w)) ? unthird(w) : null);
+    if (b3 && !['do','have'].includes(b3)) { const pv = pastOf(b3); add(en.slice(0, x.index) + x[1] + ' ' + pv + en.slice(x.index + x[0].length), `Esta está en pasado («${pv}»); la frase correcta está en presente («${w}»).`, 'tense'); break; }
+    const pb = IRR_BY_PAST[w] ? IRR_BY_PAST[w][0] : regularPastBase(w);
+    if (pb && !PAST_SKIP.has(w)) { const pr = /^(he|she|it)$/i.test(x[1]) ? third(pb) : pb; add(en.slice(0, x.index) + x[1] + ' ' + pr + en.slice(x.index + x[0].length), `Esta está en presente («${pr}»); la frase correcta habla del pasado («${w}»).`, 'tense'); break; }
+  }
+  /* my ↔ your, this ↔ these, I ↔ we */
+  const POSS = {my:['your','tu'], your:['my','mi'], our:['their','su (de ellos)'], their:['our','nuestro']}, POSS_ES = {my:'mi', your:'tu', our:'nuestro', their:'su (de ellos)'};
+  for (const x of en.matchAll(/\b(my|your|our|their)\b/gi)) { const a = x[1].toLowerCase(), [b, bes] = POSS[a]; add(en.slice(0, x.index) + capLike(x[1], b) + en.slice(x.index + x[1].length), `Esta dice «${b}» (${bes}); la frase dice «${a}» (${POSS_ES[a]}).`, 'poss'); break; }
+  if ((m = en.match(/\bthis\b/i))) add(swapWord(en, 'this', 'these'), '«These» es plural (estos); con una sola cosa es «this».', 'this');
+  if ((m = en.match(/\b(I'm|I've|I'll|I'd)\b/))) add(swapWord(en, m[1], {"I'm":"we're", "I've":"we've", "I'll":"we'll", "I'd":"we'd"}[m[1]]), `Esta habla de «we» (nosotros); la frase dice «I» (yo).`, 'subj2');
+  else if ((m = en.match(/^I ([a-z]+)\b/)) && (VERBS.has(m[1]) || IRR_BY_PAST[m[1]] || regularPastBase(m[1]))) add(en.replace(/^I /, 'We '), 'Esta dice «we» (nosotros); la frase dice «I» (yo).', 'subj2');
+  /* adverbs in the wrong place */
+  if ((m = en.match(/\b(just|really|already|also|still|never|only|always)\s+([a-z]+)\b/i)) && (VERBS.has(m[2]) || IRR_BY_PAST[m[2]] || regularPastBase(m[2]) || /ing$/.test(m[2]))) add(en.replace(m[0], `${m[2]} ${m[1]}`), `«${m[1]}» va antes del verbo: «${m[1]} ${m[2]}».`, 'order');
+  /* prepositions */
+  const PREP = {in:['on','at'], on:['in','at'], at:['in','on'], to:['for','at'], for:['to','of'], of:['from','for'], with:['of','to'], about:['of','on'], from:['of','since'], by:['with','until']};
+  const wsP = en.split(/\s+/);
+  const clean = w => w.replace(/[.,!?;:]/g, '');
+  for (let i = 1; i < wsP.length - 1; i++) { const a = wsP[i].toLowerCase(); if (!PREP[a]) continue; const nx = clean(wsP[i+1]).toLowerCase(); const w2 = wsP.slice();
+    if (a === 'to' && (VERBS.has(nx) || IRR_BY_BASE[nx] || nx === 'be')) { w2.splice(i, 1); add(w2.join(' '), `Falta «to»: «${clean(wsP[i-1])} to ${nx}».`, 'prep'); break; }
+    w2[i] = pick1(PREP[a]); add(w2.join(' '), `Aquí la preposición es «${a}»: «${clean(wsP[i-1])} ${a} ${clean(wsP[i+1])}».`, 'prep'); break; }
+  /* last resort: a word missing, or two words swapped */
+  const cand = wsP.map((w, i) => i).filter(i => i > 0 && clean(wsP[i]).length >= 3 && !/^\d/.test(wsP[i]));
+  if (cand.length) { const i = pick1(cand); const w0 = clean(wsP[i]); const w2 = wsP.slice(); const tail = wsP[i].slice(wsP[i].indexOf(w0) + w0.length); w2.splice(i, 1); if (tail && i - 1 >= 0) w2[i-1] += tail; add(w2.join(' '), `Falta «${w0}».`, 'drop2'); }
+  const pairsI = wsP.map((w, i) => i).filter(i => i < wsP.length - 1 && /^[A-Za-z']+$/.test(wsP[i]) && /^[A-Za-z']+[.,!?]?$/.test(wsP[i+1]) && wsP[i].toLowerCase() !== clean(wsP[i+1]).toLowerCase());
+  if (pairsI.length) { const i = pick1(pairsI); const a = wsP[i], b = clean(wsP[i+1]), tail = wsP[i+1].slice(b.length); const w2 = wsP.slice(); w2[i] = i === 0 ? cap1(b) : b; w2[i+1] = (i === 0 && !/^I\b/.test(a) ? a.toLowerCase() : a) + tail; const lc = w => /^I('|$)/.test(w) ? w : w.toLowerCase(); add(w2.join(' '), `El orden de las palabras es «${lc(a)} ${lc(b)}», no «${lc(b)} ${lc(a)}».`, 'swap2'); }
+  /* a lesson word swapped for one that looks or sounds alike */
+  for (const x of en.matchAll(/\b([A-Za-z]{4,})\b/g)) { const w = x[1].toLowerCase(); if (!VOCAB[w]) continue; const nw = nearWords(w, 3).filter(c => c.s <= 3 && c.es && !/\s/.test(c.w)); if (!nw.length) continue; const c = nw[0];
+    add(en.slice(0, x.index) + capLike(x[1], c.w) + en.slice(x.index + x[1].length), `Esta dice «${c.w}» (${c.es}); la frase dice «${w}» (${VOCAB[w]}).`, 'vocab'); break; }
+  /* numbers */
+  if ((m = en.match(/\d+(?:[.,]\d+)*/))) { const n = m[0]; const d = n.replace(/\d/, c => String((+c + (Math.random() < .5 ? 1 : 8)) % 10)); if (d !== n) add(en.replace(n, d), `Esta dice ${d}; el número correcto es ${n}.`, 'num'); }
+  return out;
+}
+const NEAR_PRIO = {
+  listen: ['pair','swap','sfx','tense','neg','num','drop','pron','past','vocab','insert','aux','will','going','be','order','adjorder','this','poss','time','dur','comp','many','dneg','subj','subj2','ago','art','prep','drop2','swap2'],
+  read: ['swap','sfx','aux','subj','past','will','going','be','order','adjorder','time','dur','ago','comp','many','dneg','art','tense','vocab','prep','this','poss','subj2','pair','num','neg','drop2','swap2']
+};
+function nearOptions(en, mode, n = 3){
+  const pr = NEAR_PRIO[mode] || NEAR_PRIO.read; const prio = k => { const i = pr.indexOf(k); return i < 0 ? 99 : i; };
+  const all = mutations(en).filter(c => mode === 'listen' ? c.L : c.R);
+  const byK = {}; shuffle(all).forEach(c => (byK[c.k] = byK[c.k] || []).push(c));
+  const kinds = Object.keys(byK).sort((a, b) => prio(a) - prio(b) + (/2$/.test(a) || /2$/.test(b) ? 0 : (Math.random() - .5) * 8));
+  const seen = new Set([nkey(en)]); const out = [];
+  const take = c => { if (out.length < n && !seen.has(nkey(c.t))) { out.push(c); seen.add(nkey(c.t)); } };
+  kinds.forEach(k => { const c = byK[k].find(c => !seen.has(nkey(c.t))); if (c) take(c); });
+  all.forEach(take);
+  if (out.length < n) distract(ALL_PHRASES, en, 6).forEach(p => take({t:p, why: PHRASE_ES[p] ? `Es otra frase: significa «${PHRASE_ES[p]}».` : 'Es otra frase distinta.', k:'other'}));
+  return out.slice(0, n);
+}
+/* single words: similar spelling or sound, typical confusions */
+function nearWords(w, n = 3){
+  const wl = String(w).toLowerCase(); const c = [];
+  PAIRS.forEach(p => { if (p[0] === wl) c.push({w:p[2], es:p[3], s:0}); });
+  TK.swaps.forEach(([r, x, why]) => { if (r.toLowerCase() === wl && !/\s/.test(x)) c.push({w:x, es:VOCAB[x.toLowerCase()] || '', why, s:0}); });
+  ALL_WORDS.forEach(x => { const xl = x.toLowerCase(); if (xl === wl || !VOCAB[xl]) return; const d = lev(xl, wl); const sim = d <= Math.max(2, Math.floor(wl.length / 3)) ? d : xl.slice(0,3) === wl.slice(0,3) ? 3 + Math.abs(xl.length - wl.length) / 4 : xl.split(' ').some(p => wl.split(' ').includes(p)) ? 4 : 99; if (sim < 99) c.push({w:x, es:VOCAB[xl], s:sim}); });
+  const seen = new Set([wl]), seenEs = new Set([VOCAB[wl]]); const out = [];
+  c.sort((a, b) => a.s - b.s + (Math.random() - .5)).forEach(x => { if (out.length < n && !seen.has(x.w.toLowerCase()) && !(x.es && seenEs.has(x.es))) { out.push(x); seen.add(x.w.toLowerCase()); if (x.es) seenEs.add(x.es); } });
+  shuffle(ALL_WORDS.slice()).forEach(x => { const xl = x.toLowerCase(); if (out.length < n && !seen.has(xl) && VOCAB[xl] && !seenEs.has(VOCAB[xl])) { out.push({w:x, es:VOCAB[xl], s:99}); seen.add(xl); seenEs.add(VOCAB[xl]); } });
+  return out;
+}
+/* feedback: compare the chosen option with the right one, word by word */
+const isEnSentence = s => typeof s === 'string' && /[a-z]/i.test(s) && !/[áéíóúñ¿¡«»]/i.test(s) && wc(s) >= 2;
+function diffWords(a, b){
+  const A = a.split(/\s+/), B = b.split(/\s+/); const k = w => w.toLowerCase().replace(/[^a-z0-9']/g, '');
+  const na = A.map(k), nb = B.map(k); const dp = Array.from({length:na.length+1}, () => new Array(nb.length+1).fill(0));
+  for (let i = na.length - 1; i >= 0; i--) for (let j = nb.length - 1; j >= 0; j--) dp[i][j] = na[i] === nb[j] ? dp[i+1][j+1] + 1 : Math.max(dp[i+1][j], dp[i][j+1]);
+  const ia = new Array(na.length).fill(false), ib = new Array(nb.length).fill(false); let i = 0, j = 0;
+  while (i < na.length && j < nb.length) { if (na[i] === nb[j]) { ia[i] = ib[j] = true; i++; j++; } else if (dp[i+1][j] >= dp[i][j+1]) i++; else j++; }
+  return {a: A.map((w, x) => ({w, c: ia[x] ? '' : 'x'})), b: B.map((w, x) => ({w, c: ib[x] ? '' : 'y'}))};
+}
+function mcFeedback(it, q){
+  const P = it.opts[q.picked]; const right = P.ok; const R = it.opts.find(o => o.ok);
+  const label = o => o.pic ? `<span class="fpic">${drawPic(o.pic)}</span>` : esc(o.t);
+  const others = it.opts.filter(o => !o.ok && o !== P && o.why);
+  let h = `<div class="fb ${right ? 'good' : 'bad'}" role="status"><b>${right ? '¡Bien!' : 'Casi.'}</b>`;
+  if (right) h += it.explain ? `<span>${esc(it.explain)}</span>` : '';
+  else {
+    h += `<div class="fbx no"><span class="fl">${ic('x')}Tu respuesta</span><div class="ft">${label(P)}</div>${P.why ? `<p class="fw"><b>Por qué no:</b> ${esc(P.why)}</p>` : ''}</div>
+      <div class="fbx ok"><span class="fl">${ic('check')}La correcta</span><div class="ft">${label(R)}</div>${it.explain ? `<p class="fw"><b>Por qué sí:</b> ${esc(it.explain)}</p>` : ''}</div>`;
+    if (!P.pic && isEnSentence(P.t) && isEnSentence(R.t)) { const d = diffWords(P.t, R.t); h += `<div class="fdiff" aria-label="Diferencias"><p><span class="fl">Tú</span>${d.a.map(x => `<span class="${x.c}">${esc(x.w)}</span>`).join(' ')}</p><p><span class="fl">Bien</span>${d.b.map(x => `<span class="${x.c}">${esc(x.w)}</span>`).join(' ')}</p></div>`; }
+  }
+  if (it.raw.ex) h += `<div class="row" style="flex-wrap:nowrap">${play(it.raw.ex, 'say')}<span class="ctx">“${tw(it.raw.ex)}”</span></div>`;
+  if (others.length) h += `<details class="fothers"${right ? '' : ' open'}><summary>${right ? 'Por qué las otras no' : 'Y las demás opciones'}</summary>${others.map(o => `<div class="fo"><div class="ft">${label(o)}</div><p>${esc(o.why)}</p></div>`).join('')}</details>`;
+  return h + '</div>';
+}
+
 
 /* ---------- navigation ---------- */
 function stopAll(){ abortRec(); hush(); clearInterval(TIMER); }
@@ -294,6 +510,8 @@ function startPractice(mode){
     st.match = newMatch(pick1(TOOL_KEYS)); st.practice = 'match';
   } else if (mode === 'gmix') {
     st.quiz = gramGame('mix'); st.practice = 'quiz';
+  } else if (mode === 'vmix') {
+    st.quiz = gramGame('vis'); st.practice = 'quiz';
   } else if (mode === 'timed') {
     startTimed(null); st.practice = 'quiz';
   } else if (mode === 'dialogue') {
@@ -305,7 +523,7 @@ function startPractice(mode){
 
 /* ---------- chrome ---------- */
 const NAV = [['today','Hoy','sun','Tu lección del día, tu plan y tu racha'],['topics','Temas','grid','Todas las lecciones por situación y el buscador de temas'],['grammar','Gramática','clock','Todos los tiempos verbales: estructura, cuándo usarlos, trucos y ejercicios'],['practice','Practicar','layers','Ejercicios y juegos que no se acaban'],['tools','Recursos','book','Conectores, phrasal verbs, falsos amigos, UK vs US y pronunciación'],['progress','Progreso','bars','Tu avance, frases guardadas y ajustes']];
-const navKey = () => ({lesson:'topics', tense:'grammar', cmp:'grammar', pack:'tools'})[st.view] || (st.view === 'practice' && st.backTo ? st.backTo : st.view);
+const navKey = () => ({lesson:'topics', tense:'grammar', cmp:'grammar', vis:'grammar', pack:'tools'})[st.view] || (st.view === 'practice' && st.backTo ? st.backTo : st.view);
 function renderChrome(){
   const k = navKey();
   document.getElementById('side-nav').innerHTML = NAV.map(([id,label,icon,tip]) => `<button data-nav="${id}" class="${k===id?'on':''}" ${k===id?'aria-current="page"':''}${tt(tip)}>${ic(icon)}${label}</button>`).join('');
@@ -342,7 +560,8 @@ const TILES = {
   find:['search','¿Qué quieres practicar?','Busca o pide un tema']
 };
 TILES.gmix = ['clock','Gramática','Tiempos verbales mezclados'];
-const TILE_TIP = {gmix:'Ejercicios de tiempos verbales mezclados', infinite:'10 ejercicios mezclados de tus lecciones; nunca son iguales', due:'Lo que toca repasar hoy para no olvidarlo (repetición espaciada)', order:'Ordena las palabras para formar frases correctas', listen:'Escucha una frase y elige la que oíste', vocab:'Practica las palabras de tus lecciones', type:'Escribe en inglés la frase que ves en español', speak:'Di frases en voz alta y mira qué se entendió', dialogue:'Haz un papel de un diálogo; la app hace el otro', mistakes:'Repasa las preguntas que fallaste', find:'Busca una situación o pide una lección nueva', match:'Juego: une cada palabra con su pareja', timed:'Juego: responde todo lo que puedas en 60 segundos'};
+TILES.vmix = ['spark','Con imágenes','Preposiciones, la hora, cantidades…'];
+const TILE_TIP = {gmix:'Ejercicios de tiempos verbales mezclados', vmix:'Ejercicios con dibujos: preposiciones, la hora, comparativos, cantidades y líneas de tiempo', infinite:'10 ejercicios mezclados de tus lecciones; nunca son iguales', due:'Lo que toca repasar hoy para no olvidarlo (repetición espaciada)', order:'Ordena las palabras para formar frases correctas', listen:'Escucha una frase y elige la que oíste', vocab:'Practica las palabras de tus lecciones', type:'Escribe en inglés la frase que ves en español', speak:'Di frases en voz alta y mira qué se entendió', dialogue:'Haz un papel de un diálogo; la app hace el otro', mistakes:'Repasa las preguntas que fallaste', find:'Busca una situación o pide una lección nueva', match:'Juego: une cada palabra con su pareja', timed:'Juego: responde todo lo que puedas en 60 segundos'};
 function tiles(list){ return list.map((m,i) => { const [icn, b, s] = TILES[m]; return `<button class="qt ${i===0?'hot':''}" ${m==='find' ? 'data-act="goto-find"' : `data-act="practice" data-m="${m}"`}${tt(TILE_TIP[m] || b)}><span class="qi">${ic(icn)}</span><b>${b}</b><span>${typeof s === 'function' ? s() : s}</span></button>`; }).join(''); }
 function installCard(){
   if (standalone() || S.installHidden) return '';
@@ -467,10 +686,11 @@ function quizView(q, ctx){
     let act = `<button class="btn ghost" data-act="quiz-again"${tt('Repetir con preguntas nuevas')}>${ic('refresh')}${ctx === 'practice' ? 'Otra ronda' : 'Repetir'}</button>`;
     if (ctx === 'lesson') act += `<button class="btn primary" data-act="step" data-n="4"${tt('Último paso: decir las frases en voz alta')}>${ic('mic')}Ahora a hablar</button>`;
     else if (ctx === 'pack') act += `<button class="btn primary" data-act="pack-step" data-n="2"${tt('Último paso: decirlo en voz alta')}>${ic('mic')}Ahora a decirlo</button>`;
+    else if (ctx === 'vis') act += `<button class="btn primary" data-act="vis-step" data-n="2"${tt('Último paso: describir los dibujos en voz alta')}>${ic('mic')}Ahora a decirlo</button>`;
     else if (ctx === 'tense') act += `<button class="btn primary" data-act="tense-step" data-n="2"${tt('Último paso: decir los ejemplos en voz alta')}>${ic('mic')}Ahora a decirlo</button>`;
     else if (ctx === 'cmp') act += `<button class="btn primary" data-act="gram-back"${tt('Volver a Gramática')}>Gramática ${ic('right')}</button>`;
     else act += `<button class="btn primary" data-act="practice-home">Listo</button>`;
-    return {html:`<div class="result"><span class="confetti">${ic('trophy')}</span><div class="big">${q.correct}<small>/${n}</small></div><p class="lead">${msg}</p>${ctx === 'lesson' || ctx === 'pack' || ctx === 'tense' ? '<p class="note">Último paso: decirlo en voz alta.</p>' : ''}</div>`, act};
+    return {html:`<div class="result"><span class="confetti">${ic('trophy')}</span><div class="big">${q.correct}<small>/${n}</small></div><p class="lead">${msg}</p>${['lesson','pack','tense','vis'].includes(ctx) ? '<p class="note">Último paso: decirlo en voz alta.</p>' : ''}</div>`, act};
   }
   const it = q.items[q.i];
   const head = (q.timed ? `<div class="q-meta num"><span class="chip" id="qtimer">${Math.max(0, Math.ceil((q.timed.end - Date.now())/1000))} s</span><span>${q.correct} aciertos</span></div>` : `<div class="q-meta num"><span>${q.i+1} de ${n}</span><span>${q.correct} correctas</span></div><div class="bar"><span style="width:${Math.round(q.i/n*100)}%"></span></div>`) + `<p class="q-kind">${KIND[it.kind] || 'Elige'}</p>`;
@@ -488,18 +708,18 @@ function quizView(q, ctx){
       act: it.checked ? nextB : `<button class="btn ghost slim" data-act="tile-clear" ${it.built.length?'':'disabled'}${tt('Vaciar tu frase y empezar de nuevo')}>Borrar</button><button class="btn primary" data-act="order-check" ${it.built.length===it.tiles.length?'':'disabled'}${tt('Ver si el orden es correcto')}>Comprobar</button>`};
   }
   if (it.kind === 'form') return formView(q, it, head, nextB);
+  if (it.kind === 'place') return placeView(q, it, head, nextB);
   if (it.kind === 'type') {
     return {html:`<div class="quiz">${head}<h3 class="q-prompt">${esc(it.es)}</h3>
       <div class="type-row"><textarea class="field" id="type-in" rows="2" lang="en-GB" autocapitalize="sentences" autocorrect="off" spellcheck="false" maxlength="200" placeholder="Escribe la frase en inglés…" ${it.checked?'disabled':''}>${esc(it.typed)}</textarea></div>
       ${it.checked ? `<div class="fb ${it.ok?'good':'bad'}" role="status"><b>${it.ok ? '¡Bien!' : 'Casi. La frase es:'}</b><div class="row">${play(it.en,'say')}<span class="ctx" style="font-weight:700">${tw(it.en)}</span></div>${!it.ok ? `<div class="heard" style="font-size:16px">${it.res.disp.map(d => `<span class="${d.cls}">${esc(d.w)}</span>`).join('')}</div><span class="note">Verde: lo tenías. Amarillo: otro orden. Rojo: faltó o estaba distinto.</span>` : ''}</div>` : ''}</div>`,
       act: it.checked ? nextB : `<button class="btn ghost slim" data-act="skip"${tt('Pasar a la siguiente sin responder')}>Saltar</button><button class="btn primary" data-act="type-check"${tt('Comparar con la frase correcta')}>Comprobar</button>`};
   }
-  const prompt = it.kind === 'listen' ? `<div class="listen-box"><button class="play-big" data-act="say" data-say="${esc(it.say)}" aria-label="Escuchar">${ic('speaker')}</button><div class="row">${playSlow(it.say)}<span class="note">Escucha las veces que quieras</span></div></div>` : `<div class="row" style="flex-wrap:nowrap;align-items:flex-start;gap:12px"><h3 class="q-prompt" style="flex:1;min-width:0">${gapHTML(it.prompt)}</h3>${it.raw.say && TTS ? play(it.raw.say) : ''}</div>`;
-  const opts = it.opts.map((o,i) => { let cls = ''; if (q.picked !== null) { if (o.ok) cls = 'ok'; else if (i === q.picked) cls = 'no'; } return `<button class="opt ${cls}" data-act="pick" data-i="${i}" ${q.picked!==null?'disabled':''}><span class="k">${'ABCD'[i]}</span><span>${esc(o.t)}</span></button>`; }).join('');
-  const right = q.picked !== null && it.opts[q.picked].ok;
-  const correct = it.opts.find(o => o.ok);
-  const fb = q.picked === null ? '' : `<div class="fb ${right?'good':'bad'}" role="status"><b>${right ? '¡Bien!' : 'Casi.'}</b>${!right ? `<span>La correcta: <b style="color:var(--ink)">${esc(correct.t)}</b></span>` : ''}${it.explain ? `<span>${esc(it.explain)}</span>` : ''}${it.raw.ex ? `<div class="row" style="flex-wrap:nowrap">${play(it.raw.ex,'say')}<span class="ctx">“${tw(it.raw.ex)}”</span></div>` : ''}</div>`;
-  return {html:`<div class="quiz">${head}${prompt}<div class="opts">${opts}</div>${fb}</div>`, act: q.picked === null ? `<button class="btn ghost" data-act="skip"${tt('Pasar a la siguiente sin responder')}>Saltar</button>` : nextB};
+  const prompt = it.kind === 'listen' ? `<div class="listen-box"><button class="play-big" data-act="say" data-say="${esc(it.say)}" aria-label="Escuchar">${ic('speaker')}</button><div class="row">${playSlow(it.say)}<span class="note">Escucha las veces que quieras</span></div></div>` : `${it.raw.pic ? `<div class="vpic">${drawPic(it.raw.pic)}</div>` : ''}<div class="row" style="flex-wrap:nowrap;align-items:flex-start;gap:12px"><h3 class="q-prompt" style="flex:1;min-width:0">${gapHTML(it.prompt)}</h3>${it.raw.say && TTS ? play(it.raw.say) : ''}${it.raw.say && TTS && it.raw.pic ? playSlow(it.raw.say) : ''}</div>`;
+  const pics = it.opts.some(o => o.pic);
+  const opts = it.opts.map((o,i) => { let cls = ''; if (q.picked !== null) { if (o.ok) cls = 'ok'; else if (i === q.picked) cls = 'no'; } return pics ? `<button class="opt pic ${cls}" data-act="pick" data-i="${i}" ${q.picked!==null?'disabled':''} aria-label="Opción ${'ABCD'[i]}"><span class="k">${'ABCD'[i]}</span>${drawPic(o.pic)}</button>` : `<button class="opt ${cls}" data-act="pick" data-i="${i}" ${q.picked!==null?'disabled':''}><span class="k">${'ABCD'[i]}</span><span>${esc(o.t)}</span></button>`; }).join('');
+  const fb = q.picked === null ? '' : mcFeedback(it, q);
+  return {html:`<div class="quiz">${head}${prompt}<div class="opts ${pics ? 'pics' : ''} ${it.kind === 'viot' ? 'iot' : ''}">${opts}</div>${fb}</div>`, act: q.picked === null ? `<button class="btn ghost" data-act="skip"${tt('Pasar a la siguiente sin responder')}>Saltar</button>` : nextB};
 }
 
 /* ----- speaking ----- */
@@ -514,11 +734,12 @@ function micBlock(listening, live, typeMode, inputId, placeholder){
 function speakView(sp, ctx){
   if (!sp.items.length) return {html:`<p class="note">No hay frases para practicar todavía.</p>`, act:''};
   if (sp.done && ctx === 'pack') { const nx = nextPack(); return {html:`<div class="result"><span class="confetti">${ic('trophy')}</span><h2>¡Pack completado!</h2><p class="lead">Suma una actividad a tu plan de hoy. Estas palabras ya aparecerán en tus juegos.</p></div>`, act:`<button class="btn ghost" data-act="pack-back">Recursos</button>${nx ? `<button class="btn primary" data-act="pack" data-id="${nx.id}"${tt('Abrir el siguiente pack recomendado')}>Siguiente pack ${ic('right')}</button>` : ''}`}; }
+  if (sp.done && ctx === 'vis') { const nv = VUNITS.find(u => !S.vis[u.id]); return {html:`<div class="result"><span class="confetti">${ic('trophy')}</span><h2>¡Tema completado!</h2><p class="lead">Suma una actividad a tu plan de hoy. Sus ejercicios ya salen en «Con imágenes».</p></div>`, act:`<button class="btn ghost" data-act="gram-back" data-t="visual">Gramática</button>${nv ? `<button class="btn primary" data-act="vis" data-id="${nv.id}"${tt('Abrir el siguiente tema visual')}>${esc(nv.title)} ${ic('right')}</button>` : ''}`}; }
   if (sp.done && ctx === 'tense') { const nt = nextTense(); return {html:`<div class="result"><span class="confetti">${ic('trophy')}</span><h2>¡Tiempo completado!</h2><p class="lead">Suma una actividad a tu plan de hoy. Sus ejercicios ya entran en «Mezcla de tiempos».</p></div>`, act:`<button class="btn ghost" data-act="gram-back">Gramática</button>${nt ? `<button class="btn primary" data-act="tense" data-id="${nt.id}"${tt('Abrir el siguiente tiempo verbal recomendado')}>${esc(nt.name)} ${ic('right')}</button>` : ''}`}; }
   if (sp.done) return {html:`<div class="result"><span class="confetti">${ic('trophy')}</span><h2>¡Muy bien!</h2><p class="lead">Practicaste ${sp.items.length} frases. Cada vez se te entiende mejor.</p></div>`,
     act:`<button class="btn ghost" data-act="practice" data-m="speak">${ic('refresh')}Otras frases</button><button class="btn primary" data-act="practice-home">Listo</button>`};
   const it = sp.items[sp.i]; const n = sp.items.length;
-  const html = `<div class="say-card"><p class="eyebrow num">Frase ${sp.i+1} de ${n}</p><p class="say-en ctx">${tw(it.en)}</p><p class="ph-es">${esc(it.es)}</p><div class="ph-btns">${play(it.en)}${playSlow(it.en)}<span class="note">Escúchala primero</span></div></div>
+  const html = `<div class="say-card">${it.pic ? `<div class="vpic">${drawPic(it.pic)}</div>` : ''}<p class="eyebrow num">Frase ${sp.i+1} de ${n}</p><p class="say-en ctx">${tw(it.en)}</p><p class="ph-es">${esc(it.es)}</p><div class="ph-btns">${play(it.en)}${playSlow(it.en)}<span class="note">Escúchala primero</span></div></div>
     ${sp.res ? '' : micBlock(sp.listening, sp.said, sp.typeMode, 'speak-in', 'Escribe o dicta la frase en inglés…')}
     ${sp.err ? `<p class="err" style="margin-top:8px">${esc(sp.err)}</p>` : ''}
     ${sp.res ? `<p class="note" style="margin-top:14px">Dijiste: <b>${esc(sp.said)}</b></p>${coachHTML(sp.res, it.en)}` : ''}`;
@@ -573,7 +794,7 @@ function viewPractice(){
   if (st.practice === 'dialogue') { const r = dlgView(st.dlg, 'practice'); return {immersive:true, act:r.act, html:`${back}<div class="page-head" style="margin-bottom:14px"><h2>Haz un diálogo</h2></div>${r.html}`}; }
   const due = dueIds().length;
   return {html:`<div class="page-head"><h1>Practicar</h1><p class="lead">Ejercicios que no se acaban. Salen de tus lecciones y lo que fallas vuelve en el repaso.</p></div>
-    <div class="quick" style="margin-bottom:22px">${tiles(['infinite','due','gmix','order','listen','vocab','type','speak','dialogue','match','timed'])}</div>
+    <div class="quick" style="margin-bottom:22px">${tiles(['infinite','due','gmix','vmix','order','listen','vocab','type','speak','dialogue','match','timed'])}</div>
     <section class="card" style="display:flex;flex-direction:column;gap:10px"><h3>Tus errores</h3><p class="note">${S.mistakes.length ? `Tienes ${S.mistakes.length} preguntas que fallaste. Repásalas hasta acertarlas.` : 'Cuando falles algo, aparecerá aquí para repasarlo.'}</p><div><button class="btn ghost" data-act="practice" data-m="mistakes" ${S.mistakes.length?'':'disabled'}>Repasar errores</button></div></section>
     <p class="note" style="margin-top:16px">${due ? `Hoy toca repasar ${due} frases y palabras.` : 'Repaso del día al corriente.'} El repaso usa repetición espaciada: lo que aciertas vuelve cada vez más tarde, y lo que fallas vuelve pronto.</p>`};
 }
@@ -607,15 +828,23 @@ function blank(ex, term){ if (/[\/…]/.test(term)) return null; const re = new 
 function gameRaw(tool, it){
   const pool = toolItems(tool);
   if (tool === 'connectors' || tool === 'phrasal') {
-    const [en, es, ex, grp] = it; const others = shuffle(pool.filter(x => x[0] !== en)); const gap = blank(ex, en);
-    if (gap && Math.random() < .7) { const far = others.filter(x => x[3] !== grp); return {k:'mc', kind:'gap', prompt:gap, opts: uniq([en, ...far.map(x => x[0])]).slice(0,4), explain:`«${en}» = ${es}.`, ex}; }
-    if (Math.random() < .5) return {k:'mc', kind:'meaning', prompt:en, opts: uniq([es, ...others.map(x => x[1])]).slice(0,4), explain:'', ex};
-    return {k:'mc', kind:'translate', prompt:`«${es}»`, opts: uniq([en, ...others.map(x => x[0])]).slice(0,4), explain:'', ex};
+    const [en, es, ex, grp] = it; const g = (TK.gaps[tool] || [])[pool.indexOf(it)];
+    /* near meanings: same group first, then the rest */
+    const near = [...shuffle(pool.filter(x => x[0] !== en && x[3] === grp)), ...shuffle(pool.filter(x => x[3] !== grp))];
+    if (g && Math.random() < .65) {
+      const prompt = tool === 'phrasal' ? g[0].replace('___', `___ (${g[2]})`) : g[0]; const wr = tool === 'phrasal' ? g[3] : g[2];
+      return {k:'mc', kind:'gap', prompt, opts:[g[1], ...wr.map(x => x[0])], whys:['', ...wr.map(x => x[1])], explain:`«${en}» = ${es}.`, ex: fillGap(prompt, g[1])};
+    }
+    if (Math.random() < .5) { const o = []; near.forEach(x => { if (o.length < 3 && x[1] !== es && !o.some(y => y[1] === x[1])) o.push(x); });
+      return {k:'mc', kind:'meaning', prompt:en, opts:[es, ...o.map(x => x[1])], whys:['', ...o.map(x => `Eso es «${x[0]}».`)], explain:`«${en}» = ${es}.`, ex}; }
+    const o = near.slice(0,3);
+    return {k:'mc', kind:'translate', prompt:`«${es}»`, opts:[en, ...o.map(x => x[0])], whys:['', ...o.map(x => `«${x[0]}» = ${x[1]}.`)], explain:`«${en}» = ${es}.`, ex};
   }
-  if (tool === 'false') { const [en, real, trap, trapEn] = it; const others = shuffle(pool.filter(x => x[0] !== en)).map(x => x[1]); return {k:'mc', kind:'trap', prompt:`«${en}» significa…`, opts: uniq([real, trap, ...others]).slice(0,4), explain:`No es «${trap}» (eso es «${trapEn}»).`, say:en}; }
-  if (tool === 'ukus') { const [uk, us, es] = it; return {k:'mc', kind:'ukus', prompt:`«${es}»: ¿cuál es la forma británica?`, opts:[uk, us], explain:`«${uk}» es británico; «${us}» es americano. En Malta oirás sobre todo «${uk}».`}; }
-  const [w, s, t] = it; const others = shuffle(pool.filter(x => x[0] !== w)).map(x => x[1]);
-  return {k:'mc', kind:'sound', prompt:w, opts: uniq([s, ...others]).slice(0,4), explain:t, say:w};
+  if (tool === 'false') { const [en, real, trap, trapEn] = it; const others = shuffle(pool.filter(x => x[0] !== en && x[1] !== real && x[1] !== trap)).slice(0,2);
+    return {k:'mc', kind:'trap', prompt:`«${en}» significa…`, opts:[real, trap, ...others.map(x => x[1])], whys:['', `Esa es la trampa: «${trap}» en inglés se dice «${trapEn}».`, ...others.map(x => `Eso es «${x[0]}».`)], explain:`«${en}» = ${real}.`, say:en}; }
+  if (tool === 'ukus') { const [uk, us, es] = it; return {k:'mc', kind:'ukus', prompt:`«${es}»: ¿cuál es la forma británica?`, opts:[uk, us], whys:['', `«${us}» es americano. En UK y Malta se dice «${uk}».`], explain:`«${uk}» es británico. En Malta oirás sobre todo «${uk}».`}; }
+  const [w, snd, t] = it; const others = pool.filter(x => x[0] !== w && x[1] !== snd).map(x => ({x, d: lev(x[1], snd) + Math.random()})).sort((a, b) => a.d - b.d).slice(0,3).map(o => o.x);
+  return {k:'mc', kind:'sound', prompt:w, opts:[snd, ...others.map(x => x[1])], whys:['', ...others.map(x => `Así suena «${x[0]}», no «${w}».`)], explain:t, say:w};
 }
 function roundRaws(tool, n){ return shuffle(toolItems(tool).slice()).slice(0, n).map(it => gameRaw(tool, it)); }
 function mixedRaws(n){ const out = []; for (let i=0; i<n; i++) { const t = pick1(TOOL_KEYS); out.push(gameRaw(t, pick1(toolItems(t)))); } return out; }
@@ -659,7 +888,9 @@ function viewPack(){
 
 /* ----- matching game ----- */
 function newMatch(tool){
-  const its = shuffle(toolItems(tool).slice()).slice(0,6);
+  const all = toolItems(tool); const groups = uniq(all.map(x => x[3]).filter(Boolean)).filter(g => all.filter(x => x[3] === g).length >= 6);
+  /* pairs from the same group look alike, so she has to really know them */
+  const its = shuffle((groups.length ? all.filter(x => x[3] === pick1(groups)) : all).slice()).slice(0,6);
   const pairs = its.map((it,i) => { const c = cardOf(tool, it); return {id:i, left:c.term, right: tool === 'ukus' ? c.us : c.sounds ? c.sounds : c.mean}; });
   return {tool, pairs, lo: shuffle(pairs.map(p => p.id)), ro: shuffle(pairs.map(p => p.id)), sel:null, done:[], wrong:0, bad:null, start:Date.now(), secs:0, finished:false};
 }
@@ -740,11 +971,12 @@ const gapHTML = s => esc(s).replace(/___/g, '<span class="gap">?</span>');
 
 /* exercise data → quiz items */
 function gRaw(e, uid){
-  if (e[0] === 'g') return {k:'mc', kind:'gform', uid, prompt:e[1], opts:[e[2], ...e[3]], explain:e[4], ex:fillGap(e[1], e[2])};
+  const wo = a => a.map(x => Array.isArray(x) ? x[0] : x), ww = a => ['', ...a.map(x => Array.isArray(x) ? x[1] : '')];
+  if (e[0] === 'g') return {k:'mc', kind:'gform', uid, prompt:e[1], opts:[e[2], ...wo(e[3])], whys:ww(e[3]), explain:e[4], ex:fillGap(e[1], e[2])};
   if (e[0] === 't') return {k:'form', uid, s:e[1], a:e[2], es:e[3], why:e[4]};
   if (e[0] === 'o') return {k:'order', uid, en:e[1], es:e[2]};
-  if (e[0] === 's') return {k:'mc', kind:'gsit', uid, prompt:e[1], opts:[e[2], ...e[3]], explain:e[4], ex:e[2]};
-  return {k:'mc', kind:'gfix', uid, prompt:'Solo una está bien dicha. ¿Cuál?', opts:[e[1], ...e[2]], explain:e[3], ex:e[1]};
+  if (e[0] === 's') return {k:'mc', kind:'gsit', uid, prompt:e[1], opts:[e[2], ...wo(e[3])], whys:ww(e[3]), explain:e[4], ex:e[2]};
+  return {k:'mc', kind:'gfix', uid, prompt:'Solo una está bien dicha. ¿Cuál?', opts:[e[1], ...wo(e[2])], whys:ww(e[2]), explain:e[3], ex:e[1]};
 }
 function tenseRaws(T){
   const r = T.ex.map((e,i) => gRaw(e, `g:${T.id}:${i}`));
@@ -756,8 +988,8 @@ function whichRaws(n){
   const list = shuffle(G.which.slice()).slice(0, n);
   return list.map(([en, id]) => {
     const T = getTense(id); const same = TENSES.filter(x => x.id !== id && (x.time === T.time || x.aspect === T.aspect));
-    const others = uniq([...shuffle(same).slice(0,2), ...shuffle(TENSES.filter(x => x.id !== id))].map(x => x.name)).slice(0,3);
-    return {k:'mc', kind:'gwhich', uid:'w:' + en, prompt:en, say:en, opts:[T.name, ...others], explain:`${T.name}: ${T.idea} Fórmula: ${T.form.aff[0]}.`};
+    const others = uniq([...shuffle(same).slice(0,2), ...shuffle(TENSES.filter(x => x.id !== id))]).slice(0,3);
+    return {k:'mc', kind:'gwhich', uid:'w:' + en, prompt:en, say:en, opts:[T.name, ...others.map(x => x.name)], whys:['', ...others.map(D => `${D.name} se forma con «${D.form.aff[0].replace(/^Sujeto \+ /, '')}» y sirve para: ${D.idea.charAt(0).toLowerCase() + D.idea.slice(1)}`)], explain:`${T.name}: ${T.idea} Fórmula: ${T.form.aff[0]}.`};
   });
 }
 function gramPool(){
@@ -780,8 +1012,10 @@ const regularEd = b => /e$/.test(b) ? b + 'd' : /[^aeiou]y$/.test(b) ? b.slice(0
 function irrMc(v){
   const which = v[1] === v[2] ? 1 : pick1([1,2]); const f = which === 1 ? v[1] : v[2];
   const bad = new Set(irrAlts(f).map(x => x.toLowerCase()));
-  const cands = uniq([regularEd(v[0]), which === 1 ? v[2] : v[1], v[0], ...shuffle(IRR.filter(x => x[0] !== v[0])).map(x => which === 1 ? x[1] : x[2])]).filter(x => !bad.has(x.toLowerCase()));
-  return {k:'mc', kind:'irr', uid:`im:${v[0]}:${which}`, prompt:`${which === 1 ? 'Pasado' : 'Participio'} de «${v[0]}» (${v[3]})`, opts:[f, ...cands.slice(0,3)], explain:irrWhy(v), ex:irrSay(v)};
+  const other = which === 1 ? v[2] : v[1]; const name = which === 1 ? 'el pasado' : 'el participio';
+  const cands = [{t:regularEd(v[0]), why:`«${v[0]}» es irregular: no lleva -ed. ${cap1(name)} es «${f}».`}, {t:other, why:`«${other}» es ${which === 1 ? 'el participio' : 'el pasado'}, no ${name}.`}, {t:v[0], why:'Esa es la forma base (presente).'}, ...shuffle(IRR.filter(x => x[0] !== v[0])).map(x => ({t: which === 1 ? x[1] : x[2], why:`«${which === 1 ? x[1] : x[2]}» es ${name} de «${x[0]}».`}))];
+  const seen = new Set(bad); const o = []; cands.forEach(c => { const k = c.t.toLowerCase(); if (o.length < 3 && !seen.has(k)) { o.push(c); seen.add(k); } });
+  return {k:'mc', kind:'irr', uid:`im:${v[0]}:${which}`, prompt:`${which === 1 ? 'Pasado' : 'Participio'} de «${v[0]}» (${v[3]})`, opts:[f, ...o.map(c => c.t)], whys:['', ...o.map(c => c.why)], explain:irrWhy(v), ex:irrSay(v)};
 }
 const IRR_INFO = (() => { const m = {}; IRR.forEach(v => { const line = `${v[0]} – ${v[1]} – ${v[2]}`; if (!m[v[0]]) m[v[0]] = `Verbo irregular: ${line}`; v[1].split(' / ').forEach(x => { if (!m[x]) m[x] = `Pasado de «${v[0]}» (${v[3]}) · ${line}`; }); if (!m[v[2]]) m[v[2]] = `Participio de «${v[0]}» (${v[3]}) · ${line}`; }); return m; })();
 
@@ -803,22 +1037,22 @@ function formCheck(){
   let ok = acc.includes(t);
   if (!ok && /___/.test(r.s)) { const before = gnorm(r.s.split('___')[0]).split(' ').filter(Boolean); ok = acc.some(a => [1,2,3].some(k => k <= before.length && t === before.slice(-k).join(' ') + ' ' + a)); }
   it.typed = v; it.ok = ok; it.close = !ok && acc.some(a => lev(a, t) <= (a.length > 12 ? 2 : 1)); it.checked = true; if (ok) q.correct++;
-  q.picked = 0; recordAnswer(it, ok); render(); speak(r.say || (/___/.test(r.s) ? fillGap(r.s, r.a[0]) : r.a[0]));
+  q.picked = 0; recordAnswer(it, ok); render(); revealFb(); speak(r.say || (/___/.test(r.s) ? fillGap(r.s, r.a[0]) : r.a[0]));
 }
 function formView(q, it, head, nextB){
   const r = it.raw; const gap = /___/.test(r.s); const full = gap ? fillGap(r.s, r.a[0]) : r.a[0];
   const alts = uniq(r.a.slice(1).filter(x => !/^'/.test(x) && gnorm(x) !== gnorm(r.a[0])));
   const fb = !it.checked ? '' : `<div class="fb ${it.ok ? 'good' : 'bad'}" role="status"><b>${it.ok ? '¡Bien!' : it.close ? '¡Casi! Revisa la ortografía.' : 'Casi.'}</b>${it.ok ? '' : `<span>La respuesta: <b style="color:var(--ink)">${esc(r.a[0])}</b>${it.typed ? ` · escribiste «${esc(it.typed)}»` : ''}</span>`}${alts.length ? `<span class="note">También vale: ${esc(alts.join(' · '))}</span>` : ''}
     <div class="row" style="flex-wrap:nowrap">${play(r.say || full, 'say')}<span class="ctx" style="font-weight:700">${tw(r.say || full)}</span></div>${r.why ? `<span>${esc(r.why)}</span>` : ''}</div>`;
-  return {html:`<div class="quiz">${head}<h3 class="q-prompt">${gap ? gapHTML(r.s) : esc(r.s)}</h3>${r.es ? `<p class="note">Significa: ${esc(r.es)}</p>` : ''}
+  return {html:`<div class="quiz">${head}${r.pic ? `<div class="vpic">${drawPic(r.pic)}</div>` : ''}<h3 class="q-prompt">${gap ? gapHTML(r.s) : esc(r.s)}</h3>${r.es ? `<p class="note">Significa: ${esc(r.es)}</p>` : ''}
     <div class="type-row"><input class="field big" id="form-in" lang="en-GB" autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="60" placeholder="${gap ? 'Escribe solo lo que falta…' : 'Escribe la forma…'}" value="${esc(it.typed || '')}" ${it.checked ? 'disabled' : ''}></div>${fb}</div>`,
     act: it.checked ? nextB : `<button class="btn ghost slim" data-act="skip"${tt('Pasar a la siguiente sin responder')}>Saltar</button><button class="btn primary" data-act="form-check"${tt('Comprobar tu respuesta')}>Comprobar</button>`};
 }
 
 /* timeline drawing for each tense */
-function timeline(kind){
+function timeline(kind, bare){
   const X = p => +(18 + p * 3.04).toFixed(1); const Y = 52;
-  const txt = (p, y, s, cls='', anchor='middle') => `<text class="${cls}" x="${X(p)}" y="${y}" text-anchor="${anchor}">${esc(s)}</text>`;
+  const txt = (p, y, s, cls='', anchor='middle') => bare && !/tl-t/.test(cls) ? '' : `<text class="${cls}" x="${X(p)}" y="${y}" text-anchor="${anchor}">${esc(s)}</text>`;
   const wave = (a, b) => { let d = `M${X(a)} ${Y}`, up = true; for (let p = a; p < b - .01; p += 2.5) { const n = Math.min(b, p + 2.5); d += ` Q${X((p+n)/2)} ${up ? Y-8 : Y+8} ${X(n)} ${Y}`; up = !up; } return `<path class="tl-wave" d="${d}"/>`; };
   const bar = (a, b) => `<rect class="tl-bar" x="${X(a)}" y="${Y-6}" width="${(X(b)-X(a)).toFixed(1)}" height="12" rx="6"/>`;
   const dot = p => `<path class="tl-x" d="M${X(p)-6} ${Y-6}l12 12M${X(p)+6} ${Y-6}l-12 12"/>`;
@@ -874,6 +1108,7 @@ function markTenseDone(id){
 function gramGame(g){
   if (g === 'which') return newQuiz('gram:which', whichRaws(10), '¿Qué tiempo es?');
   if (g === 'mix') return newQuiz('gram:mix', gramMixRaws(10), 'Mezcla de tiempos');
+  if (g === 'vis') return newQuiz('gram:vis', visMixRaws(10), 'Con imágenes');
   if (g === 'irr-past') return newQuiz('gram:irr-past', shuffle(IRR.slice()).slice(0,10).map(v => irrForm(v, 1)), 'Escribe el pasado');
   if (g === 'irr-part') return newQuiz('gram:irr-part', shuffle(IRR.slice()).slice(0,10).map(v => irrForm(v, 2)), 'Escribe el participio');
   return newQuiz('gram:irr-mc', shuffle(IRR.slice()).slice(0,10).map(irrMc), 'Elige la forma');
@@ -923,7 +1158,31 @@ function viewCmp(){
     ${stepsHTML(['Entiende','Practica'], s, 'cmp-step', ['La diferencia con tabla y ejemplos','Ejercicios para no confundirlos'])}`;
   return {immersive:true, act, html: head + body};
 }
-const G_TABS = [['tenses','Tiempos','Los 12 tiempos verbales más el going to, uno por uno'],['compare','Comparar','Los tiempos que más se confunden, lado a lado'],['irregular','Irregulares','Los verbos irregulares más usados, agrupados por patrón'],['play','Jugar','Juegos para practicar todos los tiempos']];
+/* ----- visual units: learn with pictures, play, say it ----- */
+function openVis(id){
+  const U = getVU(id); if (!U) return; stopAll(); st.practice = null;
+  st.view = 'vis'; st.vis = {id, step:0};
+  st.quiz = newQuiz('vis:' + id, U.gen(10), U.title);
+  st.speak = newSpeak('vis:' + id, U.speak());
+  render(); scrollTo(0,0);
+}
+function markVisDone(id){
+  const q = st.quiz && st.quiz.key === 'vis:' + id ? st.quiz : null; const prev = S.vis[id];
+  S.vis[id] = {score: Math.max(q && q.finished ? q.correct : 0, prev ? prev.score : 0), total: q ? q.items.length : (prev ? prev.total : 0), date: today()};
+  activity(); save();
+}
+function viewVis(){
+  const U = getVU(st.vis && st.vis.id); if (!U) { st.view = 'grammar'; return viewGrammar(); }
+  const s = st.vis.step; let body = '', act = '';
+  if (s === 0) { body = U.learn(); act = `<button class="btn primary" data-act="vis-step" data-n="1"${tt('Juegos con dibujos de este tema')}>A jugar ${ic('right')}</button>`; }
+  if (s === 1) { const r = quizView(st.quiz, 'vis'); body = r.html; act = r.act; }
+  if (s === 2) { const r = speakView(st.speak, 'vis'); body = r.html; act = r.act; }
+  const head = `<button class="back" data-act="gram-back" data-t="visual"${tt('Volver a Gramática')}>${ic('left')}Gramática</button>
+    <div class="page-head" style="margin-bottom:10px"><p class="eyebrow">Visual</p><h2>${esc(U.title)}</h2><p class="lead">${esc(U.sub)}</p></div>
+    ${stepsHTML(['Mira','Juega','Dilo'], s, 'vis-step', ['Aprende con dibujos','Juegos con dibujos','Describe los dibujos en voz alta'])}`;
+  return {immersive:true, act, html: head + body};
+}
+const G_TABS = [['tenses','Tiempos','Los 12 tiempos verbales más el going to, uno por uno'],['visual','Visual','Ejercicios con dibujos: preposiciones, la hora, comparativos, cantidades'],['compare','Comparar','Los tiempos que más se confunden, lado a lado'],['irregular','Irregulares','Los verbos irregulares más usados, agrupados por patrón'],['play','Jugar','Juegos para practicar todos los tiempos']];
 function viewGrammar(){
   const tab = st.gram.tab;
   const tabs = `<div class="tabs" role="tablist">${G_TABS.map(([k,l,t]) => `<button role="tab" aria-selected="${k===tab}" class="${k===tab?'on':''}" data-act="gram-tab" data-t="${k}"${tt(t)}>${l}</button>`).join('')}</div>`;
@@ -937,6 +1196,11 @@ function viewGrammar(){
     const AO = ['simple','continuous','perfect','perfcont']; const inTime = tk => TENSES.filter(t => t.time === tk).sort((a,b) => (a.extra ? 9 : AO.indexOf(a.aspect)) - (b.extra ? 9 : AO.indexOf(b.aspect)));
     const map = G.times.map(([tk, tn]) => `<section class="g-time"><h3>${esc(tn)} <span class="note">${TENSES.filter(t => t.time === tk && S.gram[t.id]).length} de ${TENSES.filter(t => t.time === tk).length}</span></h3><div class="tgrid">${inTime(tk).map(T => `<button class="tcard asp-${T.aspect} ${S.gram[T.id] ? 'done' : ''} ${N && N.id === T.id ? 'next' : ''}" data-act="tense" data-id="${T.id}"${tt(T.idea)}><span class="asp-l"><i class="adot"></i>${T.extra ? 'Plan / intención' : esc(ASP[T.aspect][1])}</span><b>${esc(T.name)}</b><span class="es">«${esc(T.esEx)}»</span><span class="foot"><span class="num">${esc(T.level)}</span>${tenseBadge(T.id)}${N && N.id === T.id ? '<span class="tbadge">Siguiente</span>' : ''}</span></button>`).join('')}</div></section>`).join('');
     body = `${hero}${key}${map}<p class="note" style="margin-top:18px">${dn} de ${TENSES.length} completados. Cada tiempo tiene 3 pasos: entiende, practica y dilo. Cuenta como una actividad de tu plan del día.</p>`;
+  } else if (tab === 'visual') {
+    const dn = VUNITS.filter(u => S.vis[u.id]).length;
+    body = `<p class="note" style="margin-bottom:14px">Aprende viendo: cada tema tiene dibujos para entender, juegos con dibujos y frases para decir en voz alta. ${dn} de ${VUNITS.length} completados.</p>
+      <div class="vunits">${VUNITS.map(u => { const d = S.vis[u.id]; return `<button class="vunit ${d ? 'done' : ''}" data-act="vis" data-id="${u.id}"${tt(u.sub)}><span class="vthumb">${drawPic(u.pic)}</span><span class="vtxt"><b>${esc(u.title)}</b><span>${esc(u.sub)}</span>${d ? `<span class="tbadge ok">${ic('check')}${d.total ? `${d.score}/${d.total}` : 'Hecho'}</span>` : ''}</span></button>`; }).join('')}</div>
+      <div style="margin-top:18px"><button class="btn ghost" data-act="ggame" data-g="vis"${tt('10 ejercicios con dibujos de todos los temas')}>${ic('shuffle')}Mezcla con imágenes</button></div>`;
   } else if (tab === 'compare') {
     body = `<p class="note" style="margin-bottom:14px">Los tiempos que más se confunden, con tabla, ejemplos, un truco y ejercicios.</p><div class="pack-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))">${CMPS.map(c => { const d = S.cmp[c.id]; return `<button class="qt ${d ? '' : 'hot'}" data-act="cmp" data-id="${c.id}"${tt(c.idea)}><span class="qi">${d ? ic('check') : ic('shuffle')}</span><b>${esc(c.title)}</b><span>${esc(c.idea)}</span><span class="note num">${d ? `Hecho · ${d.score}/${d.total}` : `${c.ex.length} ejercicios`}</span></button>`; }).join('')}</div>`;
   } else if (tab === 'irregular') {
@@ -959,7 +1223,7 @@ function viewGrammar(){
       <button class="qt" data-act="ggame" data-g="irr-past"${tt('Escribe el pasado de 10 verbos irregulares')}><span class="qi">${ic('pencil')}</span><b>Irregulares</b><span>Escribe el pasado</span></button></div>
       <p class="note" style="margin-top:16px">La mezcla usa los tiempos que ya completaste (si aún no hay dos, usa los primeros). Lo que falles irá a «Tus errores» en Practicar.</p>`;
   }
-  return {html:`<div class="page-head"><h1>Gramática</h1><p class="lead">Todos los tiempos verbales del inglés, explicados en español: estructura, cuándo usarlos, trucos, errores típicos y ejercicios.</p></div>${tabs}${body}`};
+  return {html:`<div class="page-head"><h1>Gramática</h1><p class="lead">Los tiempos verbales y la gramática del día a día, explicados en español y con dibujos: estructura, cuándo usarlo, trucos, errores típicos y ejercicios.</p></div>${tabs}${body}`};
 }
 
 /* ----- daily plan ----- */
@@ -989,7 +1253,7 @@ function mergeState(a, b){
   const seen = new Set(); out.saved = [...arr(newer.saved), ...arr(older.saved)].filter(s => s && !seen.has(s[0]) && seen.add(s[0]));
   const seenR = new Set(); out.requests = [...arr(newer.requests), ...arr(older.requests)].filter(r => r && !seenR.has(r.t) && seenR.add(r.t));
   const seenM = new Set(); out.mistakes = [...arr(newer.mistakes), ...arr(older.mistakes)].filter(m => { const id = rawId(m); return m && !seenM.has(id) && seenM.add(id); }).slice(0,80);
-  ['packs','gram','cmp'].forEach(f => { out[f] = {...(older[f]||{})}; Object.entries(newer[f]||{}).forEach(([k,v]) => { const x = out[f][k]; if (!x || (v.score||0) >= (x.score||0)) out[f][k] = v; }); });
+  ['packs','gram','cmp','vis'].forEach(f => { out[f] = {...(older[f]||{})}; Object.entries(newer[f]||{}).forEach(([k,v]) => { const x = out[f][k]; if (!x || (v.score||0) >= (x.score||0)) out[f][k] = v; }); });
   out.best = {...(older.best||{}), ...(newer.best||{})}; Object.entries(older.best||{}).forEach(([k,v]) => { if (k.startsWith('match-')) out.best[k] = Math.min(v, out.best[k] || v); else out.best[k] = Math.max(v, out.best[k] || 0); });
   out.known = uniq([...arr(a.known), ...arr(b.known)]);
   out.q = Math.max(a.q||0, b.q||0); out.c = Math.max(a.c||0, b.c||0); out.installHidden = a.installHidden;
@@ -1005,7 +1269,7 @@ function viewProgress(){
   const installRow = standalone() ? '<span class="note">Ya la tienes instalada.</span>' : installEvt ? `<button class="btn primary sm" data-act="install"${tt('Instalar como app en este dispositivo')}>${ic('download')}Instalar</button>` : IOS ? '<span class="note" style="max-width:420px">En Safari: toca Compartir y luego «Añadir a pantalla de inicio».</span>' : '<span class="note" style="max-width:420px">En el menú del navegador: «Instalar app» o «Añadir a pantalla de inicio».</span>';
   return {html:`<div class="page-head"><h1>Progreso</h1></div>
   <div class="kpis"><div class="card kpi"><b>${n}</b><span>días de racha</span></div><div class="card kpi"><b>${doneL.length}</b><span>lecciones completadas</span></div><div class="card kpi"><b>${phrasesSeen}</b><span>frases aprendidas</span></div><div class="card kpi"><b>${acc}%</b><span>aciertos · ${S.q} ejercicios</span></div></div>
-  <p class="note" style="margin:-6px 0 16px">Packs de recursos completados: <b>${Object.keys(S.packs).length}</b> de ${PACKS.length} · Tiempos verbales: <b>${Object.keys(S.gram).filter(k => getTense(k)).length}</b> de ${TENSES.length} · Comparaciones: <b>${Object.keys(S.cmp).filter(k => getCmp(k)).length}</b> de ${CMPS.length}.</p><div class="prog-grid">${per}</div>
+  <p class="note" style="margin:-6px 0 16px">Packs de recursos completados: <b>${Object.keys(S.packs).length}</b> de ${PACKS.length} · Tiempos verbales: <b>${Object.keys(S.gram).filter(k => getTense(k)).length}</b> de ${TENSES.length} · Comparaciones: <b>${Object.keys(S.cmp).filter(k => getCmp(k)).length}</b> de ${CMPS.length} · Temas visuales: <b>${Object.keys(S.vis).filter(k => getVU(k)).length}</b> de ${VUNITS.length}.</p><div class="prog-grid">${per}</div>
   <section style="margin-top:28px"><h2 style="margin-bottom:12px">Frases guardadas</h2><div class="words">${saved}</div></section>
   <section class="card" style="margin-top:28px"><h2 style="margin-bottom:4px">Ajustes</h2>
     <div class="set-row"><span class="lab">Meta diaria</span><div class="seg">${[5,10,15].map(g => `<button class="${S.goal===g?'on':''}" data-act="goal" data-g="${g}" aria-pressed="${S.goal===g}"${tt('Actividades al día: lecciones, packs, repasos y juegos')}>${g} al día</button>`).join('')}</div></div>
@@ -1034,7 +1298,7 @@ function renderSheet(){
 function openWord(w){ w = String(w).replace(/^['’]+|['’]+$/g,''); if (!w) return; speak(w); st.word = {w}; renderSheet(); }
 
 /* ---------- render ---------- */
-const VIEWS = {today:viewToday, topics:viewTopics, lesson:viewLesson, practice:viewPractice, tools:viewTools, progress:viewProgress, pack:viewPack, grammar:viewGrammar, tense:viewTense, cmp:viewCmp};
+const VIEWS = {today:viewToday, topics:viewTopics, lesson:viewLesson, practice:viewPractice, tools:viewTools, progress:viewProgress, pack:viewPack, grammar:viewGrammar, tense:viewTense, cmp:viewCmp, vis:viewVis};
 function render(){
   hideTip();
   const r = (VIEWS[st.view] || viewToday)();
@@ -1060,14 +1324,16 @@ function recordAnswer(it, ok){
   else if (st.quiz.key === 'mistakes') S.mistakes = S.mistakes.filter(m => rawId(m) !== id);
   save();
 }
-function pick(i){ const q = st.quiz; const it = q.items[q.i]; if (q.picked !== null) return; q.picked = i; const ok = it.opts[i].ok; if (ok) q.correct++; recordAnswer(it, ok); if (it.kind === 'listen' && !ok) speak(it.say); render(); if (q.timed && !q.finished) setTimeout(() => { if (st.quiz === q && !q.finished && q.picked !== null) nextQ(); }, ok ? 450 : 900); }
+/* after answering on a phone, bring the explanation into view */
+function revealFb(){ const fb = document.querySelector('.quiz .fb'); if (!fb) return; const r = fb.getBoundingClientRect(); if (r.top > innerHeight - (isM() ? 210 : 80)) window.scrollBy({top: r.top - innerHeight * .28, behavior:'smooth'}); }
+function pick(i){ const q = st.quiz; const it = q.items[q.i]; if (q.picked !== null) return; q.picked = i; const ok = it.opts[i].ok; if (ok) q.correct++; recordAnswer(it, ok); if (it.kind === 'listen' && !ok) speak(it.say); render(); if (!q.timed) revealFb(); if (q.timed && !q.finished) setTimeout(() => { if (st.quiz === q && !q.finished && q.picked !== null) nextQ(); }, ok ? 450 : 900); }
 function nextQ(){ const q = st.quiz; q.i++; q.picked = null; hush(); if (q.i >= q.items.length) finishQuiz(); render(); autoListen(); }
 function autoListen(){ const q = st.quiz; if (!q || q.finished) return; const it = q.items[q.i]; if (it && it.kind === 'listen') speak(it.say); }
 function finishQuiz(){
   const q = st.quiz; q.finished = true;
   if (q.key.startsWith('lesson:')) { const id = q.key.slice(7); const L = getLesson(id); const prev = S.done[id]; S.done[id] = {score:Math.max(q.correct, prev ? prev.score : 0), total:q.items.length, date:today()}; if (!prev) { day().l++; day().p += L.phrases.length; } srsAddLesson(L); }
   if (q.key.startsWith('cmp:')) { const id = q.key.slice(4); const prev = S.cmp[id]; S.cmp[id] = {score:Math.max(q.correct, prev ? prev.score : 0), total:q.items.length, date:today()}; }
-  if (!q.key.startsWith('pack:') && !q.key.startsWith('tense:')) activity();
+  if (!/^(pack|tense|vis):/.test(q.key)) activity();
   if (q.timed) { clearInterval(TIMER); if (!S.best[q.key] || q.correct > S.best[q.key]) S.best[q.key] = q.correct; }
   save();
 }
@@ -1075,13 +1341,13 @@ function orderCheck(){
   const q = st.quiz; const it = q.items[q.i];
   const a = it.built.map(t => t.w.toLowerCase()).join(' '); const b = it.words.map(w => w.toLowerCase()).join(' ');
   it.checked = true; it.ok = a === b; if (it.ok) q.correct++;
-  q.picked = 0; recordAnswer(it, it.ok); render(); speak(it.en);
+  q.picked = 0; recordAnswer(it, it.ok); render(); revealFb(); speak(it.en);
 }
 function typeCheck(){
   const q = st.quiz; const it = q.items[q.i]; const el = document.getElementById('type-in'); const v = el ? el.value.trim() : '';
   if (!v) { el && el.focus(); return; }
   it.typed = v; it.res = compare(it.en, v); it.ok = it.res.score >= 85 && !it.res.orderIssue; it.checked = true; if (it.ok) q.correct++;
-  q.picked = 0; recordAnswer(it, it.ok); render(); speak(it.en);
+  q.picked = 0; recordAnswer(it, it.ok); render(); revealFb(); speak(it.en);
 }
 
 /* ---------- speaking actions ---------- */
@@ -1169,6 +1435,7 @@ document.addEventListener('click', e => {
       else if (k.startsWith('tense:')) { const T = getTense(k.slice(6)); st.quiz = newQuiz(k, tenseRaws(T), T.name); render(); }
       else if (k.startsWith('cmp:')) { const Cm = getCmp(k.slice(4)); st.quiz = newQuiz(k, cmpRaws(Cm), Cm.title); render(); }
       else if (k.startsWith('gram:')) { st.quiz = gramGame(k.slice(5)); render(); scrollTo(0,0); }
+      else if (k.startsWith('vis:')) { const U = getVU(k.slice(4)); st.quiz = newQuiz(k, U.gen(10), U.title); render(); scrollTo(0,0); }
       else if (k.startsWith('timed:')) { const tl = k.slice(6); startTimed(tl === 'all' ? null : tl); render(); }
       else { const back = st.backTo; startPractice(k); st.backTo = back; }
       break; }
@@ -1179,7 +1446,7 @@ document.addEventListener('click', e => {
     case 'mic-mode': { const o = (st.view === 'lesson' && st.step === 4 && st.speak.done) || st.practice === 'dialogue' ? st.dlg : st.speak; o.typeMode = false; o.err = ''; rr(); break; }
     case 'speak-check': speakCheck(); break;
     case 'speak-retry': { const sp = st.speak; stopAll(); sp.said = ''; sp.res = null; sp.err = ''; sp.listening = false; render(); break; }
-    case 'speak-next': { const sp = st.speak; stopAll(); sp.i++; sp.said = ''; sp.res = null; sp.err = ''; sp.listening = false; if (sp.i >= sp.items.length) { sp.done = true; if (sp.key.startsWith('pack:')) markPackDone(sp.key.slice(5)); else if (sp.key.startsWith('tense:')) markTenseDone(sp.key.slice(6)); else if (sp.key === 'free') { activity(); save(); } } render(); scrollTo(0,0); break; }
+    case 'speak-next': { const sp = st.speak; stopAll(); sp.i++; sp.said = ''; sp.res = null; sp.err = ''; sp.listening = false; if (sp.i >= sp.items.length) { sp.done = true; if (sp.key.startsWith('pack:')) markPackDone(sp.key.slice(5)); else if (sp.key.startsWith('tense:')) markTenseDone(sp.key.slice(6)); else if (sp.key.startsWith('vis:')) markVisDone(sp.key.slice(4)); else if (sp.key === 'free') { activity(); save(); } } render(); scrollTo(0,0); break; }
     case 'dlg-role': { const d = st.dlg; d.role = b.dataset.r; d.i = 0; d.res = {}; render(); const L = getLesson(d.lid); if (L.dialogue[0][0] !== d.role) speak(L.dialogue[0][1]); break; }
     case 'dlg-next': dlgAdvance(); break;
     case 'dlg-skip': dlgAdvance(); break;
@@ -1195,7 +1462,10 @@ document.addEventListener('click', e => {
     case 'tense-step': { stopAll(); st.tense.step = Number(b.dataset.n); render(); scrollTo(0,0); break; }
     case 'cmp': openCmp(b.dataset.id); break;
     case 'cmp-step': { stopAll(); st.cmp.step = Number(b.dataset.n); render(); scrollTo(0,0); break; }
-    case 'gram-back': stopAll(); st.view = 'grammar'; render(); scrollTo(0,0); break;
+    case 'gram-back': stopAll(); st.view = 'grammar'; if (b.dataset.t) st.gram.tab = b.dataset.t; render(); scrollTo(0,0); break;
+    case 'vis': openVis(b.dataset.id); break;
+    case 'vis-step': { stopAll(); st.vis.step = Number(b.dataset.n); render(); scrollTo(0,0); break; }
+    case 'place': placePick(b.dataset.s); break;
     case 'gram-tab': st.gram.tab = b.dataset.t; render(); break;
     case 'ggame': { const g = b.dataset.g; stopAll(); st.view = 'practice'; st.backTo = 'grammar'; st.practice = 'quiz';
       if (g === 'timed' || g === 'irr-timed') startTimed(g === 'timed' ? 'gram' : 'irr'); else st.quiz = gramGame(g);
@@ -1240,6 +1510,7 @@ document.addEventListener('keydown', e => {
   if (e.target.id === 'speak-in' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); speakCheck(); }
   if (e.target.id === 'dlg-in' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); dlgCheck(); }
   if (e.key === 'Escape' && st.word) { st.word = null; renderSheet(); }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[data-act="place"]')) { e.preventDefault(); placePick(e.target.dataset.s); }
 });
 document.addEventListener('change', e => { if (e.target.id === 'name-in') { S.name = e.target.value.trim().slice(0,30); save(); } });
 document.addEventListener('input', e => {
